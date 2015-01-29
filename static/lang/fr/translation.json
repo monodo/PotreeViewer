@@ -1,0 +1,71 @@
+{
+    "tb": {
+        "navigation_opt": "Navigation",
+        "rendering_opt": "Rendu",
+        "display_opt": "Infos",
+        "tools_opt": "Outils",
+        "nav_tt": "Options de navigation",
+        "rendering_tt": "Options de rendu",
+        "display_tt": "Repères et options d'affichage",
+        "tools_tt": "Outils de mesure",
+        "parameters_opt": "Paramètres",
+        "parameters_tt": "Choix de la langue, de la scène, etc.."
+    },
+    "nav": {
+        "fps_control_tt": "Navigation FPS",
+        "orbit_control_tt": "Navigation en mode vol",
+        "zoom_to_center": "Zoomer sur le centre du nuage",
+        "flip_xz": "Inverser X et Z",
+        "show_2d_map": "Montrer la carte 2D"
+    },
+    "render": {
+        "nb_max_pts": "Nb points max.", 
+        "point_size": "Taille des points",
+        "point_opacity": "Opacité",
+        "point_size_type": "Type de taille",
+        "point_material": "Matériaux",
+        "point_quality": "Qualité",
+        "point_clip": "Clip",
+        "fixed_pt_size": "Fixe",
+        "attenuated_pt_size": "Atténuée",
+        "adaptive_pt_size": "Adaptation auto",
+        "mat_rgb": "RGB",
+        "mat_color": "Couleur",
+        "mat_height": "Altitude",
+        "mat_octree_depth": "Octree Depth",
+        "mat_classification": "Classification",
+        "mat_intensity": "Intensité",
+        "mat_intensity_grad": "Dégradé intensité",
+        "mat_return_number": "Nombre de retour",
+        "mat_source": "Source",
+        "mat_point_index": "Index du point",
+        "qual_normal": "Normale",
+        "qual_circles": "Cercles",
+        "qual_interpolate": "Interpolation",
+        "qual_splats": "Splats",
+        "clip_no": "Pas de clip",
+        "clip_outside": "Extérieur",
+        "clip_inside": "Intérieur"
+        
+    },
+    "disp": {
+        "skybox": "Ciel",
+        "stats": "Statistiques",
+        "box": "Boite",
+        "coordinates": "Coordonnées",
+        "show_txt": "Montrer"
+    },
+    "settings": {
+        "language": "Langue",
+        "scene": "Scène",
+        "resetUI": "Réinitialiser l'interface",
+        "resetUI_tt": "Réinitialiser l'interface à sa configuration par défaut"
+    },
+    "tools": {
+        "distance_tt": "Mesurer une distance",
+        "surface_tt": "Mesurer une surface",
+        "volume_tt": "Mesurer un volume",
+        "profile_tt": "Mesurer un profil",
+        "clip_tt": "Sélectionner des points par un volume"
+    }
+}

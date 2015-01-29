@@ -1,0 +1,70 @@
+{
+    "tb": {
+        "navigation_opt": "Navigation",
+        "rendering_opt": "Rendering",
+        "display_opt": "Infos",
+        "tools_opt": "Tools",
+        "nav_tt": "Navigation options",
+        "rendering_tt": "Rendering options",
+        "display_tt": "Display options",
+        "tools_tt": "Measuring tools",
+        "parameters_opt": "Parameters",
+        "parameters_tt": "Choose language, scenes, ..."
+    },
+    "nav": {
+        "fps_control_tt": "First Person Control",
+        "orbit_control_tt": "Fly",
+        "zoom_to_center": "Zoom to cloud center",
+        "flip_xz": "Flip X and Y axis",
+        "show_2d_map": "Show 2D map"
+    },
+    "render": {
+        "nb_max_pts": "Nb points max.", 
+        "point_size": "Point size",
+        "point_opacity": "Opacity",
+        "point_size_type": "Size type",
+        "point_material": "Material",
+        "point_quality": "Quality",
+        "point_clip": "Clip",
+        "fixed_pt_size": "Fixed",
+        "attenuated_pt_size": "Attenuated",
+        "adaptive_pt_size": "Adaptive",
+        "mat_rgb": "RGB",
+        "mat_color": "Color",
+        "mat_height": "Altitude",
+        "mat_octree_depth": "Octree Depth",
+        "mat_classification": "Classification",
+        "mat_intensity": "Intensity",
+        "mat_intensity_grad": "Intensity gradient",
+        "mat_return_number": "Return number",
+        "mat_source": "Source",
+        "mat_point_index": "Point index",
+        "qual_normal": "Normal",
+        "qual_circles": "Circles",
+        "qual_interpolate": "Interpolation",
+        "qual_splats": "Splats",
+        "clip_no": "No clip",
+        "clip_outside": "Clip outside",
+        "clip_inside": "Clip inside"
+        
+    },
+    "disp": {
+        "skybox": "Skybox",
+        "stats": "Stats",
+        "box": "Box",
+        "coordinates": "Coordinates"
+    },
+    "settings": {
+        "language": "Language",
+        "scene": "Scene",
+        "resetUI": "Reset UI to default",
+        "resetUI_tt": "Reset UI to its default configuration"
+    },
+    "tools": {
+        "distance_tt": "Distance measure",
+        "surface_tt": "Surface measure",
+        "volume_tt": "Volume measure",
+        "profile_tt": "Profile",
+        "clip_tt": "Clip volume"
+    }
+}
