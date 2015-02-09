@@ -90,21 +90,21 @@ pv.utils.update = function (){
         pv.updateMapExtent();
     }
     
-    if(stats && pv.params.stats){
+    if(pv.ui.stats && pv.params.stats){
         document.getElementById("lblNumVisibleNodes").style.display = "";
         document.getElementById("lblNumVisiblePoints").style.display = "";
-        stats.domElement.style.display = "";
+        pv.ui.stats.domElement.style.display = "";
     
-        stats.update();
+        pv.ui.stats.update();
     
         if(pv.scene3D.pointcloud){
             document.getElementById("lblNumVisibleNodes").innerHTML = "visible nodes: " + pv.scene3D.pointcloud.numVisibleNodes;
             document.getElementById("lblNumVisiblePoints").innerHTML = "visible points: " + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
         }
-    }else if(stats){
+    }else if(pv.ui.stats){
         document.getElementById("lblNumVisibleNodes").style.display = "none";
         document.getElementById("lblNumVisiblePoints").style.display = "none";
-        stats.domElement.style.display = "none";
+        pv.ui.stats.domElement.style.display = "none";
     }
     
     pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
@@ -113,17 +113,17 @@ pv.utils.update = function (){
     if(pv.scene3D.pointcloud){
         var progress = pv.scene3D.pointcloud.visibleNodes.length / pv.scene3D.pointcloud.visibleGeometry.length;
         
-        progressBar.progress = progress;
-        progressBar.message = "loading: " + pv.scene3D.pointcloud.visibleNodes.length + " / " + pv.scene3D.pointcloud.visibleGeometry.length;
+        pv.ui.progressBar.progress = progress;
+        pv.ui.progressBar.message = "loading: " + pv.scene3D.pointcloud.visibleNodes.length + " / " + pv.scene3D.pointcloud.visibleGeometry.length;
         
         if(progress === 1){
-            progressBar.hide();
+            pv.ui.progressBar.hide();
         }else if(progress < 1){
-            progressBar.show();
+            pv.ui.progressBar.show();
         }
     }else{
-        progressBar.show();
-        progressBar.message = "loading metadata";
+        pv.ui.progressBar.show();
+        pv.ui.progressBar.message = "loading metadata";
     }
     
     pv.scene3D.volumeTool.update();
@@ -253,10 +253,10 @@ pv.utils.updateCoordinatePicking = function (){
             msg += "  -  sceneCoordinates: " + sceneCoordinates.x.toFixed(2) + " / ";
             msg += sceneCoordinates.y.toFixed(2) + " / ";
 
-            elCoordinates.innerHTML = msg;
+            pv.ui.lblCoordinates.innerHTML = msg;
         }
     }else{
-        elCoordinates.innerHTML = "";
+        pv.ui.lblCoordinates.innerHTML = "";
     }
 }
 
@@ -264,24 +264,24 @@ pv.utils.updateProgressBar = function (){
     if(pv.scene3D.pointcloud){
         var progress = pv.scene3D.pointcloud.visibleNodes.length / pv.scene3D.pointcloud.visibleGeometry.length;
         
-        progressBar.progress = progress;
-        progressBar.message = "loading: " + pv.scene3D.pointcloud.visibleNodes.length + " / " + pv.scene3D.pointcloud.visibleGeometry.length;
+        pv.ui.progressBar.progress = progress;
+        pv.ui.progressBar.message = "loading: " + pv.scene3D.pointcloud.visibleNodes.length + " / " + pv.scene3D.pointcloud.visibleGeometry.length;
         
         if(progress === 1){
-            progressBar.hide();
+            pv.ui.progressBar.hide();
         }else if(progress < 1){
-            progressBar.show();
+            pv.ui.progressBar.show();
         }
     }else{
-        progressBar.show();
-        progressBar.message = "loading metadata";
+        pv.ui.progressBar.show();
+        pv.ui.progressBar.message = "loading metadata";
     }
 }
 
 pv.scene3D.render = function(){
     // resize
-    var width = elRenderArea.clientWidth;
-    var height = elRenderArea.clientHeight;
+    var width = pv.ui.elRenderArea.clientWidth;
+    var height = pv.ui.elRenderArea.clientHeight;
     var aspect = width / height;
     
     pv.scene3D.camera.aspect = aspect;
@@ -374,8 +374,8 @@ function renderHighQuality(){
         sceneNormalize.add(quad);
     }
     // resize
-    var width = elRenderArea.clientWidth;
-    var height = elRenderArea.clientHeight;
+    var width = pv.ui.elRenderArea.clientWidth;
+    var height = pv.ui.elRenderArea.clientHeight;
     var aspect = width / height;
     
     pv.scene3D.camera.aspect = aspect;

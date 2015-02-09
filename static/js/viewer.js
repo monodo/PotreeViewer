@@ -1,10 +1,15 @@
 pv.initThree = function (){
+    
+    pv.ui.elRenderArea = document.getElementById("renderArea");
+    
     var fov = 75;
-    var width = elRenderArea.clientWidth;
-    var height = elRenderArea.clientHeight;
+    var width = pv.ui.elRenderArea.clientWidth;
+    var height = pv.ui.elRenderArea.clientHeight;
     var aspect = width / height;
     var near = 0.1;
     var far = 1000000;
+
+    pv.ui.progressBar = new ProgressBar();
 
     pv.scene3D.clock = new THREE.Clock()
     pv.scene3D.mouse = {x: 0, y: 0};
@@ -22,7 +27,7 @@ pv.initThree = function (){
     pv.scene3D.renderer = new THREE.WebGLRenderer();
     pv.scene3D.renderer.setSize(width, height);
     pv.scene3D.renderer.autoClear = false;
-    elRenderArea.appendChild(pv.scene3D.renderer.domElement);
+    pv.ui.elRenderArea.appendChild(pv.scene3D.renderer.domElement);
     
     pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/pv.scene3D.skybox/");
 
@@ -106,6 +111,8 @@ pv.ui.initGUI = function (){
         pv.translate()
 
     });
+    
+    pv.ui.lblCoordinates = $("#lblCoordinates");
 
     // Potree Viewer Jquery initialization
     $(function() {
@@ -455,15 +462,13 @@ pv.ui.initGUI = function (){
     
     $("#mapBox").hide();
     $("#profileContainer").hide();
-    
-    // TODO: Style this and move to dedicated place!
-    // stats
-    stats = new Stats();
-    stats.domElement.style.position = 'fixed';
-    stats.domElement.style.top = '0px';
-    stats.domElement.style.margin = '5px';
-    
-    document.body.appendChild( stats.domElement );
+
+    // TODO: Style stats and move to dedicated place!
+    pv.ui.stats = new Stats();
+    pv.ui.stats.domElement.style.position = 'fixed';
+    pv.ui.stats.domElement.style.top = '0px';
+    pv.ui.stats.domElement.style.margin = '5px';
+    document.body.appendChild(pv.ui.stats.domElement );
 }
 
 pv.ui.resetUIToDefault = function (){
