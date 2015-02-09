@@ -3,20 +3,18 @@
 <head>
     <meta charset="utf-8"/>
     <title>Potree Viewer Prototype</title>
-    
+
     <!-- Jquery -->
     <link rel="stylesheet" href="static/libs/jquery-ui/jquery-ui.min.css">
     <script src="static/libs/jquery-ui/external/jquery/jquery.js"></script>
     <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
-    <script src="static/js/jui_extensions.js"></script>
-    
+
     <!-- Openlayers TO BE SET AS SUMBODULE LATER-->
     <link rel="stylesheet" href="static/libs/ol3/css/ol.css" type="text/css">
     <script src="static/libs/ol3/build/ol.js" type="text/javascript"></script>
-    
+
     <!-- Three & Potree -->
     <script src="static/libs/potree/libs/three.js/build/three.js"></script>
-    <script src="static/libs/potree/libs/other/dat.gui.min.js"></script>
     <script src="static/libs/potree/libs/proj4/proj4.js"></script>
     <script src="static/libs/potree/build/js/potree.js"></script>
     <script src="static/libs/others/ProgressBar.js"></script>
@@ -25,16 +23,15 @@
     <script src="static/libs/potree/libs/plasio/vendor/bluebird.js"></script>
     <script src="static/libs/potree/libs/other/OrbitControls.js"></script>
     <script src="static/libs/potree/libs/other/stats.min.js"></script>
-     
+
     <!-- Viewer -->
     <link rel="stylesheet" href="static/css/viewer.css" type="text/css">
     <script src="static/js/potreeviewer.js"></script>
     <script src="config/config.js"></script>
     <script src="static/js/map.js"></script>
     <script src="static/js/potreefunctions.js"></script>
-    <script src="static/js/translate.js"></script>
     <script src="static/js/viewer.js"></script>
-    
+
     <!--Translation: i18next-->
     <script src="static/libs/i18next/i18next.js"></script>
 
@@ -49,13 +46,13 @@
         <div id="dragMap" title="Déplacer la carte 3D"><div id="minimizeMapButton" class="ui-icon ui-icon-close" title="Masquer la carte 2D"></div></div>
         <div id="map" class="map"></div>
     </div>
-    
+
     <!-- profile Div -->
     <div id="profileContainer" class="profileContainer">
         <div id="closeProfileContainer" class="ui-icon ui-icon-close" title="Masquer le profile"></div>
     </div>
-    
-    <!-- 3D scene -->
+
+    <!-- 3D pv.scene3D.scene -->
     <div id="renderArea" class="renderArea" tabindex=0></div>
 
     <!-- Floating toolbox containing all tools and options grouped in tabs JQuery initialization functions in viewer.js-->
@@ -81,7 +78,7 @@
                         
                         <input type="radio" id="radioOrbitControl" checked="checked" name="radioFlyMode">
                         <label for="radioOrbitControl"><img src="static/libs/potree/resources/icons/orbit_controls.png" data-i18n="[title]nav.orbit_control_tt"/></label>
-                        
+
                         <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
                         <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
                         <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=32 height=32 data-i18n="[title]nav.show_2d_map"></button>
@@ -162,7 +159,7 @@
                         </tr>
                     </table>
                 </div>
-                <!-- Display options tab: SkyBox, Stats, Box, Coordinates, ... -->
+                <!-- Display options tab: pv.scene3D.skybox, Stats, Box, Coordinates, ... -->
                 <div id="DisplayReferences">
                     <table class="guiTable">
                         <tr>
@@ -201,15 +198,15 @@
                         <input type="radio" id="radioDistanceMeasure" name="toolsDiv"><label for="radioDistanceMeasure"><img src="static/libs/potree/resources/icons/distance.png" width=32 height=32 data-i18n="[title]tools.distance_tt"/></label>
 
                         <input type="radio" id="radioAreaMeasure" name="toolsDiv"><label for="radioAreaMeasure"><img src="static/libs/potree/resources/icons/area.png" width=32 height=32 data-i18n="[title]tools.surface_tt"/></label>
-                        
+
                         <input type="radio" id="radioVolumeMeasure" name="toolsDiv"><label for="radioVolumeMeasure"><img src="static/libs/potree/resources/icons/volume.png" width=32 height=32 data-i18n="[title]tools.volume_tt"/></label>
 
                         <input type="radio" id="radioProfile" name="toolsDiv"><label for="radioProfile"><img src="static/libs/potree/resources/icons/profile.png" width=32 height=32 data-i18n="[title]tools.profile_tt"/></label>                
-                        
+
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
                 </div>
-                <!-- Other options (language, scene, ...) -->
+                <!-- Other options (language, pv.scene3D.scene, ...) -->
                 <div id="Parameters">
                     <table class="guiTable">
                         <tr>
@@ -266,42 +263,11 @@
         }
         </script>
         <script type="text/javascript">
-            // OpenLayers3 stuff
-            var featureVector;
-            var camFrustumFeatureVector;
-            var camFrustum;
-            var visibleBounds;
-
-            // three.js / potree stuff
-            var renderer;
-            var scene, sceneHUD;
-            var referenceFrame;
-            var camera, cameraHUD;
-            var skybox;
-            var pointcloud;
-            var clock = new THREE.Clock();
-            var mouse = {x: 0, y: 0};
-            var elCoordinates = document.getElementById("lblCoordinates");
-            var showSkybox = true;
-            var elRenderArea = document.getElementById("renderArea");
-            var progressBar = new ProgressBar();
-            var measuringTool;
-            var areaTool;
-            var volumeTool;
-            var transformationTool;
-            var referenceFrame;
-            var scenePointCloud;
-            var sceneBG, cameraBG;
-            var gui;
-            var fpControls;
-            var orbitControls;
-            var controls;
-            var stats;
-
-            pv.initMapView();
-            pv.initThree();
-            pv.loop();
-            
+            // start the engine...
+            pv.map2D.initMapView();
+            pv.scene3D.initThree();
+            pv.utils.loop();
+            // reset UI once everything is loaded
             $( window ).load(function(){
                 pv.ui.resetUIToDefault();
             });

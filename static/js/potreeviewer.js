@@ -6,18 +6,22 @@ if (typeof PointScope === "undefined") {
         /**
          * Applications parameters
          */
-        params:  {},
+        params: {},
         /**
          * The map
          */
-        map: {},
-        /**
-         * The Potree pointcloud
-         */
-        pointcloud: {},
+        map2D: {},
         /**
          * The Potree Viewer UI elements
          */
-        ui: {}
+        ui: {},
+        /**
+         * The Potree Viewer utils
+         */
+        utils: {},
+        /**
+         * The Potree Viewer 3D scene
+         */
+        scene3D: {}
     };
 }
