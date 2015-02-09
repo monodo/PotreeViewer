@@ -72,7 +72,7 @@ function onKeyDown(event){
     }
 }
 
-pv.update = function (){
+pv.utils.update = function (){
     if(pointcloud){
     
         var bbWorld = Potree.utils.computeTransformedBoundingBox(pointcloud.boundingBox, pointcloud.matrixWorld);
@@ -84,7 +84,8 @@ pv.update = function (){
         pointcloud.material.intensityMax = 200;
         pointcloud.showBoundingBox = pv.params.showBoundingBox;
         pointcloud.update(camera, renderer);
-        updateMapFrustum();
+
+        pv.map2D.updateMapFrustum();
         updateCoordinatePicking();
         pv.updateMapExtent();
     }
@@ -467,10 +468,10 @@ function renderHighQuality(){
 
 }
 
-pv.loop = function () {
-    requestAnimationFrame(pv.loop);
+pv.utils.loop = function () {
+    requestAnimationFrame(pv.utils.loop);
     
-    pv.update();
+    pv.utils.update();
     
     if(pv.params.quality  === "Splats"){
         renderHighQuality();

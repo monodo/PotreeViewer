@@ -1,4 +1,4 @@
-pv.initMapView = function () {
+pv.map2D.initMapView = function () {
 
     // add EPSG:21781 to the proj4 projection database
     proj4.defs('EPSG:21781', "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs ");
@@ -72,12 +72,12 @@ pv.initMapView = function () {
         })
     });
 
-    camFrustumFeatureVector = new ol.source.Vector({
+    pv.map2D.camFrustumFeatureVector = new ol.source.Vector({
         features: []
     });
 
     var camFrustumLayer = new ol.layer.Vector({
-        source: camFrustumFeatureVector,
+        source: pv.map2D.camFrustumFeatureVector,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 255, 255, 0.2)'
@@ -96,7 +96,7 @@ pv.initMapView = function () {
     });
 
     // create the map
-    pv.map = new ol.Map({
+    pv.map2D.map = new ol.Map({
         controls: ol.control.defaults({
             attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
                 collapsible: false
@@ -126,13 +126,13 @@ pv.initMapView = function () {
 /**
  * update the frustum in the map window according to the camera
  */
-function updateMapFrustum(){
+pv.map2D.updateMapFrustum = function (){
 
-    pv.map.camFrustum = new ol.geom.LineString([ [0,0], [0, 0] ]);
+    pv.map2D.camFrustum = new ol.geom.LineString([ [0,0], [0, 0] ]);
 
-    var feature = new ol.Feature(pv.map.camFrustum);
-    camFrustumFeatureVector.clear();
-    camFrustumFeatureVector.addFeature(feature);
+    var feature = new ol.Feature(pv.map2D.camFrustum);
+    pv.map2D.camFrustumFeatureVector.clear();
+    pv.map2D.camFrustumFeatureVector.addFeature(feature);
 
     var aspect = camera.aspect;
     var top = Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * camera.near;
@@ -154,7 +154,7 @@ function updateMapFrustum(){
     left = proj4(swiss, webMercator, [left.x, left.y]);
     right = proj4(swiss, webMercator, [right.x, right.y]);
 
-    pv.map.camFrustum.setCoordinates([camPos, left, right, camPos]);
+    pv.map2D.camFrustum.setCoordinates([camPos, left, right, camPos]);
 }
 
 /**

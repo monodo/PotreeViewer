@@ -124,7 +124,7 @@ pv.ui.initGUI = function (){
         $("#mapBox").resizable({
             minHeight: 15,
             stop: function(event, ui) {
-                pv.map.updateSize();
+                pv.map2D.map.updateSize();
             }
         }); 
         

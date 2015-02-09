@@ -265,9 +265,10 @@
         }
         </script>
         <script type="text/javascript">
+            
             // OpenLayers3 stuff
-            var featureVector;
-            var camFrustumFeatureVector;
+            //var featureVector;
+            //var camFrustumFeatureVector;
             //var camFrustum;
             var visibleBounds;
 
@@ -297,9 +298,9 @@
             var controls;
             var stats;
 
-            pv.initMapView();
+            pv.map2D.initMapView();
             pv.initThree();
-            pv.loop();
+            pv.utils.loop();
             
             $( window ).load(function(){
                 pv.ui.resetUIToDefault();
