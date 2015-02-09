@@ -1,0 +1,6 @@
+[submodule "static/libs/i18next"]
+	path = static/libs/i18next
+	url = https://github.com/i18next/i18next.git
+[submodule "static/libs/potree"]
+	path = static/libs/potree
+	url = https://github.com/potree/potree.git

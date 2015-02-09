@@ -1,0 +1,174 @@
+canvas { 
+    width: 100%; 
+    height: 100%; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 0.5em;
+}
+
+.renderArea{
+    width: 100%;
+    height: 100%;
+}
+
+.mapBox{
+    width: 300px;
+    height: 70%;
+    background-color: #00001F;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    border-top-width: 0px;
+}
+
+.map {
+    width: 100%;    
+    width: 100%;
+}
+
+.profileContainer {
+    width: 100%;
+    height: 30%;
+    position: absolute;
+    bottom: 0px;
+    background-color: black;
+    opacity: 0.7;
+}
+
+.toolbox  {
+    min-width: 300px;
+    background-color: #00001F;
+    padding: 0.5em;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0.95;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+}
+
+/* Jquery-UI trick for toggle button (checkbox) without text*/
+.chkBoxDefault{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+#minimizeButton {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    cursor: pointer; 
+}
+
+#minimizeMapButton {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    cursor: pointer; 
+}
+
+#closeProfileContainer {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    cursor: pointer; 
+}
+
+#moveDiv { 
+    cursor: move; 
+    height: 12px;
+    width: 80%;
+}
+
+#dragMap {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+/*    cursor: move; */
+    height: 15px;
+    opacity: 0.5;
+    background-color: gray;
+    width: 100%;
+    z-index: 10001;
+}
+
+#statDiv {
+    color: red;
+}
+
+/* gui table*/
+.guiTable{
+    font-size: 1em;
+    width: 100%;
+    color: white !important;
+}
+
+.leftCol{
+    width: 80px;
+}
+
+.middleCol{
+    width: 30px;
+}
+
+select {
+    width: 100px !important;
+}
+
+/*Toolbox default style*/
+.inputDefault{
+    width: 25px;
+    height: 15px;
+    color: black;
+    background-color: gray;
+    border: none;
+    text-align: center;
+    opacity: 0.8;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+}
+
+.tools{
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+}
+
+.info{
+    color: red;
+    font-weight: bold;
+}
+
+a:hover, a:visited, a:link, a:active{
+    color: #ccccff;
+    text-decoration: none;
+}
+/* Customize OL */
+
+.ol-zoom {
+    top: 30px !important;
+}
+
+.ol-zoom-out{
+    top: 40px !important;
+}
+
+.ol-zoom-extent {
+    top: 65px !important;
+}
+
+
