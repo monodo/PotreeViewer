@@ -1,7 +1,7 @@
 pv.scene3D.initThree = function (){
-    
+
     pv.ui.elRenderArea = document.getElementById("renderArea");
-    
+
     var fov = 75;
     var width = pv.ui.elRenderArea.clientWidth;
     var height = pv.ui.elRenderArea.clientHeight;
@@ -11,16 +11,16 @@ pv.scene3D.initThree = function (){
 
     pv.ui.progressBar = new ProgressBar();
 
-    pv.scene3D.clock = new THREE.Clock()
+    pv.scene3D.clock = new THREE.Clock();
     pv.scene3D.mouse = {x: 0, y: 0};
     pv.scene3D.scene = new THREE.Scene();
     pv.scene3D.scenePointCloud = new THREE.Scene();
     pv.scene3D.sceneBG = new THREE.Scene();
-    
+
     pv.scene3D.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     pv.scene3D.cameraBG = new THREE.Camera();
     pv.scene3D.camera.rotation.order = 'ZYX';
-    
+
     pv.scene3D.referenceFrame = new THREE.Object3D();
     pv.scene3D.scenePointCloud.add(pv.scene3D.referenceFrame);
 
@@ -28,7 +28,7 @@ pv.scene3D.initThree = function (){
     pv.scene3D.renderer.setSize(width, height);
     pv.scene3D.renderer.autoClear = false;
     pv.ui.elRenderArea.appendChild(pv.scene3D.renderer.domElement);
-    
+
     pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/pv.scene3D.skybox/");
 
     // pv.scene3D.camera and controls
@@ -36,33 +36,32 @@ pv.scene3D.initThree = function (){
     pv.scene3D.camera.rotation.y = -Math.PI / 4;
     pv.scene3D.camera.rotation.x = -Math.PI / 6;
     pv.utils.useOrbitControls();
-    
+
     // enable frag_depth extension for the interpolation shader, if available
     pv.scene3D.renderer.context.getExtension("EXT_frag_depth");
-    
+
     // load pv.scene3D.pointcloud
     POCLoader.load(pv.params.pointCloudPath, function(geometry){
         pv.scene3D.pointcloud = new Potree.PointCloudOctree(geometry);
-        
         pv.scene3D.pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
-        
+
         pv.scene3D.referenceFrame.add(pv.scene3D.pointcloud);
-        
+
         pv.scene3D.referenceFrame.updateMatrixWorld(true);
         var sg = pv.scene3D.pointcloud.boundingSphere.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld);
-        
+
         pv.scene3D.referenceFrame.position.copy(sg.center).multiplyScalar(-1);
         pv.scene3D.referenceFrame.updateMatrixWorld(true);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, 1);
         pv.utils.flipYZ();
         pv.ui.initGUI();
     });
-    
+
     var grid = Potree.utils.createGrid(5, 5, 2);
     pv.scene3D.scene.add(grid);
-    
+
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.areaTool = new Potree.AreaTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
@@ -70,10 +69,10 @@ pv.scene3D.initThree = function (){
     transformationTool = new Potree.TransformationTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
-    
+
     texture.minFilter = texture.magFilter = THREE.NearestFilter;
     texture.minFilter = texture.magFilter = THREE.LinearFilter;
-    
+
     var bg = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(2, 2, 0),
         new THREE.MeshBasicMaterial({
@@ -95,11 +94,11 @@ pv.scene3D.initThree = function (){
 pv.ui.initGUI = function (){
 
     // i18next translation initialization
-    
+
     // Get the available languages defined in config.js
-    var langList = []
-    for (key in pv.params.availableLanguages) {
-        langList.push(key);
+    var langList = [];
+    for (var lkey in pv.params.availableLanguages) {
+        langList.push(lkey);
     }
 
     i18n.init({ 
@@ -111,21 +110,21 @@ pv.ui.initGUI = function (){
         pv.ui.translate();
 
     });
-    
+
     pv.ui.lblCoordinates = $("#lblCoordinates");
 
     // Potree Viewer Jquery initialization
     $(function() {
-        
+
         // Toolbox tabs
         $( "#toolboxTabs" ).tabs({
             active: 0
         });
-        
+
         $("#toolboxTabs").keydown(function(e){
             $("#renderArea").focus();
         });
-        
+
         // Map
         $("#mapBox").resizable({
             minHeight: 15,
@@ -133,7 +132,7 @@ pv.ui.initGUI = function (){
                 pv.map2D.map.updateSize();
             }
         }); 
-        
+
         // Language selector 
         $( "#languageSelect" ).selectmenu({
             select: function( event, data ) {
@@ -142,18 +141,18 @@ pv.ui.initGUI = function (){
                 pv.ui.translate();
             }
         });
-        
+
         var i = 0;
         var defaultOption;
         $.each(pv.params.availableLanguages, function(val, text) {
             i +=1 ;
             if (i == 1) {
-                var defaultOption = new Option(text, val)
+                var defaultOption = new Option(text, val);
             }
             $( "#languageSelect" ).append(new Option(text, val));
         });
-        $( "#languageSelect" ).val(defaultOption)
-        
+        $( "#languageSelect" ).val(defaultOption);
+
         // pv.scene3D.scene selector 
         $( "#sceneSelect" ).selectmenu({
             select: function( event, data ) {
@@ -166,7 +165,7 @@ pv.ui.initGUI = function (){
         $( "#mapBox" ).draggable({
             handle: "#dragMap"
         });    
-        
+
         // Minimize button for the toolbox tabs
         $("#minimizeButton").click(function(){
             $("#toolboxTabs").slideToggle("fast", function(){
@@ -178,12 +177,12 @@ pv.ui.initGUI = function (){
                     }
             });
         });
-        
+
         // Minimize the mapbox
         $("#minimizeMapButton").click(function(){
             $("#mapBox").slideUp(600);
         });        
-        
+
         // Close the profile container
         $("#closeProfileContainer").click(function(){
             $("#profileContainer").slideUp(600);
@@ -198,7 +197,7 @@ pv.ui.initGUI = function (){
                 $("#mapBox").slideDown(600);
             }
         });
-        
+
         if (!pv.params.isPointCloudGeoreferenced) {
             $( "#showMapButton" ).hide();
         }
@@ -321,7 +320,7 @@ pv.ui.initGUI = function (){
             icons: {
                 primary: 'ui-icon-circle-check'
             },
-            text: false,
+            text: false
         });
         
         $('#chkSkybox').bind('change', function(){
@@ -348,7 +347,7 @@ pv.ui.initGUI = function (){
                 pv.params.showStats = false;
             }
         });        
-        
+
         $("#chkBBox").button({
             text: false,
             icons: {
@@ -364,7 +363,7 @@ pv.ui.initGUI = function (){
                 pv.params.showBoundingBox = false;
             }
         });        
-        
+
         $("#chkCoordinates").button({
             text: false,
             icons: {
@@ -380,7 +379,7 @@ pv.ui.initGUI = function (){
                 pv.params.showCoordinates = false;
             }
         });
-        
+
         //Navigation buttons
         $("#radioFPSControl").button();
         $('#radioFPSControl').bind('change', function(){
@@ -388,26 +387,26 @@ pv.ui.initGUI = function (){
                 pv.utils.useFPSControls();
             }
         });
-        
+
         $("#radioOrbitControl").button();
         $('#radioOrbitControl').bind('change', function(){
             if($(this).is(':checked')){
                 pv.utils.useOrbitControls();
             }
         });
-        
+
         $("#radioFlyMode").buttonset();
         
         $("#btnFocus").button();
         $("#btnFocus").bind('click', function(){
             pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
         });        
-        
+
         $("#btnFlipYZ" ).button();
         $("#btnFlipYZ").bind('click', function(){
             pv.utils.flipYZ();
         });
-        
+
         $( "#radioDistanceMeasure" ).button();
         $('#radioDistanceMeasure').bind('change', function(){
             if($(this).is(':checked')){
@@ -428,7 +427,7 @@ pv.ui.initGUI = function (){
                 pv.scene3D.volumeTool.startInsertion(); 
             }
         });
-        
+
         $( "#radioProfile" ).button();
         $('#radioProfile').bind('change', function(){
             if($(this).is(':checked')){
@@ -438,16 +437,16 @@ pv.ui.initGUI = function (){
                 $("#profileContainer").slideUp(600);
             }
         });
-        
+
         $( "#radioClip" ).button();
         $('#radioClip').bind('change', function(){
             if($(this).is(':checked')){
                 pv.scene3D.volumeTool.startInsertion({clip: true});
             }
         });
-        
+
         $("#toolsDiv").buttonset();
-        
+
         $("#btnResetUI").button({
             icons: {
                 primary: 'ui-icon-arrowrefresh-1-s'
@@ -457,9 +456,8 @@ pv.ui.initGUI = function (){
         $('#btnResetUI').bind('click', function(){
             pv.ui.resetUIToDefault();
         });
-
     });
-    
+
     $("#mapBox").hide();
     $("#profileContainer").hide();
 
@@ -469,11 +467,11 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.top = '0px';
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
-}
+};
 
 pv.ui.resetUIToDefault = function (){
 
-    $("#toolboxTabs" )
+    $("#toolboxTabs" );
     
     $("#mapBox").hide();
     $( "#languageSelect").val(pv.params.defaultLanguage);
@@ -483,12 +481,12 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#showMapButton").hide();
     }
-    
+
     // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();
     $("#pointSize").val(pv.params.pointSize).change();
     $("#pointOpacity").val(pv.params.opacity).change();
-    
+
     $("#pointSizeTypeSelect").val(pv.params.pointSizeType);
     $("#pointMaterialSelect").val(pv.params.material);
     $("#pointMaterialSelect").change();
@@ -497,7 +495,7 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkSkybox").prop("checked", pv.params.showSkyBox);
     $("#chkSkybox").change();
-    
+
     $("#chkStats").prop("checked", pv.params.stats);
     $("#chkStats").change();
     
@@ -506,15 +504,13 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();
-    
-    $("select").selectmenu("refresh");
-;
-}
 
+    $("select").selectmenu("refresh");
+};
 // set here all translation operations
 
 pv.ui.translate = function() {
 
     $("#toolboxTabs").i18n();
 
-}
+};
