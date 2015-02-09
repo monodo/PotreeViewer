@@ -15,7 +15,6 @@
     
     <!-- Three & Potree -->
     <script src="static/libs/potree/libs/three.js/build/three.js"></script>
-    <script src="static/libs/potree/libs/other/dat.gui.min.js"></script>
     <script src="static/libs/potree/libs/proj4/proj4.js"></script>
     <script src="static/libs/potree/build/js/potree.js"></script>
     <script src="static/libs/others/ProgressBar.js"></script>
@@ -265,38 +264,10 @@
         }
         </script>
         <script type="text/javascript">
-            
-            // OpenLayers3 stuff
-            //var featureVector;
-            //var camFrustumFeatureVector;
-            //var camFrustum;
-            //var visibleBounds;
-
-            // three.js / potree stuff
-            //var pv.scene3D.renderer;
-            //var pv.scene3D.scene, 
-            //var sceneHUD;
-            //var referenceFrame;
-            //var pv.scene3D.camera
-            //var cameraHUD;
-            //var pv.scene3D.skybox;
-            //var pv.scene3D.pointcloud;
-            //var clock = new THREE.Clock();
-            //var mouse = {x: 0, y: 0};
+        
             elCoordinates = document.getElementById("lblCoordinates");
-            //var showSkybox = true;
             var elRenderArea = document.getElementById("renderArea");
             var progressBar = new ProgressBar();
-            var measuringTool;
-            var areaTool;
-            var volumeTool;
-            var transformationTool;
-            //var referenceFrame;
-            var scenePointCloud;
-            var sceneBG //, cameraBG;
-            var gui;
-            var fpControls;
-            var orbitControls;
             var controls;
             var stats;
 

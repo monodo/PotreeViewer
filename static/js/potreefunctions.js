@@ -107,7 +107,7 @@ pv.utils.update = function (){
         stats.domElement.style.display = "none";
     }
     
-    controls.update(pv.scene3D.clock.getDelta());
+    pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
 
     // update progress bar
     if(pv.scene3D.pointcloud){
@@ -126,9 +126,9 @@ pv.utils.update = function (){
         progressBar.message = "loading metadata";
     }
     
-    volumeTool.update();
+    pv.scene3D.volumeTool.update();
     transformationTool.update();
-    profileTool.update();
+    pv.scene3D.profileTool.update();
     
     
     var clipBoxes = [];
@@ -140,8 +140,8 @@ pv.utils.update = function (){
     //if(profileTool.activeProfile){
     //	profiles.push(profileTool.activeProfile);
     //}
-    for(var i = 0; i < profileTool.profiles.length; i++){
-        var profile = profileTool.profiles[i];
+    for(var i = 0; i < pv.scene3D.profileTool.profiles.length; i++){
+        var profile = pv.scene3D.profileTool.profiles[i];
         
         for(var j = 0; j < profile.boxes.length; j++){
             var box = profile.boxes[j];
@@ -151,8 +151,8 @@ pv.utils.update = function (){
         }
     }
 
-    for(var i = 0; i < volumeTool.volumes.length; i++){
-        var volume = volumeTool.volumes[i];
+    for(var i = 0; i < pv.scene3D.volumeTool.volumes.length; i++){
+        var volume = pv.scene3D.volumeTool.volumes[i];
         
         if(volume.clip){
             volume.updateMatrixWorld();
@@ -169,31 +169,31 @@ pv.utils.update = function (){
 };
 
 pv.utils.useFPSControls = function (){
-    if(controls){
-        controls.enabled = false;
+    if(pv.scene3D.controls){
+        pv.scene3D.controls.enabled = false;
     }
-    if(!fpControls){
-        fpControls = new THREE.FirstPersonControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
+    if(!pv.scene3D.fpControls){
+        pv.scene3D.fpControls = new THREE.FirstPersonControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
     }
 
-    controls = fpControls;
-    controls.enabled = true;
-    controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
+    pv.scene3D.controls = pv.scene3D.fpControls;
+    pv.scene3D.controls.enabled = true;
+    pv.scene3D.controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
 }
 
 pv.utils.useOrbitControls = function (){
-    if(controls){
-        controls.enabled = false;
+    if(pv.scene3D.controls){
+        pv.scene3D.controls.enabled = false;
     }
-    if(!orbitControls){
-        orbitControls = new THREE.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
+    if(!pv.scene3D.orbitControls){
+        pv.scene3D.orbitControls = new THREE.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
     }
     
-    controls = orbitControls;
-    controls.enabled = true;
+    pv.scene3D.controls = pv.scene3D.orbitControls;
+    pv.scene3D.controls.enabled = true;
     
     if(pv.scene3D.pointcloud){
-        controls.target.copy(pv.scene3D.pointcloud.boundingSphere.center.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld));
+        pv.scene3D.controls.target.copy(pv.scene3D.pointcloud.boundingSphere.center.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld));
     }
 }
 
@@ -295,7 +295,7 @@ pv.scene3D.render = function(){
         pv.scene3D.skybox.rotation.copy(pv.scene3D.camera.rotation);
         pv.scene3D.renderer.render(pv.scene3D.skybox.pv.scene3D.scene, pv.scene3D.skybox.pv.scene3D.camera);
     }else{
-        pv.scene3D.renderer.render(sceneBG, pv.scene3D.cameraBG);
+        pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
     }
     
     if(pv.scene3D.pointcloud){
@@ -317,14 +317,14 @@ pv.scene3D.render = function(){
     
     // render pv.scene3D.scene
     pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
-    pv.scene3D.renderer.render(scenePointCloud, pv.scene3D.camera);
+    pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera);
     
-    profileTool.render();
-    volumeTool.render();
+    pv.scene3D.profileTool.render();
+    pv.scene3D.volumeTool.render();
     
     pv.scene3D.renderer.clearDepth();
-    measuringTool.render();
-    areaTool.render();
+    pv.scene3D.measuringTool.render();
+    pv.scene3D.areaTool.render();
     transformationTool.render();
 };
 
@@ -391,7 +391,7 @@ function renderHighQuality(){
         pv.scene3D.skybox.pv.scene3D.camera.rotation.copy(pv.scene3D.camera.rotation);
         pv.scene3D.renderer.render(pv.scene3D.skybox.pv.scene3D.scene, pv.scene3D.skybox.pv.scene3D.camera);
     }else{
-        pv.scene3D.renderer.render(sceneBG, pv.scene3D.cameraBG);
+        pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
     }
     pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
 
@@ -423,7 +423,7 @@ function renderHighQuality(){
         pv.scene3D.renderer.clearTarget( rtNormalize, true, true, true );
         
         var origType = pv.scene3D.pointcloud.material.pointColorType;
-        pv.scene3D.renderer.render(scenePointCloud, pv.scene3D.camera, rtDepth);
+        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtDepth);
         pv.scene3D.pointcloud.material = weightedMaterial;
 
         // get rid of this
@@ -439,7 +439,7 @@ function renderHighQuality(){
         pv.scene3D.pointcloud.material.depthMap = rtDepth;
         pv.scene3D.pointcloud.material.blendDepth = Math.min(pv.scene3D.pointcloud.material.spacing, 20);
         pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
-        pv.scene3D.renderer.render(scenePointCloud, pv.scene3D.camera, rtNormalize);
+        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtNormalize);
 
         volumeTool.render();
         profileTool.render();
@@ -448,7 +448,7 @@ function renderHighQuality(){
         pv.scene3D.renderer.clearDepth();
         measuringTool.render();
         areaTool.render();
-        transformationTool.render();
+        pv.scene3D.transformationTool.render();
             
     }
 
