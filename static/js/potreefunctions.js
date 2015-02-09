@@ -147,7 +147,7 @@ pv.utils.update = function (){
 
     for(var k = 0; k < pv.scene3D.volumeTool.volumes.length; k++){
         var volume = pv.scene3D.volumeTool.volumes[k];
-        
+
         if(volume.clip){
             volume.updateMatrixWorld();
             var boxInverse = new THREE.Matrix4().getInverse(volume.matrixWorld);
@@ -320,14 +320,14 @@ pv.scene3D.render = function(){
 
 // high quality rendering using splats
 // 
-var rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, { 
+pv.utils.rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.NearestFilter, 
     magFilter: THREE.NearestFilter, 
     format: THREE.RGBAFormat, 
     type: THREE.FloatType
 } );
 
-var rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, { 
+pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.LinearFilter, 
     magFilter: THREE.NearestFilter, 
     format: THREE.RGBAFormat, 
@@ -342,22 +342,21 @@ var depthMaterial, weightedMaterial;
 function renderHighQuality(){
 
     if(!sceneNormalize){
-        sceneNormalize = new THREE.pv.scene3D.scene();
-                        
+        sceneNormalize = new THREE.Scene();
         var vsNormalize = document.getElementById('vs').innerHTML;
         var fsNormalize = document.getElementById('fs').innerHTML;
-        
+
         var uniformsNormalize = {
-            depthMap: { type: "t", value: rtDepth },
-            texture: { type: "t", value: rtNormalize }
+            depthMap: { type: "t", value: pv.utils.rtDepth },
+            texture: { type: "t", value: pv.utils.rtNormalize }
         };
-        
+
         var materialNormalize = new THREE.ShaderMaterial({
             uniforms: uniformsNormalize,
             vertexShader: vsNormalize,
             fragmentShader: fsNormalize
         });
-        
+
         var quad = new THREE.Mesh( new THREE.PlaneBufferGeometry(2, 2, 0), materialNormalize);
         quad.material.depthTest = true;
         quad.material.depthWrite = true;
@@ -368,13 +367,12 @@ function renderHighQuality(){
     var width = pv.ui.elRenderArea.clientWidth;
     var height = pv.ui.elRenderArea.clientHeight;
     var aspect = width / height;
-    
+
     pv.scene3D.camera.aspect = aspect;
     pv.scene3D.camera.updateProjectionMatrix();
-
     pv.scene3D.renderer.setSize(width, height);
-    rtDepth.setSize(width, height);
-    rtNormalize.setSize(width, height);
+    pv.utils.rtDepth.setSize(width, height);
+    pv.utils.rtNormalize.setSize(width, height);
 
     pv.scene3D.renderer.clear();
     // render pv.scene3D.skybox
@@ -410,11 +408,11 @@ function renderHighQuality(){
         pv.scene3D.pointcloud.material.screenWidth = width;
         pv.scene3D.pointcloud.material.screenHeight = height;
         pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
-        pv.scene3D.renderer.clearTarget( rtDepth, true, true, true );
-        pv.scene3D.renderer.clearTarget( rtNormalize, true, true, true );
+        pv.scene3D.renderer.clearTarget(pv.utils.rtDepth, true, true, true);
+        pv.scene3D.renderer.clearTarget(pv.utils.rtNormalize, true, true, true);
         
         var origType = pv.scene3D.pointcloud.material.pointColorType;
-        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtDepth);
+        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.utils.rtDepth);
         pv.scene3D.pointcloud.material = weightedMaterial;
 
         // get rid of this
@@ -427,32 +425,32 @@ function renderHighQuality(){
         pv.scene3D.pointcloud.material.interpolate = (pv.params.quality  === "Interpolation");
         pv.scene3D.pointcloud.material.weighted = true;
 
-        pv.scene3D.pointcloud.material.depthMap = rtDepth;
+        pv.scene3D.pointcloud.material.depthMap = pv.utils.rtDepth;
         pv.scene3D.pointcloud.material.blendDepth = Math.min(pv.scene3D.pointcloud.material.spacing, 20);
         pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
-        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtNormalize);
+        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.utils.rtNormalize);
 
-        volumeTool.render();
-        profileTool.render();
+        pv.scene3D.volumeTool.render();
+        pv.scene3D.profileTool.render();
         pv.scene3D.renderer.render(sceneNormalize, pv.scene3D.cameraBG);
 
         pv.scene3D.renderer.clearDepth();
-        measuringTool.render();
-        areaTool.render();
-        pv.scene3D.transformationTool.render();
-            
+        pv.scene3D.measuringTool.render();
+        pv.scene3D.areaTool.render();
+        transformationTool.render();
+
     }
 }
 
 pv.utils.loop = function () {
     requestAnimationFrame(pv.utils.loop);
-    
+
     pv.utils.update();
-    
+
     if(pv.params.quality  === "Splats"){
         renderHighQuality();
     }else{
         pv.scene3D.render();
     }
-    
+
 };
