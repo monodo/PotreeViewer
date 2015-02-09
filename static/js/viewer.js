@@ -29,8 +29,8 @@ pv.scene3D.initThree = function (){
     pv.scene3D.renderer.autoClear = false;
     pv.ui.elRenderArea.appendChild(pv.scene3D.renderer.domElement);
 
-    pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/pv.scene3D.skybox/");
-
+    pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/skybox/");
+    
     // pv.scene3D.camera and controls
     pv.scene3D.camera.position.set(-304, 372, 318);
     pv.scene3D.camera.rotation.y = -Math.PI / 4;

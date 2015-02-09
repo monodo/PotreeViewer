@@ -282,8 +282,8 @@ pv.scene3D.render = function(){
 
     // render skybox
     if(pv.params.showSkybox){
-        pv.scene3D.skybox.rotation.copy(pv.scene3D.camera.rotation);
-        pv.scene3D.renderer.render(pv.scene3D.skybox.pv.scene3D.scene, pv.scene3D.skybox.pv.scene3D.camera);
+        pv.scene3D.skybox.camera.rotation.copy(pv.scene3D.camera.rotation);
+        pv.scene3D.renderer.render(pv.scene3D.skybox.scene, pv.scene3D.skybox.camera);
     }else{
         pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
     }
