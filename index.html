@@ -54,7 +54,7 @@
         <div id="closeProfileContainer" class="ui-icon ui-icon-close" title="Masquer le profile"></div>
     </div>
     
-    <!-- 3D scene -->
+    <!-- 3D pv.scene3D.scene -->
     <div id="renderArea" class="renderArea" tabindex=0></div>
 
     <!-- Floating toolbox containing all tools and options grouped in tabs JQuery initialization functions in viewer.js-->
@@ -161,11 +161,11 @@
                         </tr>
                     </table>
                 </div>
-                <!-- Display options tab: SkyBox, Stats, Box, Coordinates, ... -->
+                <!-- Display options tab: pv.scene3D.skybox, Stats, Box, Coordinates, ... -->
                 <div id="DisplayReferences">
                     <table class="guiTable">
                         <tr>
-                            <td data-i18n="disp.skybox"></td>
+                            <td data-i18n="disp.pv.scene3D.skybox"></td>
                             <td>
                                 <input type="checkbox" id="chkSkybox">
                                 <label for="chkSkybox" class="chkBoxDefault"></label>
@@ -208,7 +208,7 @@
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
                 </div>
-                <!-- Other options (language, scene, ...) -->
+                <!-- Other options (language, pv.scene3D.scene, ...) -->
                 <div id="Parameters">
                     <table class="guiTable">
                         <tr>
@@ -219,7 +219,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td data-i18n="settings.scene"></></td>
+                            <td data-i18n="settings.pv.scene3D.scene"></></td>
                             <td>
                                 <select id="sceneSelect">
                                     <option value="NotImplemented" >Not implemented!</option>
@@ -270,28 +270,30 @@
             //var featureVector;
             //var camFrustumFeatureVector;
             //var camFrustum;
-            var visibleBounds;
+            //var visibleBounds;
 
             // three.js / potree stuff
-            var renderer;
-            var scene, sceneHUD;
-            var referenceFrame;
-            var camera, cameraHUD;
-            var skybox;
-            var pointcloud;
-            var clock = new THREE.Clock();
-            var mouse = {x: 0, y: 0};
-            var elCoordinates = document.getElementById("lblCoordinates");
-            var showSkybox = true;
+            //var pv.scene3D.renderer;
+            //var pv.scene3D.scene, 
+            //var sceneHUD;
+            //var referenceFrame;
+            //var pv.scene3D.camera
+            //var cameraHUD;
+            //var pv.scene3D.skybox;
+            //var pv.scene3D.pointcloud;
+            //var clock = new THREE.Clock();
+            //var mouse = {x: 0, y: 0};
+            elCoordinates = document.getElementById("lblCoordinates");
+            //var showSkybox = true;
             var elRenderArea = document.getElementById("renderArea");
             var progressBar = new ProgressBar();
             var measuringTool;
             var areaTool;
             var volumeTool;
             var transformationTool;
-            var referenceFrame;
+            //var referenceFrame;
             var scenePointCloud;
-            var sceneBG, cameraBG;
+            var sceneBG //, cameraBG;
             var gui;
             var fpControls;
             var orbitControls;

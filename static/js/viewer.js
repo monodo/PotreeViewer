@@ -6,64 +6,66 @@ pv.initThree = function (){
     var near = 0.1;
     var far = 1000000;
 
-    scene = new THREE.Scene();
+    pv.scene3D.clock = new THREE.Clock()
+    pv.scene3D.mouse = {x: 0, y: 0};
+    pv.scene3D.scene = new THREE.Scene();
     scenePointCloud = new THREE.Scene();
     sceneBG = new THREE.Scene();
     
-    camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    cameraBG = new THREE.Camera();
-    camera.rotation.order = 'ZYX';
+    pv.scene3D.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    pv.scene3D.cameraBG = new THREE.Camera();
+    pv.scene3D.camera.rotation.order = 'ZYX';
     
-    referenceFrame = new THREE.Object3D();
-    scenePointCloud.add(referenceFrame);
+    pv.scene3D.referenceFrame = new THREE.Object3D();
+    scenePointCloud.add(pv.scene3D.referenceFrame);
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(width, height);
-    renderer.autoClear = false;
-    elRenderArea.appendChild(renderer.domElement);
+    pv.scene3D.renderer = new THREE.WebGLRenderer();
+    pv.scene3D.renderer.setSize(width, height);
+    pv.scene3D.renderer.autoClear = false;
+    elRenderArea.appendChild(pv.scene3D.renderer.domElement);
     
-    skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/skybox/");
+    pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/pv.scene3D.skybox/");
 
-    // camera and controls
-    camera.position.set(-304, 372, 318);
-    camera.rotation.y = -Math.PI / 4;
-    camera.rotation.x = -Math.PI / 6;
-    useOrbitControls();
+    // pv.scene3D.camera and controls
+    pv.scene3D.camera.position.set(-304, 372, 318);
+    pv.scene3D.camera.rotation.y = -Math.PI / 4;
+    pv.scene3D.camera.rotation.x = -Math.PI / 6;
+    pv.utils.useOrbitControls();
     
     // enable frag_depth extension for the interpolation shader, if available
-    renderer.context.getExtension("EXT_frag_depth");
+    pv.scene3D.renderer.context.getExtension("EXT_frag_depth");
     
-    // load pointcloud
+    // load pv.scene3D.pointcloud
     POCLoader.load(pv.params.pointCloudPath, function(geometry){
-        pointcloud = new Potree.PointCloudOctree(geometry);
+        pv.scene3D.pointcloud = new Potree.PointCloudOctree(geometry);
         
-        pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-        pointcloud.material.size = pv.params.pointSize;
-        pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
+        pv.scene3D.pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+        pv.scene3D.pointcloud.material.size = pv.params.pointSize;
+        pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
         
-        referenceFrame.add(pointcloud);
+        pv.scene3D.referenceFrame.add(pv.scene3D.pointcloud);
         
-        referenceFrame.updateMatrixWorld(true);
-        var sg = pointcloud.boundingSphere.clone().applyMatrix4(pointcloud.matrixWorld);
+        pv.scene3D.referenceFrame.updateMatrixWorld(true);
+        var sg = pv.scene3D.pointcloud.boundingSphere.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld);
         
-        referenceFrame.position.copy(sg.center).multiplyScalar(-1);
-        referenceFrame.updateMatrixWorld(true);
+        pv.scene3D.referenceFrame.position.copy(sg.center).multiplyScalar(-1);
+        pv.scene3D.referenceFrame.updateMatrixWorld(true);
         
-        camera.zoomTo(pointcloud, 1);
+        pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, 1);
         
-        flipYZ();
+        pv.utils.flipYZ();
         
         pv.ui.initGUI();
     });
     
     var grid = Potree.utils.createGrid(5, 5, 2);
-    scene.add(grid);
+    pv.scene3D.scene.add(grid);
     
-    measuringTool = new Potree.MeasuringTool(scenePointCloud, camera, renderer);
-    profileTool = new Potree.ProfileTool(scenePointCloud, camera, renderer);
-    areaTool = new Potree.AreaTool(scenePointCloud, camera, renderer);
-    volumeTool = new Potree.VolumeTool(scenePointCloud, camera, renderer);
-    transformationTool = new Potree.TransformationTool(scenePointCloud, camera, renderer);
+    measuringTool = new Potree.MeasuringTool(scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    profileTool = new Potree.ProfileTool(scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    areaTool = new Potree.AreaTool(scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    volumeTool = new Potree.VolumeTool(scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    transformationTool = new Potree.TransformationTool(scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
     
@@ -81,8 +83,8 @@ pv.initThree = function (){
     bg.material.depthWrite = false;
     sceneBG.add(bg);
 
-    window.addEventListener( 'keydown', onKeyDown, false );
-    renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
+    window.addEventListener( 'keydown', pv.utils.onKeyDown, false );
+    pv.scene3D.renderer.domElement.addEventListener( 'mousemove', pv.utils.onMouseMove, false );
 };
 
 /**
@@ -148,7 +150,7 @@ pv.ui.initGUI = function (){
         });
         $( "#languageSelect" ).val(defaultOption)
         
-        // Scene selector 
+        // pv.scene3D.scene selector 
         $( "#sceneSelect" ).selectmenu({
             select: function( event, data ) {
                 var value = data.item.value;
@@ -379,14 +381,14 @@ pv.ui.initGUI = function (){
         $("#radioFPSControl").button();
         $('#radioFPSControl').bind('change', function(){
             if($(this).is(':checked')){
-                useFPSControls();
+                pv.utils.useFPSControls();
             }
         });
         
         $("#radioOrbitControl").button();
         $('#radioOrbitControl').bind('change', function(){
             if($(this).is(':checked')){
-                useOrbitControls();
+                pv.utils.useOrbitControls();
             }
         });
         
@@ -394,12 +396,12 @@ pv.ui.initGUI = function (){
         
         $("#btnFocus").button();
         $("#btnFocus").bind('click', function(){
-            camera.zoomTo(pointcloud);
+            pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
         });        
         
         $("#btnFlipYZ" ).button();
         $("#btnFlipYZ").bind('click', function(){
-            flipYZ();
+            pv.utils.flipYZ();
         });
         
         $( "#radioDistanceMeasure" ).button();
@@ -427,7 +429,7 @@ pv.ui.initGUI = function (){
         $('#radioProfile').bind('change', function(){
             if($(this).is(':checked')){
                 $("#profileContainer").slideDown(600);
-                profileTool.startInsertion({width: pointcloud.boundingSphere.radius / 100});
+                profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
             } else {
                 $("#profileContainer").slideUp(600);
             }

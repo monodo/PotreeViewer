@@ -12,16 +12,16 @@ if (typeof PointScope === "undefined") {
          */
         map2D: {},
         /**
-         * The Potree pointcloud
-         */
-        pointcloud: {},
-        /**
          * The Potree Viewer UI elements
          */
         ui: {},
         /**
          * The Potree Viewer utils
          */
-        utils: {}
+        utils: {},
+        /**
+         * The Potree Viewer 3D pv.scene3D.scene
+         */
+        scene3D: {}
     };
 }
