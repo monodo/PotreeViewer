@@ -20,7 +20,7 @@ if (typeof PointScope === "undefined") {
          */
         utils: {},
         /**
-         * The Potree Viewer 3D pv.scene3D.scene
+         * The Potree Viewer 3D scene
          */
         scene3D: {}
     };

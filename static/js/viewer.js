@@ -1,4 +1,4 @@
-pv.initThree = function (){
+pv.scene3D.initThree = function (){
     
     pv.ui.elRenderArea = document.getElementById("renderArea");
     
@@ -108,7 +108,7 @@ pv.ui.initGUI = function (){
         preload: langList
         }, function(t) { 
         // Start translation once everything is loaded
-        pv.translate()
+        pv.ui.translate();
 
     });
     
@@ -139,7 +139,7 @@ pv.ui.initGUI = function (){
             select: function( event, data ) {
                 var value = data.item.value;
                 i18n.setLng(value);
-                pv.translate();
+                pv.ui.translate();
             }
         });
         
@@ -509,4 +509,12 @@ pv.ui.resetUIToDefault = function (){
     
     $("select").selectmenu("refresh");
 ;
+}
+
+// set here all translation operations
+
+pv.ui.translate = function() {
+
+    $("#toolboxTabs").i18n();
+
 }

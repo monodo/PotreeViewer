@@ -160,7 +160,7 @@ pv.map2D.updateMapFrustum = function (){
 /**
  * update the map extent in the map window
  */
-pv.updateMapExtent = function(){
+pv.map2D.updateMapExtent = function(){
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
 
     var geoMin = proj4(pv.map2D.swiss, pv.map2D.webMercator, [geoExtent.min.x, geoExtent.min.y]);

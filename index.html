@@ -30,7 +30,6 @@
     <script src="config/config.js"></script>
     <script src="static/js/map.js"></script>
     <script src="static/js/potreefunctions.js"></script>
-    <script src="static/js/translate.js"></script>
     <script src="static/js/viewer.js"></script>
 
     <!--Translation: i18next-->
@@ -266,7 +265,7 @@
         <script type="text/javascript">
             // start the engine...
             pv.map2D.initMapView();
-            pv.initThree();
+            pv.scene3D.initThree();
             pv.utils.loop();
             // reset UI once everything is loaded
             $( window ).load(function(){

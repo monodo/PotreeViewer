@@ -87,7 +87,7 @@ pv.utils.update = function (){
 
         pv.map2D.updateMapFrustum();
         pv.utils.updateCoordinatePicking();
-        pv.updateMapExtent();
+        pv.map2D.updateMapExtent();
     }
     
     if(pv.ui.stats && pv.params.stats){
