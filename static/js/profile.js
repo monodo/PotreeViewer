@@ -24,7 +24,7 @@ pv.profile.draw = function () {
     
     var data = [];
     for (i=0; i<points.length; i++){
-        data.push([points[i].x, points[i].z])
+        data.push([points[i].x, points[i].y])
     }
     console.log(data);
 
