@@ -128,13 +128,6 @@ pv.utils.update = function (){
 
     var clipBoxes = [];
 
-    //var profiles = [];
-    //for(var i = 0; i < profileTool.profiles.length; i++){
-    //	profiles.push(profileTool.profiles[i]);
-    //}
-    //if(profileTool.activeProfile){
-    //	profiles.push(profileTool.activeProfile);
-    //}
     for(var i = 0; i < pv.scene3D.profileTool.profiles.length; i++){
         var profile = pv.scene3D.profileTool.profiles[i];
         for(var j = 0; j < profile.boxes.length; j++){
@@ -150,8 +143,8 @@ pv.utils.update = function (){
 
         if(volume.clip){
             volume.updateMatrixWorld();
-            var boxInverse = new THREE.Matrix4().getInverse(volume.matrixWorld);
-            clipBoxes.push(boxInverse);
+            var volInverse = new THREE.Matrix4().getInverse(volume.matrixWorld);
+            clipBoxes.push(volInverse);
         }
     }
     if(pv.scene3D.pointcloud){
@@ -189,12 +182,13 @@ pv.utils.useOrbitControls = function (){
 };
 
 pv.utils.getMousePointCloudIntersection = function (){
-    var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 0.5 );
+    var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 10 );
     vector.unproject(pv.scene3D.camera);
     var direction = vector.sub(pv.scene3D.camera.position).normalize();
     var ray = new THREE.Ray(pv.scene3D.camera.position, direction);
 
     var pointClouds = [];
+
     pv.scene3D.scene.traverse(function(object){
         if(object instanceof Potree.PointCloudOctree){
             pointClouds.push(object);
@@ -205,7 +199,7 @@ pv.utils.getMousePointCloudIntersection = function (){
     var closestPointDistance = null;
     for(var i = 0; i < pointClouds.length; i++){
         var pointcloud = pointClouds[i];
-        var point = pointcloud.pick(pv.scene3D.renderer, pv.scene3D.camera, ray, {accuracy: 0.5});
+        var point = pointcloud.pick(pv.scene3D.renderer, pv.scene3D.camera, ray, {accuracy: 1});
 
         if(!point){
             continue;
