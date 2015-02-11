@@ -454,3 +454,16 @@ pv.utils.loop = function () {
     }
 
 };
+
+/***
+* Disable all controls 
+*/
+pv.utils.disableControls = function () {
+    
+    pv.scene3D.profileTool.enabled = false;
+    pv.scene3D.volumeTool.enabled = false;
+    pv.scene3D.measuringTool.enabled = false;
+    pv.scene3D.areaTool.enabled = false;
+    pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
+    
+}
