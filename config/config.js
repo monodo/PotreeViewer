@@ -3,12 +3,10 @@
 */
 
 pv.params = {
-    'near': 0.1,
+    'near': 10,
     'far': 1000000,
-    'fov': 60,
+    'fov': 80,
     'skyboxPath': 'static/libs/potree/resources/textures/skybox/',
-    'width': null,
-    'height': null,
     'autoclear': false,
     'orthocam': {
         'left': -1,
@@ -20,15 +18,16 @@ pv.params = {
     },
     'constrolMoveSpeedFactor': 10,
     'cameraPosition': {
-        'x': 600,
-        'y': 880,
-        'z': -370
+        'x': 0,
+        'y': 25,
+        'z': 0
     },
     'cameraLookAt': {
         'x': 480,
         'y': 797,
         'z': -219
     },
+    'cameraRotationOrder': 'ZYX',
     'pointSize': 2,
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
     'pointShape': Potree.PointShape.SQUARE,
@@ -49,6 +48,8 @@ pv.params = {
     'stats': false,
     'BoundingBox': false,
     'isFlipYZ': false,
+    'updateMatrixWorld': true,
+    'defaultZoomLevel': 1,
     'clipMode': Potree.ClipMode.HIGHLIGHT_INSIDE, 
     'defaultLanguage': 'en',
     'availableLanguages': {

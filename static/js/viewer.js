@@ -1,14 +1,9 @@
 pv.scene3D.initThree = function (){
 
     pv.ui.elRenderArea = document.getElementById("renderArea");
-
-    var fov = 75;
     var width = pv.ui.elRenderArea.clientWidth;
     var height = pv.ui.elRenderArea.clientHeight;
     var aspect = width / height;
-    var near = 0.1;
-    var far = 1000000;
-
     pv.ui.progressBar = new ProgressBar();
 
     pv.scene3D.clock = new THREE.Clock();
@@ -17,22 +12,22 @@ pv.scene3D.initThree = function (){
     pv.scene3D.scenePointCloud = new THREE.Scene();
     pv.scene3D.sceneBG = new THREE.Scene();
 
-    pv.scene3D.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    pv.scene3D.camera = new THREE.PerspectiveCamera(pv.params.fov, aspect, pv.params.near, pv.params.far);
     pv.scene3D.cameraBG = new THREE.Camera();
-    pv.scene3D.camera.rotation.order = 'ZYX';
+    pv.scene3D.camera.rotation.order = pv.params.cameraRotationOrder;
 
     pv.scene3D.referenceFrame = new THREE.Object3D();
     pv.scene3D.scenePointCloud.add(pv.scene3D.referenceFrame);
 
     pv.scene3D.renderer = new THREE.WebGLRenderer();
     pv.scene3D.renderer.setSize(width, height);
-    pv.scene3D.renderer.autoClear = false;
+    pv.scene3D.renderer.autoClear = pv.params.autoclear;
     pv.ui.elRenderArea.appendChild(pv.scene3D.renderer.domElement);
 
-    pv.scene3D.skybox = Potree.utils.loadSkybox("static/libs/potree/resources/textures/skybox/");
+    pv.scene3D.skybox = Potree.utils.loadSkybox(pv.params.skyboxPath);
     
     // pv.scene3D.camera and controls
-    pv.scene3D.camera.position.set(-304, 372, 318);
+    pv.scene3D.camera.position.set(pv.params.cameraPosition.x, pv.params.cameraPosition.y, pv.params.cameraPosition.z);
     pv.scene3D.camera.rotation.y = -Math.PI / 4;
     pv.scene3D.camera.rotation.x = -Math.PI / 6;
     pv.utils.useOrbitControls();
@@ -43,18 +38,18 @@ pv.scene3D.initThree = function (){
     // load pv.scene3D.pointcloud
     POCLoader.load(pv.params.pointCloudPath, function(geometry){
         pv.scene3D.pointcloud = new Potree.PointCloudOctree(geometry);
-        pv.scene3D.pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+        pv.scene3D.pointcloud.material.pointSizeType = pv.params.pointSizeType;
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
 
         pv.scene3D.referenceFrame.add(pv.scene3D.pointcloud);
 
-        pv.scene3D.referenceFrame.updateMatrixWorld(true);
+        pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         var sg = pv.scene3D.pointcloud.boundingSphere.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld);
 
         pv.scene3D.referenceFrame.position.copy(sg.center).multiplyScalar(-1);
-        pv.scene3D.referenceFrame.updateMatrixWorld(true);
-        pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, 1);
+        pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
+        pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
         pv.ui.initGUI();
     });
