@@ -380,13 +380,33 @@ pv.ui.initGUI = function (){
         $('#radioFPSControl').bind('change', function(){
             if($(this).is(':checked')){
                 pv.utils.useFPSControls();
+                $("#moveSpeedCursor").show();
             }
         });
+        
+        // Max point number
+         $("#moveSpeedSlider").slider({
+            min: 10,
+            max: 1000,
+            step: 10,
+            value: pv.params.constrolMoveSpeedFactor,
+            slide: function( event, ui ) {
+                $("#moveSpeed").val(ui.value);
+                pv.scene3D.controls.moveSpeed = ui.value;
+            }
+        });
+        
+        $("#moveSpeed").change(function() {
+            $("#moveSpeedSlider").slider("value", parseInt(this.value));
+        });
+
+        $("#moveSpeedSlider .ui-slider-handle").unbind('keydown');
 
         $("#radioOrbitControl").button();
         $('#radioOrbitControl').bind('change', function(){
             if($(this).is(':checked')){
                 pv.utils.useOrbitControls();
+                $("#moveSpeedCursor").hide();
             }
         });
 
@@ -463,6 +483,7 @@ pv.ui.initGUI = function (){
 
     $("#mapBox").hide();
     $("#profileContainer").hide();
+    $("#moveSpeedCursor").hide();
 
     // TODO: Style stats and move to dedicated place!
     pv.ui.stats = new Stats();
@@ -490,6 +511,9 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#btnFlipYZ").hide();
     }
+    
+    // Navigation
+    $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
 
     // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();

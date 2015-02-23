@@ -102,6 +102,10 @@ body {
     z-index: 10001;
 }
 
+#moveSpeedCursor {
+    margin-top: 10px;
+}
+
 #statDiv {
     color: red;
 }

@@ -45,7 +45,8 @@
         "qual_splats": "Splats",
         "clip_no": "No clip",
         "clip_outside": "Clip outside",
-        "clip_inside": "Clip inside"
+        "clip_inside": "Clip inside",
+        "move_speed": "Moving speed"
         
     },
     "disp": {

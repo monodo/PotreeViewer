@@ -16,7 +16,7 @@ pv.params = {
         'near': -100,
         'far': 1000
     },
-    'constrolMoveSpeedFactor': 10,
+    'constrolMoveSpeedFactor': 250,
     'cameraPosition': {
         'x': 0,
         'y': 25,

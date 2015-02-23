@@ -86,7 +86,20 @@
                         <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
                         <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
                         <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=32 height=32 data-i18n="[title]nav.show_2d_map"></button>
-                   </div>
+                    </div>
+                   <!-- Let the user choose the flying speed  -->
+                    <table id="moveSpeedCursor" class="guiTable">
+                        <col class="leftCol">
+                        <col class="middleCol">
+                        <col class="rightCol">
+                        <tr>
+                            <td data-i18n="render.move_speed"></td>
+                            <td><input id="moveSpeed" class="inputDefault"></td>
+                            <td><div id="moveSpeedSlider"></div></td>
+                        </tr>
+                    </table>
+                   
+                   
                 </div>
                 <!-- Rendering options tab: Max point number, point size, etc.. -->
                 <div id="RenderOptions">

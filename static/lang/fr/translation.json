@@ -45,8 +45,8 @@
         "qual_splats": "Splats",
         "clip_no": "Pas de clip",
         "clip_outside": "Extérieur",
-        "clip_inside": "Intérieur"
-        
+        "clip_inside": "Intérieur",
+        "move_speed": "Vitesse"
     },
     "disp": {
         "skybox": "Ciel",
