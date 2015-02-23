@@ -117,7 +117,7 @@ pv.ui.initGUI = function (){
         });
 
         $("#toolboxTabs").keydown(function(e){
-            $("#renderArea").focus();
+             e.preventDefault();
         });
 
         // Map
