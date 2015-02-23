@@ -48,6 +48,7 @@ pv.params = {
     'stats': false,
     'BoundingBox': false,
     'isFlipYZ': false,
+    'showFlipYZ': false,
     'updateMatrixWorld': true,
     'defaultZoomLevel': 1,
     'clipMode': Potree.ClipMode.HIGHLIGHT_INSIDE, 

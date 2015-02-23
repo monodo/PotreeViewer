@@ -484,6 +484,12 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#showMapButton").hide();
     }
+    
+    if (pv.params.showFlipYZ) {
+        $("#btnFlipYZ").show();
+    } else {
+        $("#btnFlipYZ").hide();
+    }
 
     // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();
