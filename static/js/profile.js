@@ -9,7 +9,7 @@ pv.profile.draw = function () {
     }
     var maxOctreeDepth = 10;
     points = pv.scene3D.pointcloud.getPointsInProfile(pv.scene3D.profileTool.profiles[0], maxOctreeDepth);
-    console.log(points);
+    //console.log(points);
     // console.log(pv.scene3D.profileTool.profiles[0]);
     // console.log(points);
     
@@ -26,7 +26,7 @@ pv.profile.draw = function () {
     for (i=0; i<points.length; i++){
         data.push([points[i].x, points[i].y])
     }
-    console.log(data);
+    //console.log(data);
 
     var chart = new Dygraph(
         "profileContainer",
