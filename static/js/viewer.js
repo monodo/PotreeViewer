@@ -118,7 +118,7 @@ pv.ui.initGUI = function (){
     $("#toolboxTabs").keydown(function(e){
          e.preventDefault();
     });
-
+    
     // Map
     $("#mapBox").resizable({
         minHeight: 15,
@@ -209,6 +209,8 @@ pv.ui.initGUI = function (){
             pv.params.pointCountTarget = ui.value;
         }
     });
+    
+    $("#pointNumberSlider .ui-slider-handle").unbind('keydown');
 
     $("#pointNumber").change(function() {
         $("#pointNumberSlider").slider("value", parseInt(this.value));
@@ -226,6 +228,8 @@ pv.ui.initGUI = function (){
         }
     });
 
+    $("#pointSizeSlider .ui-slider-handle").unbind('keydown');
+    
     $("#pointSize").change(function() {
         $("#pointSizeSlider").slider("value", parseInt(this.value));
     });
@@ -242,6 +246,8 @@ pv.ui.initGUI = function (){
         }
     });
 
+    $("#pointOpacitySlider .ui-slider-handle").unbind('keydown');
+    
     $("#pointOpacity").change(function() {
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
     });
@@ -383,7 +389,7 @@ pv.ui.initGUI = function (){
         }
     });
     
-    // Max point number
+    // Moving speed slider
      $("#moveSpeedSlider").slider({
         min: 10,
         max: 1000,
@@ -400,6 +406,26 @@ pv.ui.initGUI = function (){
     });
 
     $("#moveSpeedSlider .ui-slider-handle").unbind('keydown');
+    
+    // Profile width slider
+    $("#profileWidthSlider").slider({
+        min: 0.1,
+        max: 100,
+        step: 0.1,
+        value: pv.params.profileWidth,
+        slide: function( event, ui ) {
+            $("#profileWidth").val(ui.value);
+            pv.scene3D.profileTool.profiles[0].setWidth(ui.value);
+            pv.scene3D.profileTool.profiles[0].update();
+            pv.profile.draw();
+        }
+    });
+    
+    $("#profileWidth").change(function() {
+        $("#profileWidthSlider").slider("value", parseInt(this.value));
+    });
+
+    $("#profileWidthSlider .ui-slider-handle").unbind('keydown');
 
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
@@ -451,7 +477,7 @@ pv.ui.initGUI = function (){
             pv.utils.disableControls();
             $("#profileContainer").slideDown(600);
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
-            
+            $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
             $("#renderArea").dblclick(function(){
                 pv.scene3D.profileTool.finishInsertion();
@@ -485,6 +511,7 @@ pv.ui.initGUI = function (){
     $("#mapBox").hide();
     $("#profileContainer").hide();
     $("#moveSpeedCursor").hide();
+    $("#profileWidthCursor").hide();
 
     // TODO: Style stats and move to dedicated place!
     pv.ui.stats = new Stats();
@@ -541,6 +568,8 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();
+    
+    $("#profileWidth").val(pv.params.profile_width).change();
 
     $("select").selectmenu("refresh");
 };

@@ -66,6 +66,7 @@
         "surface_tt": "Mesurer une surface",
         "volume_tt": "Mesurer un volume",
         "profile_tt": "Mesurer un profil",
-        "clip_tt": "Sélectionner des points par un volume"
+        "clip_tt": "Sélectionner des points par un volume",
+        "profile_width": "Largeur du profil"
     }
 }
