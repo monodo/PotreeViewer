@@ -51,7 +51,6 @@ pv.scene3D.initThree = function (){
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
-        pv.ui.initGUI();
     });
 
     var grid = Potree.utils.createGrid(5, 5, 2);
@@ -99,12 +98,11 @@ pv.ui.initGUI = function (){
     i18n.init({ 
         lng: pv.params.defaultLanguage,
         resGetPath: 'static/lang/__lng__/__ns__.json',
-        preload: langList
+        preload: langList,
+        getAsync: false 
         }, function(t) { 
-        // Start translation once everything is loaded
-        pv.ui.translate();
-
-    });
+            pv.ui.translate();
+        });
 
     pv.ui.lblCoordinates = $("#lblCoordinates");
 
@@ -523,10 +521,6 @@ pv.ui.initGUI = function (){
 };
 
 pv.ui.resetUIToDefault = function (){
-
-    console.log(pv.ui.loaded);
-
-    $("#toolboxTabs" );
     
     $("#mapBox").hide();
     $( "#languageSelect").val(pv.params.defaultLanguage);
@@ -542,7 +536,7 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#btnFlipYZ").hide();
     }
-    
+
     // Navigation
     $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
 
@@ -576,7 +570,5 @@ pv.ui.resetUIToDefault = function (){
 // set here all translation operations
 
 pv.ui.translate = function() {
-
     $("#toolboxTabs").i18n();
-
 };

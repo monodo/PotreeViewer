@@ -298,6 +298,7 @@
             pv.utils.loop();
             // reset UI once everything is loaded
             $( window ).load(function(){
+                pv.ui.initGUI();
                 pv.ui.resetUIToDefault();
             });
 
