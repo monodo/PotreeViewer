@@ -1,17 +1,32 @@
 
 pv.profile.draw = function () {
 
+    // pv.scene3D.profileTool.profiles[0].setWidth(30);
+
     lineVertices = pv.scene3D.profileTool.profiles[0].points;
     if (lineVertices.length <= 2){
         return;
     }
     var maxOctreeDepth = 10;
     points = pv.scene3D.pointcloud.getPointsInProfile(pv.scene3D.profileTool.profiles[0], maxOctreeDepth);
+    //console.log(points);
+    // console.log(pv.scene3D.profileTool.profiles[0]);
+    // console.log(points);
+    
+    // lineVertices = pv.scene3D.profileTool.profiles[0].points;
+    // for (i=0; i<lineVertices.length; i++){
+        // p = lineVertices[i];
+        // console.log(p.x, p.y, p.z);
+    // }
+    // console.log(points);
+    // console.log(points[0]);
+    // console.log(points.length);
     
     var data = [];
     for (i=0; i<points.length; i++){
         data.push([points[i].x, points[i].y])
     }
+    //console.log(data);
 
     var chart = new Dygraph(
         "profileContainer",
