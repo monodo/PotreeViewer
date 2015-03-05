@@ -104,7 +104,6 @@ pv.ui.initGUI = function (){
         }, function(t) { 
         // Start translation once everything is loaded
         pv.ui.translate();
-
     });
 
     pv.ui.lblCoordinates = $("#lblCoordinates");
@@ -520,6 +519,8 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.top = '0px';
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
+    
+    pv.ui.resetUIToDefault ();
 
 };
 
