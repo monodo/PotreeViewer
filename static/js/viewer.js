@@ -219,10 +219,10 @@ pv.ui.initGUI = function (){
 
     // Point size
     $("#pointSizeSlider").slider({
-        min: 1,
-        max: 5,
-        step: 1,
-        value: 1,
+        min: pv.params.pointSizeMin,
+        max: pv.params.pointSizeMax,
+        step: pv.params.pointSizeStep,
+        value: pv.params.pointSize,
         slide: function( event, ui ) {
             $("#pointSize").val(ui.value);
             pv.params.pointSize = ui.value;

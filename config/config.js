@@ -28,7 +28,10 @@ pv.params = {
         'z': -219
     },
     'cameraRotationOrder': 'ZYX',
-    'pointSize': 2,
+    'pointSize': 1,
+    'pointSizeMin': 0,
+    'pointSizeMax': 2,
+    'pointSizeStep': 0.1,
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
     'pointShape': Potree.PointShape.SQUARE,
     'pointQuality': 'Normal',
