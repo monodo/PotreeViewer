@@ -186,6 +186,7 @@ pv.ui.initGUI = function (){
     $( "#showMapButton" ).button().click(function() {
         if ($("#mapBox").is(":visible")) {
             $("#mapBox").slideUp(600);
+            $("#showMapButton").blur();
         }
         else {
             $("#mapBox").slideDown(600);
@@ -420,10 +421,6 @@ pv.ui.initGUI = function (){
             pv.profile.draw();
         }
     });
-    
-    $("#profileWidth").change(function() {
-        $("#profileWidthSlider").slider("value", parseInt(this.value));
-    });
 
     $("#profileWidthSlider .ui-slider-handle").unbind('keydown');
 
@@ -431,7 +428,6 @@ pv.ui.initGUI = function (){
     $('#radioOrbitControl').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.useOrbitControls();
-            $("#moveSpeedCursor").hide();
         }
     });
 
@@ -440,11 +436,13 @@ pv.ui.initGUI = function (){
     $("#btnFocus").button();
     $("#btnFocus").bind('click', function(){
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
+        $("#btnFocus").blur();
     });        
 
     $("#btnFlipYZ" ).button();
     $("#btnFlipYZ").bind('click', function(){
         pv.utils.flipYZ();
+        $("#btnFlipYZ").blur();
     });
 
     $( "#radioDistanceMeasure" ).button();
@@ -510,7 +508,6 @@ pv.ui.initGUI = function (){
 
     $("#mapBox").hide();
     $("#profileContainer").hide();
-    $("#moveSpeedCursor").hide();
     $("#profileWidthCursor").hide();
 
     // TODO: Style stats and move to dedicated place!
@@ -546,6 +543,7 @@ pv.ui.resetUIToDefault = function (){
     
     // Navigation
     $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
+    $("#profileWidth").val(pv.params.profileWidth);
 
     // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();
