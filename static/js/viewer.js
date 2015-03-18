@@ -201,10 +201,10 @@ pv.ui.initGUI = function (){
 
     // Max point number
      $("#pointNumberSlider").slider({
-        min: 0.5,
-        max: 12,
-        step: 0.5,
-        value: 0.5,
+        min: pv.params.pointCountTargetMin,
+        max: pv.params.pointCountTargetMax,
+        step: pv.params.pointCountTargetStep,
+        value: pv.params.pointCountTarget,
         slide: function( event, ui ) {
             $("#pointNumber").val(ui.value);
             pv.params.pointCountTarget = ui.value;
@@ -392,9 +392,9 @@ pv.ui.initGUI = function (){
     
     // Moving speed slider
      $("#moveSpeedSlider").slider({
-        min: 10,
-        max: 1000,
-        step: 10,
+        min: pv.params.constrolMoveSpeedFactorMin,
+        max: pv.params.constrolMoveSpeedFactorMax,
+        step: pv.params.constrolMoveSpeedFactorStep,
         value: pv.params.constrolMoveSpeedFactor,
         slide: function( event, ui ) {
             $("#moveSpeed").val(ui.value);

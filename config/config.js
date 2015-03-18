@@ -17,6 +17,9 @@ pv.params = {
         'far': 1000
     },
     'constrolMoveSpeedFactor': 250,
+    'constrolMoveSpeedFactorMin': 40,
+    'constrolMoveSpeedFactorMax': 1000,
+    'constrolMoveSpeedFactorStep': 1,
     'cameraPosition': {
         'x': 0,
         'y': 25,
@@ -35,7 +38,10 @@ pv.params = {
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
     'pointShape': Potree.PointShape.SQUARE,
     'pointQuality': 'Normal',
-    'pointCountTarget': 0.1,
+    'pointCountTarget': 1,
+    'pointCountTargetMin': 0.1,
+    'pointCountTargetMax': 20,
+    'pointCountTargetStep': 0.1,
     'pointColorType': Potree.PointColorType.RGB,
     'pointCountTargetFactor': 1000000,
     'showOctree': false,
