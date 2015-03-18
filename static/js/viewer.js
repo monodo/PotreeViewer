@@ -411,9 +411,9 @@ pv.ui.initGUI = function (){
     
     // Profile width slider
     $("#profileWidthSlider").slider({
-        min: 0.1,
-        max: 100,
-        step: 0.1,
+        min: pv.params.profileWidthMin,
+        max: pv.params.profileWidthMax,
+        step: pv.params.profileWidthStep,
         value: pv.params.profileWidth,
         slide: function( event, ui ) {
             $("#profileWidth").val(ui.value);

@@ -64,6 +64,9 @@ pv.params = {
     'updateMatrixWorld': true,
     'defaultZoomLevel': 1,
     'profileWidth': 3,
+    'profileWidthMin': 0.1,
+    'profileWidthMax': 500,
+    'profileWidthStep': 0.1,
     'clipMode': Potree.ClipMode.HIGHLIGHT_INSIDE, 
     'defaultLanguage': 'en',
     'availableLanguages': {
