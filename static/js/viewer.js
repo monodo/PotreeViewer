@@ -237,13 +237,13 @@ pv.ui.initGUI = function (){
 
     // Point opacity
     $("#pointOpacitySlider").slider({
-        min: 0.1,
-        max: 1,
-        step: 0.1,
-        value: 1,
+        min: pv.params.opacityMin,
+        max: pv.params.opacityMax,
+        step: pv.params.opacityStep,
+        value: pv.params.opacity,
         slide: function( event, ui ) {
             $("#pointOpacity").val(ui.value);
-            pv.params.opacity = 1.1 - ui.value;
+            pv.params.opacity = ui.value;
         }
     });
 
