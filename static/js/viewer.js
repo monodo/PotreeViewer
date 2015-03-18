@@ -329,6 +329,7 @@ pv.ui.initGUI = function (){
             pv.params.showSkybox = true;
         } else {
             pv.params.showSkybox = false;
+            this.blur();
         }
     });
 
@@ -345,6 +346,7 @@ pv.ui.initGUI = function (){
 
         } else {
             $('#chkStats').button("option", "label", "montrer");
+            this.blur();
             pv.params.showStats = false;
         }
     });        
@@ -362,6 +364,7 @@ pv.ui.initGUI = function (){
         } else {
             $('#chkBBox').button("option", "label", "montrer");
             pv.params.showBoundingBox = false;
+            this.blur();
         }
     });        
 
@@ -378,6 +381,7 @@ pv.ui.initGUI = function (){
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;
+            this.blur();
         }
     });
 
