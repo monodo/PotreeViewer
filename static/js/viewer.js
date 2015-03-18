@@ -399,7 +399,7 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#moveSpeed").val(ui.value);
             pv.scene3D.controls.moveSpeed = ui.value;
-            pv.scene3D.controls.zoomSpeed = ui.value;
+            pv.scene3D.controls.zoomSpeed = ui.value / 20;
         }
     });
     
