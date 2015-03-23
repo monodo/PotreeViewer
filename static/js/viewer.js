@@ -132,16 +132,11 @@ pv.ui.initGUI = function (){
         }
     });
 
-    var i = 0;
-    var defaultOption;
     $.each(pv.params.availableLanguages, function(val, text) {
-        i +=1 ;
-        if (i == 1) {
-            var defaultOption = new Option(text, val);
-        }
-        $( "#languageSelect" ).append(new Option(text, val));
+        $("#languageSelect").append(new Option(text, val));
     });
-    $( "#languageSelect" ).val(defaultOption);
+    $("#languageSelect option[value='" + pv.params.defaultLanguage + "']").prop("selected", "selected");
+    $("#languageSelect").selectmenu( "refresh" );
 
     // pv.scene3D.scene selector 
     $( "#sceneSelect" ).selectmenu({
