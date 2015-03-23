@@ -38,7 +38,7 @@ pv.params = {
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
     'pointShape': Potree.PointShape.SQUARE,
     'pointQuality': 'Normal',
-    'pointCountTarget': 1,
+    'pointCountTarget': 0.1,
     'pointCountTargetMin': 0.1,
     'pointCountTargetMax': 20,
     'pointCountTargetStep': 0.1,

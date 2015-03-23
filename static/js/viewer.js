@@ -510,16 +510,15 @@ pv.ui.initGUI = function (){
     document.body.appendChild(pv.ui.stats.domElement );
     
     // Prevent default keydown events
-    $('#toolbox').keydown(function (event) {
-        return false;
-    });
     $('.ui-tabs-anchor').keydown(function (event) {
         return false;
     });
     $(".ui-slider-handle").unbind('keydown');
     $(".ui-selectmenu-button").unbind('keydown');
     $(".ui-button").unbind('keydown');
-    
+    $(".ui-widget").unbind('keydown');
+
+
     pv.ui.resetUIToDefault ();
 
 };
@@ -569,8 +568,6 @@ pv.ui.resetUIToDefault = function (){
     $("#chkCoordinates").change();
     
     $("#profileWidth").val(pv.params.profile_width).change();
-
-    $("select").selectmenu("refresh");
 
 };
 // set here all translation operations
