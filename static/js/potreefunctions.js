@@ -454,10 +454,10 @@ pv.utils.loop = function () {
 */
 pv.utils.disableControls = function () {
     
-    pv.scene3D.profileTool.enabled = false;
-    pv.scene3D.volumeTool.enabled = false;
-    pv.scene3D.measuringTool.enabled = false;
-    pv.scene3D.areaTool.enabled = false;
+    pv.scene3D.profileTool.setEnabled(false);
+    pv.scene3D.volumeTool.setEnabled(false);
+    pv.scene3D.measuringTool.setEnabled(false);
+    pv.scene3D.areaTool.setEnabled(false);
     pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
     
 }
