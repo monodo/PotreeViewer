@@ -1,73 +1,59 @@
+/***
+* Parse the profile's points and project them along the profile's segments
+***/
+pv.profile.getProfilePoints = function(){
 
+    var profile = pv.scene3D.profileTool.profiles[0];
+    var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, 2);
+    var data = [];
+    var distance = 0;
+    var totalDistance = 0;
+
+    for(var i = 0; i < segments.length; i++){
+        var segment = segments[i];        
+        var xOA = segment.end.x - segment.start.x;
+        var yOA = segment.end.z - segment.start.z;
+        var segmentLength = Math.sqrt(xOA * xOA + yOA * yOA);
+        var points = segment.points;
+        
+        // TODO: add attribute support
+        for(var j = 0; j < points.numPoints; j++){
+            var p = points.position[j];
+            var xOB = p.x - segment.start.x;
+            var yOB = p.z - segment.start.z;
+            var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
+            var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
+            var alpha = Math.acos(cosAlpha);
+            var dist = hypo * cosAlpha + totalDistance;
+            data.push([dist, p.y]);
+        }
+        totalDistance += segmentLength;
+    }
+
+    return data;
+};
+/***
+* pv.profile.draw(data)
+* Creates a Dygraph chart draw the points
+***/
 pv.profile.draw = function () {
 
-    // pv.scene3D.profileTool.profiles[0].setWidth(30);
-
-    lineVertices = pv.scene3D.profileTool.profiles[0].points;
-    if (lineVertices.length <= 2){
+    var data = pv.profile.getProfilePoints();
+    
+    if (data.length === 0){
         return;
     }
-    var maxOctreeDepth = 10;
-    points = pv.scene3D.pointcloud.getPointsInProfile(pv.scene3D.profileTool.profiles[0], maxOctreeDepth);
-    //console.log(points);
-    // console.log(pv.scene3D.profileTool.profiles[0]);
-    // console.log(points);
-    
-    // lineVertices = pv.scene3D.profileTool.profiles[0].points;
-    // for (i=0; i<lineVertices.length; i++){
-        // p = lineVertices[i];
-        // console.log(p.x, p.y, p.z);
-    // }
-    // console.log(points);
-    // console.log(points[0]);
-    // console.log(points.length);
-    
-    var data = [];
-    for (i=0; i<points.length; i++){
-        data.push([points[i].x, points[i].y])
-    }
-    //console.log(data);
 
     var chart = new Dygraph(
         "profileContainer",
         data,
-        {   
-            // colors: colorTheme,
-            // ylabel: this.yLabelText,
-            // xlabel: this.xLabelText,
-            // xLabelHeight: 35,
+        {
             legend: 'always',
             gridLineColor: '#F0F0F5',
-            labels: [ "Distance", "Altitude"],
-            // valueRange: [this.minZValue,this.maxZValue],
-            // axes: {
-                // x: {
-                    // valueFormatter : function(d) {
-                       // return d + 'm' ;
-                    // },
-                    // axisLabelColor:'#FFFFFF',
-                    // axisLineColor:'#FFFFFF'
-                // },
-                // y: {
-                    // valueFormatter: function(d) {
-                        // return d + 'm';
-                    // },
-                    // axisLabelColor: '#FFFFFF',
-                    // axisLineColor: '#FFFFFF'
-                // }
-            // },
-            // highlightCallback: (function(e, x, pts, row) {
-                // this.showMarker(row);
-            // }).createDelegate(this),
-            // unhighlightCallback: (function(e, x, pts, row) {
-                // this.marker && this.marker.destroy();
-            // }).createDelegate(this), 
-            // zoomCallback: (function(e, x, pts, row) {
-                // this.lockScale(this.scaleLocked, true);
-            // }).createDelegate(this),                 
+            labels: [ "Distance", "Altitude"],                
             plotter:function(e) {
                     var ctx = e.drawingContext;
-                    ctx.color = '#FF0000'; //e.color
+                    ctx.color = '#FF0000';
                     ctx.fillStyle = '#FF0000';
                     for (var i = 1; i < e.points.length; i++) {
                       var p = e.points[i];
@@ -76,5 +62,4 @@ pv.profile.draw = function () {
                 }
         }
     );
-
-}
+};
