@@ -510,14 +510,19 @@ pv.ui.initGUI = function (){
     document.body.appendChild(pv.ui.stats.domElement );
     
     // Prevent default keydown events
+    $('#toolbox').keydown(function (event) {
+        $('#renderArea').focus();
+        return false;
+    });
+    
     $('.ui-tabs-anchor').keydown(function (event) {
+        $('#renderArea').focus();
         return false;
     });
     $(".ui-slider-handle").unbind('keydown');
     $(".ui-selectmenu-button").unbind('keydown');
     $(".ui-button").unbind('keydown');
     $(".ui-widget").unbind('keydown');
-
 
     pv.ui.resetUIToDefault ();
 
