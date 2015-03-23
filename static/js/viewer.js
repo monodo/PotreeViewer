@@ -114,11 +114,6 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
-    
-    // Prevent default keydown events
-    $('.ui-tabs-anchor').keydown(function (event) {
-        return false;
-    });
 
     // Map
     $("#mapBox").resizable({
@@ -152,7 +147,6 @@ pv.ui.initGUI = function (){
     $( "#sceneSelect" ).selectmenu({
         select: function( event, data ) {
             var value = data.item.value;
-            // do something
         }
     });
 
@@ -211,8 +205,6 @@ pv.ui.initGUI = function (){
             pv.params.pointCountTarget = ui.value;
         }
     });
-    
-    $("#pointNumberSlider .ui-slider-handle").unbind('keydown');
 
     $("#pointNumber").change(function() {
         $("#pointNumberSlider").slider("value", parseInt(this.value));
@@ -229,8 +221,6 @@ pv.ui.initGUI = function (){
             pv.params.pointSize = ui.value;
         }
     });
-
-    $("#pointSizeSlider .ui-slider-handle").unbind('keydown');
     
     $("#pointSize").change(function() {
         $("#pointSizeSlider").slider("value", parseInt(this.value));
@@ -247,8 +237,6 @@ pv.ui.initGUI = function (){
             pv.params.opacity = ui.value;
         }
     });
-
-    $("#pointOpacitySlider .ui-slider-handle").unbind('keydown');
     
     $("#pointOpacity").change(function() {
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
@@ -411,8 +399,6 @@ pv.ui.initGUI = function (){
     $("#moveSpeed").change(function() {
         $("#moveSpeedSlider").slider("value", parseInt(this.value));
     });
-
-    $("#moveSpeedSlider .ui-slider-handle").unbind('keydown');
     
     // Profile width slider
     $("#profileWidthSlider").slider({
@@ -427,8 +413,6 @@ pv.ui.initGUI = function (){
             pv.profile.draw();
         }
     });
-
-    $("#profileWidthSlider .ui-slider-handle").unbind('keydown');
 
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
@@ -525,6 +509,16 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
     
+    // Prevent default keydown events
+    $('#toolbox').keydown(function (event) {
+        return false;
+    });
+    $('.ui-tabs-anchor').keydown(function (event) {
+        return false;
+    });
+    $(".ui-slider-handle").unbind('keydown');
+    $(".ui-selectmenu-button").unbind('keydown');
+    $(".ui-button").unbind('keydown');
     
     pv.ui.resetUIToDefault ();
 
