@@ -128,9 +128,6 @@
                             <td></td>
                             <td> 
                                 <select id="pointSizeTypeSelect">
-                                    <option value="Fixed" data-i18n="render.fixed_pt_size"></option>
-                                    <option value="Attenuated" data-i18n="render.attenuated_pt_size"></option>
-                                    <option value="Adaptive" data-i18n="render.adaptive_pt_size"></option>
                                 </select>
                             </td>
                         </tr>
@@ -295,11 +292,12 @@
             // start the engine...
             pv.map2D.initMapView();
             pv.scene3D.initThree();
+            pv.ui.initGUI();
             pv.utils.loop();
             // reset UI once everything is loaded
-            $( window ).load(function(){
-                pv.ui.resetUIToDefault();
-            });
+            //$( window ).load(function(){
+                //pv.ui.resetUIToDefault();
+            //});
 
         </script>
     </body>

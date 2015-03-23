@@ -79,9 +79,9 @@ body {
 
 #closeProfileContainer {
     position: absolute;
-    right: 5px;
+    left: 5px;
     top: 0px;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 #moveDiv { 

@@ -51,7 +51,6 @@ pv.scene3D.initThree = function (){
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
-        pv.ui.initGUI();
     });
 
     var grid = Potree.utils.createGrid(5, 5, 2);
@@ -100,7 +99,7 @@ pv.ui.initGUI = function (){
         lng: pv.params.defaultLanguage,
         resGetPath: 'static/lang/__lng__/__ns__.json',
         preload: langList,
-        getAsync: false
+        getAsync: true,
         }, function(t) { 
         // Start translation once everything is loaded
         pv.ui.translate();
@@ -242,16 +241,23 @@ pv.ui.initGUI = function (){
     // Point size type
     $("#pointSizeTypeSelect").selectmenu({
         select: function( event, data ) {
-            var value = data.item.value;
-            if(value === "Fixed"){
-               pv.params.pointSizeType = Potree.PointSizeType.FIXED;
-            }else if(value === "Attenuated"){
-                pv.params.pointSizeType = Potree.PointSizeType.ATTENUATED;
-            }else if(value === "Adaptive"){
-                pv.params.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-            }
+            pv.params.pointSizeType = parseInt(data.item.value);
         }
     });
+    
+    for (var key in pv.params.pointSizeTypes){
+        var val = pv.params.pointSizeTypes[key];
+        option = new Option(key, val);
+        option.setAttribute("data-i18n", "render." + key.split('.')[key.split('.').length -1].toLowerCase()); 
+
+        if (val == pv.params.defaultPointSizeType){
+            option.setAttribute("selected", "selected");
+            console.log("ici");
+        }
+        $("#pointSizeTypeSelect").append(option);
+    }
+
+    $("#pointSizeTypeSelect").selectmenu( "refresh" );
 
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
@@ -575,5 +581,6 @@ pv.ui.resetUIToDefault = function (){
 pv.ui.translate = function() {
 
     $("#toolboxTabs").i18n();
+    $("#pointSizeTypeSelect").selectmenu( "refresh" );
 
 };

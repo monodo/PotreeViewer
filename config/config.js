@@ -72,5 +72,11 @@ pv.params = {
     'availableLanguages': {
         'fr': 'Fr',
         'en': 'En', 
-        'de': 'De'}
+        'de': 'De'},
+    'pointSizeTypes': {
+        'Fixed': 0,
+        'Attenuated': 1,
+        'Adaptive': 2
+    }, 
+    'defaultPointSizeType': 2
 };
