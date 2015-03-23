@@ -114,11 +114,12 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
-
-    $("#toolboxTabs").keydown(function(e){
-         e.preventDefault();
-    });
     
+    // Prevent default keydown events
+    $('.ui-tabs-anchor').keydown(function (event) {
+        return false;
+    });
+
     // Map
     $("#mapBox").resizable({
         minHeight: 15,
@@ -524,15 +525,13 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
     
+    
     pv.ui.resetUIToDefault ();
 
 };
 
 pv.ui.resetUIToDefault = function (){
 
-
-    $("#toolboxTabs" );
-    
     $("#mapBox").hide();
     $( "#languageSelect").val(pv.params.defaultLanguage);
     $( "#languageSelect").trigger("change");
@@ -578,6 +577,7 @@ pv.ui.resetUIToDefault = function (){
     $("#profileWidth").val(pv.params.profile_width).change();
 
     $("select").selectmenu("refresh");
+
 };
 // set here all translation operations
 
