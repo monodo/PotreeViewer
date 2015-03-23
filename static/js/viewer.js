@@ -99,362 +99,423 @@ pv.ui.initGUI = function (){
     i18n.init({ 
         lng: pv.params.defaultLanguage,
         resGetPath: 'static/lang/__lng__/__ns__.json',
-        preload: langList
+        preload: langList,
+        getAsync: false
         }, function(t) { 
         // Start translation once everything is loaded
         pv.ui.translate();
-
     });
 
     pv.ui.lblCoordinates = $("#lblCoordinates");
 
     // Potree Viewer Jquery initialization
-    $(function() {
 
-        // Toolbox tabs
-        $( "#toolboxTabs" ).tabs({
-            active: 0
-        });
+    // Toolbox tabs
+    $( "#toolboxTabs" ).tabs({
+        active: 0
+    });
 
-        $("#toolboxTabs").keydown(function(e){
-            $("#renderArea").focus();
-        });
-
-        // Map
-        $("#mapBox").resizable({
-            minHeight: 15,
-            stop: function(event, ui) {
-                pv.map2D.map.updateSize();
-            }
-        }); 
-
-        // Language selector 
-        $( "#languageSelect" ).selectmenu({
-            select: function( event, data ) {
-                var value = data.item.value;
-                i18n.setLng(value);
-                pv.ui.translate();
-            }
-        });
-
-        var i = 0;
-        var defaultOption;
-        $.each(pv.params.availableLanguages, function(val, text) {
-            i +=1 ;
-            if (i == 1) {
-                var defaultOption = new Option(text, val);
-            }
-            $( "#languageSelect" ).append(new Option(text, val));
-        });
-        $( "#languageSelect" ).val(defaultOption);
-
-        // pv.scene3D.scene selector 
-        $( "#sceneSelect" ).selectmenu({
-            select: function( event, data ) {
-                var value = data.item.value;
-                // do something
-            }
-        });
-
-        // Draggable mapBox
-        $( "#mapBox" ).draggable({
-            handle: "#dragMap"
-        });    
-
-        // Minimize button for the toolbox tabs
-        $("#minimizeButton").click(function(){
-            $("#toolboxTabs").slideToggle("fast", function(){
-                    if ($(this).is(":visible")) {
-                        $("#minimizeButton").switchClass( "ui-icon-circle-plus", "ui-icon-circle-minus", 0);
-                    }
-                    else {
-                        $("#minimizeButton").switchClass( "ui-icon-circle-minus", "ui-icon-circle-plus", 0);
-                    }
-            });
-        });
-
-        // Minimize the mapbox
-        $("#minimizeMapButton").click(function(){
-            $("#mapBox").slideUp(600);
-        });        
-
-        // Close the profile container
-        $("#closeProfileContainer").click(function(){
-            $("#profileContainer").slideUp(600);
-        });
-
-        // Show the mapbox
-        $( "#showMapButton" ).button().click(function() {
-            if ($("#mapBox").is(":visible")) {
-                $("#mapBox").slideUp(600);
-            }
-            else {
-                $("#mapBox").slideDown(600);
-            }
-        });
-
-        if (!pv.params.isPointCloudGeoreferenced) {
-            $( "#showMapButton" ).hide();
+    $("#toolboxTabs").keydown(function(e){
+         e.preventDefault();
+    });
+    
+    // Map
+    $("#mapBox").resizable({
+        minHeight: 15,
+        stop: function(event, ui) {
+            pv.map2D.map.updateSize();
         }
+    }); 
 
-        // Sliders
+    // Language selector 
+    $( "#languageSelect" ).selectmenu({
+        select: function( event, data ) {
+            var value = data.item.value;
+            i18n.setLng(value);
+            pv.ui.translate();
+        }
+    });
 
-        // Max point number
-         $("#pointNumberSlider").slider({
-            min: 0.5,
-            max: 12,
-            step: 0.5,
-            value: 0.5,
-            slide: function( event, ui ) {
-                $("#pointNumber").val(ui.value);
-                pv.params.pointCountTarget = ui.value;
-            }
-        });
+    var i = 0;
+    var defaultOption;
+    $.each(pv.params.availableLanguages, function(val, text) {
+        i +=1 ;
+        if (i == 1) {
+            var defaultOption = new Option(text, val);
+        }
+        $( "#languageSelect" ).append(new Option(text, val));
+    });
+    $( "#languageSelect" ).val(defaultOption);
 
-        $("#pointNumber").change(function() {
-            $("#pointNumberSlider").slider("value", parseInt(this.value));
-        });
+    // pv.scene3D.scene selector 
+    $( "#sceneSelect" ).selectmenu({
+        select: function( event, data ) {
+            var value = data.item.value;
+            // do something
+        }
+    });
 
-        // Point size
-        $("#pointSizeSlider").slider({
-            min: 1,
-            max: 5,
-            step: 1,
-            value: 1,
-            slide: function( event, ui ) {
-                $("#pointSize").val(ui.value);
-                pv.params.pointSize = ui.value;
-            }
-        });
+    // Draggable mapBox
+    $( "#mapBox" ).draggable({
+        handle: "#dragMap"
+    });    
 
-        $("#pointSize").change(function() {
-            $("#pointSizeSlider").slider("value", parseInt(this.value));
-        });
-
-        // Point opacity
-        $("#pointOpacitySlider").slider({
-            min: 0.1,
-            max: 1,
-            step: 0.1,
-            value: 1,
-            slide: function( event, ui ) {
-                $("#pointOpacity").val(ui.value);
-                pv.params.opacity = 1.1 - ui.value;
-            }
-        });
-
-        $("#pointOpacity").change(function() {
-            $("#pointOpacitySlider").slider("value", parseInt(this.value));
-        });
-
-        // Select menus
-
-        // Point size type
-        $("#pointSizeTypeSelect").selectmenu({
-            select: function( event, data ) {
-                var value = data.item.value;
-                if(value === "Fixed"){
-                   pv.params.pointSizeType = Potree.PointSizeType.FIXED;
-                }else if(value === "Attenuated"){
-                    pv.params.pointSizeType = Potree.PointSizeType.ATTENUATED;
-                }else if(value === "Adaptive"){
-                    pv.params.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+    // Minimize button for the toolbox tabs
+    $("#minimizeButton").click(function(){
+        $("#toolboxTabs").slideToggle("fast", function(){
+                if ($(this).is(":visible")) {
+                    $("#minimizeButton").switchClass( "ui-icon-circle-plus", "ui-icon-circle-minus", 0);
                 }
-            }
-        });
-
-        $("#pointMaterialSelect").selectmenu({
-            select: function(event, data) {
-                var value = data.item.value;
-                if(value === "RGB"){
-                    pv.params.pointColorType = Potree.PointColorType.RGB;
-                }else if(value === "Color"){
-                    pv.params.pointColorType = Potree.PointColorType.COLOR;
-                }else if(value === "Height"){
-                    pv.params.pointColorType = Potree.PointColorType.HEIGHT;
-                }else if(value === "Intensity"){
-                    pv.params.pointColorType = Potree.PointColorType.INTENSITY;
-                }else if(value === "Intensity Gradient"){
-                    pv.params.pointColorType = Potree.PointColorType.INTENSITY_GRADIENT;
-                }else if(value === "Classification"){
-                    pv.params.pointColorType = Potree.PointColorType.CLASSIFICATION;
-                }else if(value === "Return Number"){
-                    pv.params.pointColorType = Potree.PointColorType.RETURN_NUMBER;
-                }else if(value === "Source"){
-                    pv.params.pointColorType = Potree.PointColorType.SOURCE;
-                }else if(value === "Octree Depth"){
-                    pv.params.pointColorType = Potree.PointColorType.OCTREE_DEPTH;
-                }else if(value === "Point Index"){
-                    pv.params.pointColorType = Potree.PointColorType.POINT_INDEX;
+                else {
+                    $("#minimizeButton").switchClass( "ui-icon-circle-minus", "ui-icon-circle-plus", 0);
                 }
-            }
         });
+    });
 
-        $("#pointQualitySelect").selectmenu({
-            select: function(event, data) {
-                pv.params.quality = data.item.value;
-            }
-        });
+    // Minimize the mapbox
+    $("#minimizeMapButton").click(function(){
+        $("#mapBox").slideUp(600);
+    });        
 
-        $("#pointClipSelect").selectmenu({
-            select: function(event, data) {
-                var value = data.item.value;
-                if(value === "No Clipping"){
-                    pv.params.clipMode = Potree.ClipMode.DISABLED;
-                }else if(value === "Clip Outside"){
-                    pv.params.clipMode = Potree.ClipMode.CLIP_OUTSIDE;
-                }else if(value === "Highlight Inside"){
-                   pv.params. clipMode = Potree.ClipMode.HIGHLIGHT_INSIDE;
-                }
-            }
-        });
+    // Close the profile container
+    $("#closeProfileContainer").click(function(){
+        $("#profileContainer").slideUp(600);
+    });
 
-    // Checkboxes
-        $("#chkSkybox").button({
-            label: null,
-            icons: {
-                primary: 'ui-icon-circle-check'
-            },
-            text: false
-        });
-        
-        $('#chkSkybox').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.params.showSkybox = true;
-            } else {
-                pv.params.showSkybox = false;
-            }
-        });
+    // Show the mapbox
+    $( "#showMapButton" ).button().click(function() {
+        if ($("#mapBox").is(":visible")) {
+            $("#mapBox").slideUp(600);
+            $("#showMapButton").blur();
+        }
+        else {
+            $("#mapBox").slideDown(600);
+        }
+    });
 
-        $("#chkStats").button({
-            text: false,
-            icons: {
-                primary: 'ui-icon-circle-check'
-            }
-        });
-        $('#chkStats').bind('change', function(){
-            if($(this).is(':checked')){
-                $('#chkStats').button("option", "label", "masquer");
-                pv.params.showStats = true;
+    if (!pv.params.isPointCloudGeoreferenced) {
+        $( "#showMapButton" ).hide();
+    }
 
-            } else {
-                $('#chkStats').button("option", "label", "montrer");
-                pv.params.showStats = false;
-            }
-        });        
+    // Sliders
 
-        $("#chkBBox").button({
-            text: false,
-            icons: {
-                primary: 'ui-icon-circle-check'
-            }
-        });
-        $('#chkBBox').bind('change', function(){
-            if($(this).is(':checked')){
-                $('#chkBBox').button("option", "label", "masquer");
-                pv.params.showBoundingBox = true;
-            } else {
-                $('#chkBBox').button("option", "label", "montrer");
-                pv.params.showBoundingBox = false;
-            }
-        });        
+    // Max point number
+     $("#pointNumberSlider").slider({
+        min: pv.params.pointCountTargetMin,
+        max: pv.params.pointCountTargetMax,
+        step: pv.params.pointCountTargetStep,
+        value: pv.params.pointCountTarget,
+        slide: function( event, ui ) {
+            $("#pointNumber").val(ui.value);
+            pv.params.pointCountTarget = ui.value;
+        }
+    });
+    
+    $("#pointNumberSlider .ui-slider-handle").unbind('keydown');
 
-        $("#chkCoordinates").button({
-            text: false,
-            icons: {
-                primary: 'ui-icon-circle-check'
+    $("#pointNumber").change(function() {
+        $("#pointNumberSlider").slider("value", parseInt(this.value));
+    });
+
+    // Point size
+    $("#pointSizeSlider").slider({
+        min: pv.params.pointSizeMin,
+        max: pv.params.pointSizeMax,
+        step: pv.params.pointSizeStep,
+        value: pv.params.pointSize,
+        slide: function( event, ui ) {
+            $("#pointSize").val(ui.value);
+            pv.params.pointSize = ui.value;
+        }
+    });
+
+    $("#pointSizeSlider .ui-slider-handle").unbind('keydown');
+    
+    $("#pointSize").change(function() {
+        $("#pointSizeSlider").slider("value", parseInt(this.value));
+    });
+
+    // Point opacity
+    $("#pointOpacitySlider").slider({
+        min: pv.params.opacityMin,
+        max: pv.params.opacityMax,
+        step: pv.params.opacityStep,
+        value: pv.params.opacity,
+        slide: function( event, ui ) {
+            $("#pointOpacity").val(ui.value);
+            pv.params.opacity = ui.value;
+        }
+    });
+
+    $("#pointOpacitySlider .ui-slider-handle").unbind('keydown');
+    
+    $("#pointOpacity").change(function() {
+        $("#pointOpacitySlider").slider("value", parseInt(this.value));
+    });
+
+    // Select menus
+
+    // Point size type
+    $("#pointSizeTypeSelect").selectmenu({
+        select: function( event, data ) {
+            var value = data.item.value;
+            if(value === "Fixed"){
+               pv.params.pointSizeType = Potree.PointSizeType.FIXED;
+            }else if(value === "Attenuated"){
+                pv.params.pointSizeType = Potree.PointSizeType.ATTENUATED;
+            }else if(value === "Adaptive"){
+                pv.params.pointSizeType = Potree.PointSizeType.ADAPTIVE;
             }
-        });
-        $('#chkCoordinates').bind('change', function(){
-            if($(this).is(':checked')){
-                $('#chkCoordinates').button("option", "label", "masquer");
-                pv.params.showCoordinates = true;
-            } else {
-                $('#chkCoordinates').button("option", "label", "montrer");
-                pv.params.showCoordinates = false;
+        }
+    });
+
+    $("#pointMaterialSelect").selectmenu({
+        select: function(event, data) {
+            var value = data.item.value;
+            if(value === "RGB"){
+                pv.params.pointColorType = Potree.PointColorType.RGB;
+            }else if(value === "Color"){
+                pv.params.pointColorType = Potree.PointColorType.COLOR;
+            }else if(value === "Height"){
+                pv.params.pointColorType = Potree.PointColorType.HEIGHT;
+            }else if(value === "Intensity"){
+                pv.params.pointColorType = Potree.PointColorType.INTENSITY;
+            }else if(value === "Intensity Gradient"){
+                pv.params.pointColorType = Potree.PointColorType.INTENSITY_GRADIENT;
+            }else if(value === "Classification"){
+                pv.params.pointColorType = Potree.PointColorType.CLASSIFICATION;
+            }else if(value === "Return Number"){
+                pv.params.pointColorType = Potree.PointColorType.RETURN_NUMBER;
+            }else if(value === "Source"){
+                pv.params.pointColorType = Potree.PointColorType.SOURCE;
+            }else if(value === "Octree Depth"){
+                pv.params.pointColorType = Potree.PointColorType.OCTREE_DEPTH;
+            }else if(value === "Point Index"){
+                pv.params.pointColorType = Potree.PointColorType.POINT_INDEX;
             }
-        });
+        }
+    });
 
-        //Navigation buttons
-        $("#radioFPSControl").button();
-        $('#radioFPSControl').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.utils.useFPSControls();
+    $("#pointQualitySelect").selectmenu({
+        select: function(event, data) {
+            pv.params.quality = data.item.value;
+        }
+    });
+
+    $("#pointClipSelect").selectmenu({
+        select: function(event, data) {
+            var value = data.item.value;
+            if(value === "No Clipping"){
+                pv.params.clipMode = Potree.ClipMode.DISABLED;
+            }else if(value === "Clip Outside"){
+                pv.params.clipMode = Potree.ClipMode.CLIP_OUTSIDE;
+            }else if(value === "Highlight Inside"){
+               pv.params. clipMode = Potree.ClipMode.HIGHLIGHT_INSIDE;
             }
-        });
+        }
+    });
 
-        $("#radioOrbitControl").button();
-        $('#radioOrbitControl').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.utils.useOrbitControls();
-            }
-        });
+// Checkboxes
+    $("#chkSkybox").button({
+        label: null,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        },
+        text: false
+    });
+    
+    $('#chkSkybox').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.params.showSkybox = true;
+        } else {
+            pv.params.showSkybox = false;
+            this.blur();
+        }
+    });
 
-        $("#radioFlyMode").buttonset();
-        
-        $("#btnFocus").button();
-        $("#btnFocus").bind('click', function(){
-            pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
-        });        
+    $("#chkStats").button({
+        text: false,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        }
+    });
+    $('#chkStats').bind('change', function(){
+        if($(this).is(':checked')){
+            $('#chkStats').button("option", "label", "masquer");
+            pv.params.showStats = true;
 
-        $("#btnFlipYZ" ).button();
-        $("#btnFlipYZ").bind('click', function(){
-            pv.utils.flipYZ();
-        });
+        } else {
+            $('#chkStats').button("option", "label", "montrer");
+            this.blur();
+            pv.params.showStats = false;
+        }
+    });        
 
-        $( "#radioDistanceMeasure" ).button();
-        $('#radioDistanceMeasure').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.scene3D.measuringTool.setEnabled(true);
-            }
-        });
-        
-        $( "#radioAreaMeasure" ).button();
-        $('#radioAreaMeasure').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.scene3D.areaTool.setEnabled(true);
-            }
-        });
+    $("#chkBBox").button({
+        text: false,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        }
+    });
+    $('#chkBBox').bind('change', function(){
+        if($(this).is(':checked')){
+            $('#chkBBox').button("option", "label", "masquer");
+            pv.params.showBoundingBox = true;
+        } else {
+            $('#chkBBox').button("option", "label", "montrer");
+            pv.params.showBoundingBox = false;
+            this.blur();
+        }
+    });        
 
-        $( "#radioVolumeMeasure" ).button();
-        $('#radioVolumeMeasure').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.scene3D.volumeTool.startInsertion(); 
-            }
-        });
+    $("#chkCoordinates").button({
+        text: false,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        }
+    });
+    $('#chkCoordinates').bind('change', function(){
+        if($(this).is(':checked')){
+            $('#chkCoordinates').button("option", "label", "masquer");
+            pv.params.showCoordinates = true;
+        } else {
+            $('#chkCoordinates').button("option", "label", "montrer");
+            pv.params.showCoordinates = false;
+            this.blur();
+        }
+    });
 
-        $( "#radioProfile" ).button();
-        $('#radioProfile').bind('change', function(){
-            if($(this).is(':checked')){
-                $("#profileContainer").slideDown(600);
-                pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
-            } else {
-                $("#profileContainer").slideUp(600);
-            }
-        });
+    //Navigation buttons
+    $("#radioFPSControl").button();
+    $('#radioFPSControl').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.useFPSControls();
+            $("#moveSpeedCursor").show();
+        }
+    });
+    
+    // Moving speed slider
+     $("#moveSpeedSlider").slider({
+        min: pv.params.constrolMoveSpeedFactorMin,
+        max: pv.params.constrolMoveSpeedFactorMax,
+        step: pv.params.constrolMoveSpeedFactorStep,
+        value: pv.params.constrolMoveSpeedFactor,
+        slide: function( event, ui ) {
+            $("#moveSpeed").val(ui.value);
+            pv.scene3D.controls.moveSpeed = ui.value;
+            pv.scene3D.controls.zoomSpeed = ui.value / 20;
+        }
+    });
+    
+    $("#moveSpeed").change(function() {
+        $("#moveSpeedSlider").slider("value", parseInt(this.value));
+    });
 
-        $( "#radioClip" ).button();
-        $('#radioClip').bind('change', function(){
-            if($(this).is(':checked')){
-                pv.scene3D.volumeTool.startInsertion({clip: true});
-            }
-        });
+    $("#moveSpeedSlider .ui-slider-handle").unbind('keydown');
+    
+    // Profile width slider
+    $("#profileWidthSlider").slider({
+        min: pv.params.profileWidthMin,
+        max: pv.params.profileWidthMax,
+        step: pv.params.profileWidthStep,
+        value: pv.params.profileWidth,
+        slide: function( event, ui ) {
+            $("#profileWidth").val(ui.value);
+            pv.scene3D.profileTool.profiles[0].setWidth(ui.value);
+            pv.scene3D.profileTool.profiles[0].update();
+            pv.profile.draw();
+        }
+    });
 
-        $("#toolsDiv").buttonset();
+    $("#profileWidthSlider .ui-slider-handle").unbind('keydown');
 
-        $("#btnResetUI").button({
-            icons: {
-                primary: 'ui-icon-arrowrefresh-1-s'
-            },
-            text: false
-        });
-        $('#btnResetUI').bind('click', function(){
-            pv.ui.resetUIToDefault();
-        });
+    $("#radioOrbitControl").button();
+    $('#radioOrbitControl').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.useOrbitControls();
+        }
+    });
+
+    $("#radioFlyMode").buttonset();
+    
+    $("#btnFocus").button();
+    $("#btnFocus").bind('click', function(){
+        pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
+        $("#btnFocus").blur();
+    });        
+
+    $("#btnFlipYZ" ).button();
+    $("#btnFlipYZ").bind('click', function(){
+        pv.utils.flipYZ();
+        $("#btnFlipYZ").blur();
+    });
+
+    $( "#radioDistanceMeasure" ).button();
+    $('#radioDistanceMeasure').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.measuringTool.setEnabled(true);
+        }
+    });
+    
+    $( "#radioAreaMeasure" ).button();
+    $('#radioAreaMeasure').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.areaTool.setEnabled(true);
+        }
+    });
+
+    $( "#radioVolumeMeasure" ).button();
+    $('#radioVolumeMeasure').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.volumeTool.startInsertion(); 
+        }
+    });
+
+    $( "#radioProfile" ).button();
+    $('#radioProfile').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            $("#profileContainer").slideDown(600);
+            pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
+            $('#profileWidthCursor').show();
+            pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
+            $("#renderArea").dblclick(function(){
+                pv.scene3D.profileTool.finishInsertion();
+                pv.scene3D.profileTool.enabled = false;
+            });
+            
+        } else {
+            $("#profileContainer").slideUp(600);
+            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
+        }
+    });
+
+    $( "#radioClip" ).button();
+    $('#radioClip').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.volumeTool.startInsertion({clip: true});
+        }
+    });
+
+    $("#toolsDiv").buttonset();
+
+    $("#btnResetUI").button({
+        icons: {
+            primary: 'ui-icon-arrowrefresh-1-s'
+        },
+        text: false
+    });
+    $('#btnResetUI').bind('click', function(){
+        pv.ui.resetUIToDefault();
     });
 
     $("#mapBox").hide();
     $("#profileContainer").hide();
+    $("#profileWidthCursor").hide();
 
     // TODO: Style stats and move to dedicated place!
     pv.ui.stats = new Stats();
@@ -462,9 +523,13 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.top = '0px';
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
+    
+    pv.ui.resetUIToDefault ();
+
 };
 
 pv.ui.resetUIToDefault = function (){
+
 
     $("#toolboxTabs" );
     
@@ -476,6 +541,16 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#showMapButton").hide();
     }
+    
+    if (pv.params.showFlipYZ) {
+        $("#btnFlipYZ").show();
+    } else {
+        $("#btnFlipYZ").hide();
+    }
+    
+    // Navigation
+    $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
+    $("#profileWidth").val(pv.params.profileWidth);
 
     // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();
@@ -499,6 +574,8 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();
+    
+    $("#profileWidth").val(pv.params.profile_width).change();
 
     $("select").selectmenu("refresh");
 };

@@ -176,9 +176,9 @@ pv.utils.useOrbitControls = function (){
     pv.scene3D.controls = pv.scene3D.orbitControls;
     pv.scene3D.controls.enabled = true;
     
-    if(pv.scene3D.pointcloud){
-        pv.scene3D.controls.target.copy(pv.scene3D.pointcloud.boundingSphere.center.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld));
-    }
+    // if(pv.scene3D.pointcloud){
+        // pv.scene3D.controls.target.copy(pv.scene3D.pointcloud.boundingSphere.center.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld));
+    // }
 };
 
 pv.utils.getMousePointCloudIntersection = function (){
@@ -448,3 +448,16 @@ pv.utils.loop = function () {
     }
 
 };
+
+/***
+* Disable all controls 
+*/
+pv.utils.disableControls = function () {
+    
+    pv.scene3D.profileTool.enabled = false;
+    pv.scene3D.volumeTool.enabled = false;
+    pv.scene3D.measuringTool.setEnabled(false);
+    pv.scene3D.areaTool.setEnabled(false);
+    pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
+    
+}

@@ -22,6 +22,10 @@ if (typeof PointScope === "undefined") {
         /**
          * The Potree Viewer 3D scene
          */
-        scene3D: {}
+        scene3D: {},
+        /**
+         * The Potree Viewer Profile tools
+         */
+        profile: {}
     };
 }

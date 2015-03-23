@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>Potree Viewer Prototype</title>
+    
+    <!-- Dygraph -->
+    <script src="static/libs/dygraph/dygraph-combined-dev.js"></script>
 
     <!-- Jquery -->
     <link rel="stylesheet" href="static/libs/jquery-ui/jquery-ui.min.css">
@@ -12,7 +15,7 @@
     <!-- Openlayers TO BE SET AS SUMBODULE LATER-->
     <link rel="stylesheet" href="static/libs/ol3/css/ol.css" type="text/css">
     <script src="static/libs/ol3/build/ol.js" type="text/javascript"></script>
-
+    
     <!-- Three & Potree -->
     <script src="static/libs/potree/libs/three.js/build/three.js"></script>
     <script src="static/libs/potree/libs/proj4/proj4.js"></script>
@@ -31,6 +34,7 @@
     <script src="static/js/map.js"></script>
     <script src="static/js/potreefunctions.js"></script>
     <script src="static/js/viewer.js"></script>
+    <script src="static/js/profile.js"></script>
 
     <!--Translation: i18next-->
     <script src="static/libs/i18next/i18next.js"></script>
@@ -82,7 +86,20 @@
                         <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
                         <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
                         <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=32 height=32 data-i18n="[title]nav.show_2d_map"></button>
-                   </div>
+                    </div>
+                   <!-- Let the user choose the flying speed  -->
+                    <table id="moveSpeedCursor" class="guiTable">
+                        <col class="leftCol">
+                        <col class="middleCol">
+                        <col class="rightCol">
+                        <tr>
+                            <td data-i18n="render.move_speed"></td>
+                            <td><input id="moveSpeed" class="inputDefault"></td>
+                            <td><div id="moveSpeedSlider"></div></td>
+                        </tr>
+                    </table>
+                   
+                   
                 </div>
                 <!-- Rendering options tab: Max point number, point size, etc.. -->
                 <div id="RenderOptions">
@@ -205,6 +222,17 @@
 
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
+                   <!-- Let the user choose the profile width  -->
+                    <table id="profileWidthCursor" class="guiTable">
+                        <col class="leftCol">
+                        <col class="middleCol">
+                        <col class="rightCol">
+                        <tr>
+                            <td data-i18n="tools.profile_width"></td>
+                            <td><input id="profileWidth" class="inputDefault"></td>
+                            <td><div id="profileWidthSlider"></div></td>
+                        </tr>
+                    </table>
                 </div>
                 <!-- Other options (language, pv.scene3D.scene, ...) -->
                 <div id="Parameters">
@@ -263,6 +291,7 @@
         }
         </script>
         <script type="text/javascript">
+            pv.ui.loaded = false;
             // start the engine...
             pv.map2D.initMapView();
             pv.scene3D.initThree();

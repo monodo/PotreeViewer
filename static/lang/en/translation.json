@@ -45,7 +45,8 @@
         "qual_splats": "Splats",
         "clip_no": "No clip",
         "clip_outside": "Clip outside",
-        "clip_inside": "Clip inside"
+        "clip_inside": "Clip inside",
+        "move_speed": "Moving speed"
         
     },
     "disp": {
@@ -65,6 +66,7 @@
         "surface_tt": "Surface measure",
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
-        "clip_tt": "Clip volume"
+        "clip_tt": "Clip volume",
+        "profile_width": "Profile width"
     }
 }
