@@ -252,7 +252,6 @@ pv.ui.initGUI = function (){
 
         if (val == pv.params.defaultPointSizeType){
             option.setAttribute("selected", "selected");
-            console.log("ici");
         }
         $("#pointSizeTypeSelect").append(option);
     }
@@ -288,9 +287,21 @@ pv.ui.initGUI = function (){
 
     $("#pointQualitySelect").selectmenu({
         select: function(event, data) {
+            console.log(data.item);
             pv.params.quality = data.item.value;
         }
     });
+        
+    for (var key in pv.params.pointQualityTypes){
+        var val = pv.params.pointQualityTypes[key];
+        option = new Option(val, key);
+        option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase())
+        if (val == pv.params.defaultPointQuality){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointQualitySelect").append(option);
+    }
+    $("#pointQualitySelect").selectmenu( "refresh" );
 
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {

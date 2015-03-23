@@ -41,7 +41,7 @@
         "mat_point_index": "Index du point",
         "qual_normal": "Normale",
         "qual_circles": "Cercles",
-        "qual_interpolate": "Interpolation",
+        "qual_interpolation": "Interpolation",
         "qual_splats": "Splats",
         "clip_no": "Pas de clip",
         "clip_outside": "Extérieur",

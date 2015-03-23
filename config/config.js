@@ -74,9 +74,16 @@ pv.params = {
         'en': 'En', 
         'de': 'De'},
     'pointSizeTypes': {
-        'Fixed': 0,
-        'Attenuated': 1,
-        'Adaptive': 2
+        'Fixed': Potree.PointSizeType.FIXED,
+        'Attenuated': Potree.PointSizeType.ATTENUATED,
+        'Adaptive': Potree.PointSizeType.ADAPTIVE
     }, 
-    'defaultPointSizeType': 2
+    'defaultPointSizeType': Potree.PointSizeType.ADAPTIVE,
+    'defaultPointQuality': 'Interpolation',
+    'pointQualityTypes': {
+        'Normal': 'Normal',
+        'Circles': 'Circles',
+        'Interpolation': 'Interpolation',
+        'Splats': 'Splats'
+    }
 };
