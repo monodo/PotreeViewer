@@ -484,10 +484,12 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
             $("#renderArea").dblclick(function(){
                 pv.scene3D.profileTool.finishInsertion();
+                pv.scene3D.profileTool.enabled = false;
             });
-
+            
         } else {
             $("#profileContainer").slideUp(600);
+            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
 

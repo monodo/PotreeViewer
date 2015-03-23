@@ -3,7 +3,7 @@
 ***/
 pv.profile.getProfilePoints = function(){
 
-    var profile = pv.scene3D.profileTool.profiles[0];
+    var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, 2);
     var data = [];
     var distance = 0;
@@ -44,7 +44,7 @@ pv.profile.draw = function () {
         return;
     }
 
-    var chart = new Dygraph(
+    pv.profile.chart = new Dygraph(
         "profileContainer",
         data,
         {
