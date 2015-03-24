@@ -57,6 +57,7 @@ pv.scene3D.initThree = function (){
     pv.scene3D.scene.add(grid);
 
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.areaTool = new Potree.AreaTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.volumeTool = new Potree.VolumeTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
@@ -423,6 +424,13 @@ pv.ui.initGUI = function (){
             pv.utils.useOrbitControls();
         }
     });
+    
+    $("#radioEarthControl").button();
+    $('#radioEarthControl').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.useEarthControls();
+        }
+    });
 
     $("#radioFlyMode").buttonset();
 
@@ -443,6 +451,15 @@ pv.ui.initGUI = function (){
         if($(this).is(':checked')){
             pv.utils.disableControls();
             pv.scene3D.measuringTool.setEnabled(true);
+        }
+    });
+    
+    $( "#radioAngleMeasure" ).button();
+    $('#radioAngleMeasure').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.disableControls();
+            console.log("angle");
+            pv.scene3D.angleTool.setEnabled(true);
         }
     });
     

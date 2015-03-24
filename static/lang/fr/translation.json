@@ -16,7 +16,8 @@
         "orbit_control_tt": "Navigation en mode vol",
         "zoom_to_center": "Zoomer sur le centre du nuage",
         "flip_xz": "Inverser X et Z",
-        "show_2d_map": "Montrer la carte 2D"
+        "show_2d_map": "Montrer la carte 2D",
+        "earth_control_tt": "Earth controls"
     },
     "render": {
         "nb_max_pts": "Nb points max.", 
@@ -64,6 +65,7 @@
     "tools": {
         "distance_tt": "Mesurer une distance",
         "surface_tt": "Mesurer une surface",
+        "angle_tt": "Mesurer un angle",
         "volume_tt": "Mesurer un volume",
         "profile_tt": "Mesurer un profil",
         "clip_tt": "Sélectionner des points par un volume",

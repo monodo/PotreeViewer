@@ -181,6 +181,17 @@ pv.utils.useOrbitControls = function (){
     // }
 };
 
+pv.utils.useEarthControls = function() {
+    if(pv.scene3D.controls){
+        pv.scene3D.controls.enabled = false;
+    }
+    if (!pv.scene3D.earthControls){
+        pv.scene3D.earthControls = new THREE.EarthControls(pv.scene3D.camera, pv.scene3D.renderer, pv.scene3D.scenePointCloud);
+    }
+    pv.scene3D.controls = pv.scene3D.earthControls;
+    pv.scene3D.controls.enabled = true;
+}
+
 pv.utils.getMousePointCloudIntersection = function (){
 
     var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 0.5 );
@@ -293,6 +304,7 @@ pv.scene3D.render = function(){
 
     pv.scene3D.renderer.clearDepth();
     pv.scene3D.measuringTool.render();
+    pv.scene3D.angleTool.render();
     pv.scene3D.areaTool.render();
     transformationTool.render();
 };
@@ -415,6 +427,7 @@ function renderHighQuality(){
 
         pv.scene3D.renderer.clearDepth();
         pv.scene3D.measuringTool.render();
+        pv.scene3D.angleTool.render();
         pv.scene3D.areaTool.render();
         transformationTool.render();
 
