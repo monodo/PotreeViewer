@@ -280,7 +280,7 @@ pv.ui.initGUI = function (){
         
     for (var key in pv.params.pointQualityTypes){
         var val = pv.params.pointQualityTypes[key];
-        option = new Option(val, key);
+        option = new Option(key, val);
         option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase())
         if (val == pv.params.defaultPointQuality){
             option.setAttribute("selected", "selected");
@@ -291,13 +291,13 @@ pv.ui.initGUI = function (){
 
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {
-            pv.params.clipMode = parseInt(data.item.value);
+            pv.params.clipMode = data.item.value;
         }
     });
 
     for (var key in pv.params.pointClipTypes){
         var val = pv.params.pointClipTypes[key];
-        option = new Option(val, key);
+        option = new Option(key, val);
         option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase());
         if (val == parseInt(pv.params.defaultPointClip)){
             option.setAttribute("selected", "selected");
