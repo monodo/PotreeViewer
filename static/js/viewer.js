@@ -99,13 +99,11 @@ pv.ui.initGUI = function (){
         lng: pv.params.defaultLanguage,
         resGetPath: 'static/lang/__lng__/__ns__.json',
         preload: langList,
-        getAsync: true,
+        getAsync: true
         }, function(t) { 
         // Start translation once everything is loaded
         pv.ui.translate();
     });
-
-    pv.ui.lblCoordinates = $("#lblCoordinates");
 
     // Potree Viewer Jquery initialization
 
@@ -259,7 +257,7 @@ pv.ui.initGUI = function (){
 
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
-            pv.params.pointColorType = parseInt(data.item.value);;
+            pv.params.pointColorType = parseInt(data.item.value);
         }
     });
 
@@ -300,7 +298,7 @@ pv.ui.initGUI = function (){
     for (var key in pv.params.pointClipTypes){
         var val = pv.params.pointClipTypes[key];
         option = new Option(val, key);
-        option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase())
+        option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase());
         if (val == parseInt(pv.params.defaultPointClip)){
             option.setAttribute("selected", "selected");
         }
@@ -371,6 +369,7 @@ pv.ui.initGUI = function (){
         if($(this).is(':checked')){
             $('#chkCoordinates').button("option", "label", "masquer");
             pv.params.showCoordinates = true;
+
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;

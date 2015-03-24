@@ -182,37 +182,24 @@ pv.utils.useOrbitControls = function (){
 };
 
 pv.utils.getMousePointCloudIntersection = function (){
-    var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 10 );
+
+    var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 0.5 );
     vector.unproject(pv.scene3D.camera);
     var direction = vector.sub(pv.scene3D.camera.position).normalize();
     var ray = new THREE.Ray(pv.scene3D.camera.position, direction);
-
-    var pointClouds = [];
-
-    pv.scene3D.scene.traverse(function(object){
-        if(object instanceof Potree.PointCloudOctree){
-            pointClouds.push(object);
-        }
-    });
-
     var closestPoint = null;
     var closestPointDistance = null;
-    for(var i = 0; i < pointClouds.length; i++){
-        var pointcloud = pointClouds[i];
-        var point = pointcloud.pick(pv.scene3D.renderer, pv.scene3D.camera, ray, {accuracy: 1});
-
-        if(!point){
-            continue;
-        }
-
-        var distance = pv.scene3D.camera.position.distanceTo(point.position);
-
-        if(!closestPoint || distance < closestPointDistance){
-            closestPoint = point;
-            closestPointDistance = distance;
-        }
+    var pointcloud = pv.scene3D.pointcloud;
+    var point = pointcloud.pick(pv.scene3D.renderer, pv.scene3D.camera, ray, {accuracy: 10});
+    if (!point) {
+        return;
     }
 
+    var distance = pv.scene3D.camera.position.distanceTo(point.position);
+    if(!closestPoint || distance < closestPointDistance){
+        closestPoint = point;
+        closestPointDistance = distance;
+    }
     return closestPoint ? closestPoint.position : null;
 };
 
@@ -226,22 +213,20 @@ pv.utils.onMouseMove = function (event){
  */
 pv.utils.updateCoordinatePicking = function (){
     if(pv.params.showCoordinates){
-        // TODO: Fix this getMousePointCloudIntersection function
         var I = pv.utils.getMousePointCloudIntersection();
         if(I){
             var sceneCoordinates = I;
-            var geoCoordinates = pv.toGeo(sceneCoordinates);
+            var geoCoordinates = pv.utils.toGeo(sceneCoordinates);
             
             var msg = "EPSG:21781: " + geoCoordinates.x.toFixed(2) + " / ";
             msg += geoCoordinates.y.toFixed(2) + " / ";
             msg += geoCoordinates.z.toFixed(2);
-            msg += "  -  sceneCoordinates: " + sceneCoordinates.x.toFixed(2) + " / ";
-            msg += sceneCoordinates.y.toFixed(2) + " / ";
-
-            pv.ui.lblCoordinates.innerHTML = msg;
+            // msg += "  -  sceneCoordinates: " + sceneCoordinates.x.toFixed(2) + " / ";
+            // msg += sceneCoordinates.y.toFixed(2) + " / ";
+            $('#lblCoordinates').html(msg)
         }
     }else{
-        pv.ui.lblCoordinates.innerHTML = "";
+        $('#lblCoordinates').html('')
     }
 };
 

@@ -133,6 +133,18 @@ select {
     width: 100px !important;
 }
 
+/*Coordinates display*/
+.lblCoordinates {
+    position: absolute;
+    right: 400;
+    top: 10;
+    width: 300px;
+    height: 25px;
+    color: white;
+    font-size: 12px;
+    background-color: #E6E6E6;
+}
+
 /*Toolbox default style*/
 .inputDefault{
     width: 25px;
