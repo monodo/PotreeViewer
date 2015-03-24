@@ -25,6 +25,7 @@
     <script src="static/libs/potree/build/js/laslaz.js"></script>
     <script src="static/libs/potree/libs/plasio/vendor/bluebird.js"></script>
     <script src="static/libs/potree/libs/other/OrbitControls.js"></script>
+    <script src="static/libs/potree/src/EarthControls.js"></script>
     <script src="static/libs/potree/libs/other/stats.min.js"></script>
 
     <!-- Viewer -->
@@ -82,11 +83,13 @@
                     <span id="radioFlyMode">
                         <input type="radio" id="radioFPSControl" name="radioFlyMode">
                         <label for="radioFPSControl"><img src="static/libs/potree/resources/icons/fps_controls.png" data-i18n="[title]nav.fps_control_tt"/></label>
-                        
+
                         <input type="radio" id="radioOrbitControl" checked="checked" name="radioFlyMode">
                         <label for="radioOrbitControl"><img src="static/libs/potree/resources/icons/orbit_controls.png" data-i18n="[title]nav.orbit_control_tt"/></label>
+                        <input type="radio" id="radioEarthControl" name="radioFlyMode">
+                        <label for="radioEarthControl"><img src="static/libs/potree/resources/icons/earth_controls_1.png" data-i18n="[title]nav.earth_control_tt"/></label>
                     </span>
-                    </span>
+                    <span>
                     <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
                     <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
                     <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=32 height=32 data-i18n="[title]nav.show_2d_map"></button>
@@ -191,6 +194,8 @@
                         <input type="radio" id="radioDistanceMeasure" name="toolsDiv"><label for="radioDistanceMeasure"><img src="static/libs/potree/resources/icons/distance.png" width=32 height=32 data-i18n="[title]tools.distance_tt"/></label>
 
                         <input type="radio" id="radioAreaMeasure" name="toolsDiv"><label for="radioAreaMeasure"><img src="static/libs/potree/resources/icons/area.png" width=32 height=32 data-i18n="[title]tools.surface_tt"/></label>
+                        
+                        <input type="radio" id="radioAngleMeasure" name="toolsDiv"><label for="radioAngleMeasure"><img src="static/libs/potree/resources/icons/angle.png" width=32 height=32 data-i18n="[title]tools.angle_tt"/></label>
 
                         <input type="radio" id="radioVolumeMeasure" name="toolsDiv"><label for="radioVolumeMeasure"><img src="static/libs/potree/resources/icons/volume.png" width=32 height=32 data-i18n="[title]tools.volume_tt"/></label>
 

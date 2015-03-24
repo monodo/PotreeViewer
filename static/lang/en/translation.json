@@ -16,7 +16,8 @@
         "orbit_control_tt": "Fly",
         "zoom_to_center": "Zoom to cloud center",
         "flip_xz": "Flip X and Y axis",
-        "show_2d_map": "Show 2D map"
+        "show_2d_map": "Show 2D map",
+        "earth_control_tt": "Earth controls"
     },
     "render": {
         "nb_max_pts": "Nb points max.", 
@@ -63,6 +64,7 @@
     "tools": {
         "distance_tt": "Distance measure",
         "surface_tt": "Surface measure",
+        "angle_tt": "Angle measure",
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
         "clip_tt": "Clip volume",
