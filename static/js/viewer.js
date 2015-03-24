@@ -51,7 +51,6 @@ pv.scene3D.initThree = function (){
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
-        pv.ui.initGUI();
     });
 
     var grid = Potree.utils.createGrid(5, 5, 2);
@@ -100,13 +99,11 @@ pv.ui.initGUI = function (){
         lng: pv.params.defaultLanguage,
         resGetPath: 'static/lang/__lng__/__ns__.json',
         preload: langList,
-        getAsync: false
+        getAsync: true
         }, function(t) { 
         // Start translation once everything is loaded
         pv.ui.translate();
     });
-
-    pv.ui.lblCoordinates = $("#lblCoordinates");
 
     // Potree Viewer Jquery initialization
 
@@ -115,10 +112,6 @@ pv.ui.initGUI = function (){
         active: 0
     });
 
-    $("#toolboxTabs").keydown(function(e){
-         e.preventDefault();
-    });
-    
     // Map
     $("#mapBox").resizable({
         minHeight: 15,
@@ -136,22 +129,16 @@ pv.ui.initGUI = function (){
         }
     });
 
-    var i = 0;
-    var defaultOption;
     $.each(pv.params.availableLanguages, function(val, text) {
-        i +=1 ;
-        if (i == 1) {
-            var defaultOption = new Option(text, val);
-        }
-        $( "#languageSelect" ).append(new Option(text, val));
+        $("#languageSelect").append(new Option(text, val));
     });
-    $( "#languageSelect" ).val(defaultOption);
+    $("#languageSelect option[value='" + pv.params.defaultLanguage + "']").prop("selected", "selected");
+    $("#languageSelect").selectmenu( "refresh" );
 
     // pv.scene3D.scene selector 
     $( "#sceneSelect" ).selectmenu({
         select: function( event, data ) {
             var value = data.item.value;
-            // do something
         }
     });
 
@@ -210,8 +197,6 @@ pv.ui.initGUI = function (){
             pv.params.pointCountTarget = ui.value;
         }
     });
-    
-    $("#pointNumberSlider .ui-slider-handle").unbind('keydown');
 
     $("#pointNumber").change(function() {
         $("#pointNumberSlider").slider("value", parseInt(this.value));
@@ -228,8 +213,6 @@ pv.ui.initGUI = function (){
             pv.params.pointSize = ui.value;
         }
     });
-
-    $("#pointSizeSlider .ui-slider-handle").unbind('keydown');
     
     $("#pointSize").change(function() {
         $("#pointSizeSlider").slider("value", parseInt(this.value));
@@ -246,8 +229,6 @@ pv.ui.initGUI = function (){
             pv.params.opacity = ui.value;
         }
     });
-
-    $("#pointOpacitySlider .ui-slider-handle").unbind('keydown');
     
     $("#pointOpacity").change(function() {
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
@@ -258,62 +239,72 @@ pv.ui.initGUI = function (){
     // Point size type
     $("#pointSizeTypeSelect").selectmenu({
         select: function( event, data ) {
-            var value = data.item.value;
-            if(value === "Fixed"){
-               pv.params.pointSizeType = Potree.PointSizeType.FIXED;
-            }else if(value === "Attenuated"){
-                pv.params.pointSizeType = Potree.PointSizeType.ATTENUATED;
-            }else if(value === "Adaptive"){
-                pv.params.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-            }
+            pv.params.pointSizeType = parseInt(data.item.value);
         }
     });
+    
+    for (var key in pv.params.pointSizeTypes){
+        var val = pv.params.pointSizeTypes[key];
+        var option = new Option(key, val);
+        option.setAttribute("data-i18n", "render.qual_" + key); 
+        if (val == pv.params.defaultPointSizeType){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointSizeTypeSelect").append(option);
+    }
+
+    $("#pointSizeTypeSelect").selectmenu( "refresh" );
 
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
-            var value = data.item.value;
-            if(value === "RGB"){
-                pv.params.pointColorType = Potree.PointColorType.RGB;
-            }else if(value === "Color"){
-                pv.params.pointColorType = Potree.PointColorType.COLOR;
-            }else if(value === "Height"){
-                pv.params.pointColorType = Potree.PointColorType.HEIGHT;
-            }else if(value === "Intensity"){
-                pv.params.pointColorType = Potree.PointColorType.INTENSITY;
-            }else if(value === "Intensity Gradient"){
-                pv.params.pointColorType = Potree.PointColorType.INTENSITY_GRADIENT;
-            }else if(value === "Classification"){
-                pv.params.pointColorType = Potree.PointColorType.CLASSIFICATION;
-            }else if(value === "Return Number"){
-                pv.params.pointColorType = Potree.PointColorType.RETURN_NUMBER;
-            }else if(value === "Source"){
-                pv.params.pointColorType = Potree.PointColorType.SOURCE;
-            }else if(value === "Octree Depth"){
-                pv.params.pointColorType = Potree.PointColorType.OCTREE_DEPTH;
-            }else if(value === "Point Index"){
-                pv.params.pointColorType = Potree.PointColorType.POINT_INDEX;
-            }
+            pv.params.pointColorType = parseInt(data.item.value);
         }
     });
+
+    for (var key in pv.params.pointMaterialTypes){
+        var val = pv.params.pointMaterialTypes[key];
+        var option = new Option(key, val);
+        option.setAttribute("data-i18n", "render.mat_" + key); 
+        if (val == pv.params.defaultPointMaterial){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointMaterialSelect").append(option);
+    }
+    $("#pointMaterialSelect").selectmenu( "refresh" );
 
     $("#pointQualitySelect").selectmenu({
         select: function(event, data) {
             pv.params.quality = data.item.value;
         }
     });
+        
+    for (var key in pv.params.pointQualityTypes){
+        var val = pv.params.pointQualityTypes[key];
+        option = new Option(val, key);
+        option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase())
+        if (val == pv.params.defaultPointQuality){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointQualitySelect").append(option);
+    }
+    $("#pointQualitySelect").selectmenu( "refresh" );
 
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {
-            var value = data.item.value;
-            if(value === "No Clipping"){
-                pv.params.clipMode = Potree.ClipMode.DISABLED;
-            }else if(value === "Clip Outside"){
-                pv.params.clipMode = Potree.ClipMode.CLIP_OUTSIDE;
-            }else if(value === "Highlight Inside"){
-               pv.params. clipMode = Potree.ClipMode.HIGHLIGHT_INSIDE;
-            }
+            pv.params.clipMode = parseInt(data.item.value);
         }
     });
+
+    for (var key in pv.params.pointClipTypes){
+        var val = pv.params.pointClipTypes[key];
+        option = new Option(val, key);
+        option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase());
+        if (val == parseInt(pv.params.defaultPointClip)){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointClipSelect").append(option);
+    }
+    $("#pointClipSelect").selectmenu( "refresh" );
 
 // Checkboxes
     $("#chkSkybox").button({
@@ -378,6 +369,7 @@ pv.ui.initGUI = function (){
         if($(this).is(':checked')){
             $('#chkCoordinates').button("option", "label", "masquer");
             pv.params.showCoordinates = true;
+
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;
@@ -410,8 +402,6 @@ pv.ui.initGUI = function (){
     $("#moveSpeed").change(function() {
         $("#moveSpeedSlider").slider("value", parseInt(this.value));
     });
-
-    $("#moveSpeedSlider .ui-slider-handle").unbind('keydown');
     
     // Profile width slider
     $("#profileWidthSlider").slider({
@@ -427,8 +417,6 @@ pv.ui.initGUI = function (){
         }
     });
 
-    $("#profileWidthSlider .ui-slider-handle").unbind('keydown');
-
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
         if($(this).is(':checked')){
@@ -437,7 +425,7 @@ pv.ui.initGUI = function (){
     });
 
     $("#radioFlyMode").buttonset();
-    
+
     $("#btnFocus").button();
     $("#btnFocus").bind('click', function(){
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
@@ -524,15 +512,27 @@ pv.ui.initGUI = function (){
     pv.ui.stats.domElement.style.margin = '5px';
     document.body.appendChild(pv.ui.stats.domElement );
     
+    // Prevent default keydown events
+    $('#toolbox').keydown(function (event) {
+        $('#renderArea').focus();
+        return false;
+    });
+    
+    $('.ui-tabs-anchor').keydown(function (event) {
+        $('#renderArea').focus();
+        return false;
+    });
+    $(".ui-slider-handle").unbind('keydown');
+    $(".ui-selectmenu-button").unbind('keydown');
+    $(".ui-button").unbind('keydown');
+    $(".ui-widget").unbind('keydown');
+
     pv.ui.resetUIToDefault ();
 
 };
 
 pv.ui.resetUIToDefault = function (){
 
-
-    $("#toolboxTabs" );
-    
     $("#mapBox").hide();
     $( "#languageSelect").val(pv.params.defaultLanguage);
     $( "#languageSelect").trigger("change");
@@ -577,12 +577,14 @@ pv.ui.resetUIToDefault = function (){
     
     $("#profileWidth").val(pv.params.profile_width).change();
 
-    $("select").selectmenu("refresh");
 };
 // set here all translation operations
 
 pv.ui.translate = function() {
 
     $("#toolboxTabs").i18n();
-
+    $("#pointSizeTypeSelect").selectmenu( "refresh" );
+    $("#pointMaterialSelect").selectmenu( "refresh" );
+    $("#pointQualitySelect").selectmenu( "refresh" );
+    $("#pointClipSelect").selectmenu( "refresh" );
 };
