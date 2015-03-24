@@ -73,17 +73,35 @@ pv.params = {
         'fr': 'Fr',
         'en': 'En', 
         'de': 'De'},
-    'pointSizeTypes': {
-        'Fixed': Potree.PointSizeType.FIXED,
-        'Attenuated': Potree.PointSizeType.ATTENUATED,
-        'Adaptive': Potree.PointSizeType.ADAPTIVE
-    }, 
     'defaultPointSizeType': Potree.PointSizeType.ADAPTIVE,
+    'pointSizeTypes': {
+        'fixed': Potree.PointSizeType.FIXED,
+        'attenuated': Potree.PointSizeType.ATTENUATED,
+        'adaptive': Potree.PointSizeType.ADAPTIVE
+    }, 
     'defaultPointQuality': 'Interpolation',
     'pointQualityTypes': {
         'Normal': 'Normal',
         'Circles': 'Circles',
         'Interpolation': 'Interpolation',
         'Splats': 'Splats'
+    },
+    'defaultPointMaterial':Potree.PointColorType.RGB,
+    'pointMaterialTypes': {
+        'rgb': Potree.PointColorType.RGB,
+        'color': Potree.PointColorType.COLOR,
+        'height': Potree.PointColorType.HEIGHT,
+        'intensity': Potree.PointColorType.INTENSITY,
+        'intensity_gradient': Potree.PointColorType.INTENSITY_GRADIENT,
+        'classification': Potree.PointColorType.CLASSIFICATION,
+        'return_number': Potree.PointColorType.RETURN_NUMBER,
+        'octree_depth': Potree.PointColorType.OCTREE_DEPTH,
+        'point_index': Potree.PointColorType.POINT_INDEX
+    },
+    'defaultPointClip': Potree.ClipMode.HIGHLIGHT_INSIDE,
+    'pointClipTypes': {
+        'no_clipping': Potree.ClipMode.DISABLED,
+        'outside': Potree.ClipMode.CLIP_OUTSIDE,
+        'inside': Potree.ClipMode.HIGHLIGHT_INSIDE
     }
 };

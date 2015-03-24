@@ -247,9 +247,8 @@ pv.ui.initGUI = function (){
     
     for (var key in pv.params.pointSizeTypes){
         var val = pv.params.pointSizeTypes[key];
-        option = new Option(key, val);
-        option.setAttribute("data-i18n", "render." + key.split('.')[key.split('.').length -1].toLowerCase()); 
-
+        var option = new Option(key, val);
+        option.setAttribute("data-i18n", "render.qual_" + key); 
         if (val == pv.params.defaultPointSizeType){
             option.setAttribute("selected", "selected");
         }
@@ -260,34 +259,23 @@ pv.ui.initGUI = function (){
 
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
-            var value = data.item.value;
-            if(value === "RGB"){
-                pv.params.pointColorType = Potree.PointColorType.RGB;
-            }else if(value === "Color"){
-                pv.params.pointColorType = Potree.PointColorType.COLOR;
-            }else if(value === "Height"){
-                pv.params.pointColorType = Potree.PointColorType.HEIGHT;
-            }else if(value === "Intensity"){
-                pv.params.pointColorType = Potree.PointColorType.INTENSITY;
-            }else if(value === "Intensity Gradient"){
-                pv.params.pointColorType = Potree.PointColorType.INTENSITY_GRADIENT;
-            }else if(value === "Classification"){
-                pv.params.pointColorType = Potree.PointColorType.CLASSIFICATION;
-            }else if(value === "Return Number"){
-                pv.params.pointColorType = Potree.PointColorType.RETURN_NUMBER;
-            }else if(value === "Source"){
-                pv.params.pointColorType = Potree.PointColorType.SOURCE;
-            }else if(value === "Octree Depth"){
-                pv.params.pointColorType = Potree.PointColorType.OCTREE_DEPTH;
-            }else if(value === "Point Index"){
-                pv.params.pointColorType = Potree.PointColorType.POINT_INDEX;
-            }
+            pv.params.pointColorType = parseInt(data.item.value);;
         }
     });
 
+    for (var key in pv.params.pointMaterialTypes){
+        var val = pv.params.pointMaterialTypes[key];
+        var option = new Option(key, val);
+        option.setAttribute("data-i18n", "render.mat_" + key); 
+        if (val == pv.params.defaultPointMaterial){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointMaterialSelect").append(option);
+    }
+    $("#pointMaterialSelect").selectmenu( "refresh" );
+
     $("#pointQualitySelect").selectmenu({
         select: function(event, data) {
-            console.log(data.item);
             pv.params.quality = data.item.value;
         }
     });
@@ -305,16 +293,20 @@ pv.ui.initGUI = function (){
 
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {
-            var value = data.item.value;
-            if(value === "No Clipping"){
-                pv.params.clipMode = Potree.ClipMode.DISABLED;
-            }else if(value === "Clip Outside"){
-                pv.params.clipMode = Potree.ClipMode.CLIP_OUTSIDE;
-            }else if(value === "Highlight Inside"){
-               pv.params. clipMode = Potree.ClipMode.HIGHLIGHT_INSIDE;
-            }
+            pv.params.clipMode = parseInt(data.item.value);
         }
     });
+
+    for (var key in pv.params.pointClipTypes){
+        var val = pv.params.pointClipTypes[key];
+        option = new Option(val, key);
+        option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase())
+        if (val == parseInt(pv.params.defaultPointClip)){
+            option.setAttribute("selected", "selected");
+        }
+        $("#pointClipSelect").append(option);
+    }
+    $("#pointClipSelect").selectmenu( "refresh" );
 
 // Checkboxes
     $("#chkSkybox").button({
@@ -434,7 +426,7 @@ pv.ui.initGUI = function (){
     });
 
     $("#radioFlyMode").buttonset();
-    
+
     $("#btnFocus").button();
     $("#btnFocus").bind('click', function(){
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
@@ -593,5 +585,7 @@ pv.ui.translate = function() {
 
     $("#toolboxTabs").i18n();
     $("#pointSizeTypeSelect").selectmenu( "refresh" );
-
+    $("#pointMaterialSelect").selectmenu( "refresh" );
+    $("#pointQualitySelect").selectmenu( "refresh" );
+    $("#pointClipSelect").selectmenu( "refresh" );
 };
