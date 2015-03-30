@@ -24,11 +24,13 @@ pv.profile.getProfilePoints = function(){
             var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
             var alpha = Math.acos(cosAlpha);
             var dist = hypo * cosAlpha + totalDistance;
-            data.push({
-                'distance': dist,
-                'altitude': p.y,
-                'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)'
-            });
+            if (!isNaN(dist)) {
+                data.push({
+                    'distance': dist,
+                    'altitude': p.y,
+                    'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)'
+                });
+            }
         }
         totalDistance += segmentLength;
     }
@@ -41,21 +43,25 @@ pv.profile.getProfilePoints = function(){
 ***/
 pv.profile.draw = function () {
     
-    // Get the profile'points, inclusive attributes
+    // Get the profile'points, including attributes
     var data = pv.profile.getProfilePoints();
     
     if (data.length === 0){
         return;
     }
 
+    // Clear D3'elements = clear the chart
     d3.selectAll("svg").remove();
+    
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
         
     var margin = {top: 10, right: 10, bottom: 20, left: 30},
         width = containerWidth - margin.left - margin.right,
         height = containerHeight - margin.top - margin.bottom;
-        
+    
+    // Create the x/y scale functions
+    // TODO: same x/y scale
     var x = d3.scale.linear()
         .range([0, width]);
     x.domain([d3.min(data, function(d) { return d.distance; }), d3.max(data, function(d) { return d.distance; })]);
@@ -63,6 +69,7 @@ pv.profile.draw = function () {
         .range([height, 0]);
     y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
 
+    // Create x/y axis
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
@@ -73,31 +80,29 @@ pv.profile.draw = function () {
         .orient("left")
         .ticks(10, "m");
 
-    svg = d3.select("div#profileContainer").append("svg")
+    var svg = d3.select("div#profileContainer").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // x.domain(data.map(function(d) { return d.distance; }));
-        // y.domain([0, d3.max(data, function(d) { return d.altitude; })]);
-
-
+    // Append axis to the chart
     svg.append("g")
         .attr("class", "x axis")
-        //.attr("transform", "translate(0," + height + ")")
+        .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
 
-    svg.selectAll(".bar")
+    svg.selectAll(".circle")
         .data(data)
         .enter().append("circle")
-        .attr("class", "bar")
+        .attr("class", "circle")
         .attr("cx", function(d) { return x(d.distance); })
         .attr("cy", function(d) { return y(d.altitude); })
         .attr("r", 1)
-        .style("fill", function(d) { return d.color});
+        .style("fill", function(d) { return d.color})
+        .style("stroke", function(d) { return d.color});
 };
