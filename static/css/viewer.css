@@ -41,6 +41,38 @@ body {
     opacity: 0.7;
 }
 
+
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+  color: white;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+
+
+
+
 .toolbox  {
     min-width: 300px;
     background-color: #00001F;
