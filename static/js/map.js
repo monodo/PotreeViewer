@@ -7,8 +7,8 @@ pv.map2D.initMapView = function () {
     pv.map2D.webMercator = proj4.defs("EPSG:3857");
 
     // extent of the point cloud (with altitude) in EPSG:21781 / Swiss Coordinate System
-    var minSwiss = [589500, 231300, 722.505];
-    var maxSwiss = [590099, 231565.743, 776.459];
+    var minSwiss = pv.params.mapconfig.extentMin;
+    var maxSwiss = pv.params.mapconfig.extentMax;
 
     // extent in EPSG:3857 / WGS84 Web Mercator 
     var minWeb = proj4(pv.map2D.swiss, pv.map2D.webMercator, [minSwiss[0], minSwiss[1]]);
@@ -118,7 +118,7 @@ pv.map2D.initMapView = function () {
         target: 'map',
         view: new ol.View({
             center: center,
-            zoom: 15
+            zoom: pv.params.mapconfig.initialZoom
         })
     });
 };

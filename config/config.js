@@ -5,30 +5,17 @@
 pv.params = {
     'near': 10,
     'far': 1000000,
-    'fov': 80,
+    'fov': 50,
     'skyboxPath': 'static/libs/potree/resources/textures/skybox/',
     'autoclear': false,
-    'orthocam': {
-        'left': -1,
-        'right': 1,
-        'top': 1,
-        'bottom': -1,
-        'near': -100,
-        'far': 1000
-    },
     'constrolMoveSpeedFactor': 250,
     'constrolMoveSpeedFactorMin': 40,
     'constrolMoveSpeedFactorMax': 1000,
     'constrolMoveSpeedFactorStep': 1,
     'cameraPosition': {
-        'x': 0,
+        'x': 25,
         'y': 25,
         'z': 0
-    },
-    'cameraLookAt': {
-        'x': 480,
-        'y': 797,
-        'z': -219
     },
     'cameraRotationOrder': 'ZYX',
     'pointSize': 1,
@@ -38,7 +25,7 @@ pv.params = {
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
     'pointShape': Potree.PointShape.SQUARE,
     'pointQuality': 'Normal',
-    'pointCountTarget': 0.1,
+    'pointCountTarget': 0.2,
     'pointCountTargetMin': 0.1,
     'pointCountTargetMax': 20,
     'pointCountTargetStep': 0.1,
@@ -104,5 +91,11 @@ pv.params = {
         'no_clipping': Potree.ClipMode.DISABLED,
         'outside': Potree.ClipMode.CLIP_OUTSIDE,
         'inside': Potree.ClipMode.HIGHLIGHT_INSIDE
+    },
+    'mapconfig': {
+        'extentMin': [556220, 222500, 800],
+        'extentMax': [557400, 224000, 1000],
+        'initialZoom': 13
+
     }
 };
