@@ -459,7 +459,6 @@ pv.ui.initGUI = function (){
     $('#radioAngleMeasure').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.disableControls();
-            console.log("angle");
             pv.scene3D.angleTool.setEnabled(true);
         }
     });

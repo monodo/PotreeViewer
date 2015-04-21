@@ -93,9 +93,14 @@ pv.params = {
         'inside': Potree.ClipMode.HIGHLIGHT_INSIDE
     },
     'mapconfig': {
-        'extentMin': [556220, 222500, 800],
-        'extentMax': [557400, 224000, 1000],
-        'initialZoom': 13
+        'pointCloudExtentMin': [556500, 222500, 800],
+        'pointCloudExtentMax': [557300, 223900, 1000],
+        'mapExtent': [510000, 180000, 590000, 240000],
+        'initialZoom': 13,
+        // WARNING: when using other projections than EPSG 3857 or 4326, 
+        // you must edit index.html to load alternative projection from epsg.io
+        'mapCRS': 'EPSG:21781',
+        'pointCloudCRS': 'EPSG:21781'
 
     }
 };

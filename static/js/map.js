@@ -1,25 +1,26 @@
 pv.map2D.initMapView = function () {
+    
+    pv.map2D.mapProjection = ol.proj.get(pv.params.mapconfig.mapCRS);
+    pv.map2D.pointCloudProjection = ol.proj.get(pv.params.mapconfig.pointCloudCRS);
 
-    // add EPSG:21781 to the proj4 projection database
-    proj4.defs('EPSG:21781', "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs ");
-    pv.map2D.swiss = proj4.defs("EPSG:21781");
-    pv.map2D.WGS84 = proj4.defs("WGS84");
-    pv.map2D.webMercator = proj4.defs("EPSG:3857");
+    // extent of the point cloud (with altitude)
+    var pointCloudExtentMin = pv.params.mapconfig.pointCloudExtentMin;
+    var pointCloudExtentMax = pv.params.mapconfig.pointCloudExtentMax;
+    
+    // extent of the map 
+    var mapExtentMin = pv.params.mapconfig.mapExtentMin;
+    var mapExtentMax = pv.params.mapconfig.mapExtentMax;
 
-    // extent of the point cloud (with altitude) in EPSG:21781 / Swiss Coordinate System
-    var minSwiss = pv.params.mapconfig.extentMin;
-    var maxSwiss = pv.params.mapconfig.extentMax;
+    // point cloud extent in map CRS
+    var minWebCloud = ol.proj.transform([pointCloudExtentMin[0],pointCloudExtentMin[1]], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
+    var maxWebCloud = ol.proj.transform([pointCloudExtentMax[0],pointCloudExtentMax[1]], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
 
-    // extent in EPSG:3857 / WGS84 Web Mercator 
-    var minWeb = proj4(pv.map2D.swiss, pv.map2D.webMercator, [minSwiss[0], minSwiss[1]]);
-    var maxWeb = proj4(pv.map2D.swiss, pv.map2D.webMercator, [maxSwiss[0], maxSwiss[1]]);
-
-    var extent = [minWeb[0], minWeb[1], maxWeb[0], maxWeb[1]];
-    var center = [(maxWeb[0] + minWeb[0]) / 2, (maxWeb[1] + minWeb[1]) / 2];
+    var pointCloudExtent = [minWebCloud[0], minWebCloud[1], maxWebCloud[0], maxWebCloud[1]];
+    var pointCloudCenter = [(maxWebCloud[0] + minWebCloud[0]) / 2, (maxWebCloud[1] + minWebCloud[1]) / 2];
 
     // draw the extent as box inside the map view
     var box = new ol.geom.LineString([
-        minWeb, [maxWeb[0], minWeb[1]], maxWeb, [minWeb[0], maxWeb[1]], minWeb
+        minWebCloud, [maxWebCloud[0], minWebCloud[1]], maxWebCloud, [minWebCloud[0], maxWebCloud[1]], minWebCloud
     ]);
 
     var feature = new ol.Feature(box);
@@ -48,7 +49,7 @@ pv.map2D.initMapView = function () {
 
     if (!pv.map2D.visibleBounds) {
         pv.map2D.visibleBounds = new ol.geom.LineString([
-            minWeb, [maxWeb[0], minWeb[1]], maxWeb, [minWeb[0], maxWeb[1]], minWeb
+            minWebCloud, [maxWebCloud[0], minWebCloud[1]], maxWebCloud, [minWebCloud[0], maxWebCloud[1]], minWebCloud
         ]);
         var visibleBoundsFeature = new ol.Feature(pv.map2D.visibleBounds);
     }
@@ -95,7 +96,8 @@ pv.map2D.initMapView = function () {
         })
     });
 
-    // create the map
+    var extent = pv.params.mapconfig.mapExtent;
+    
     pv.map2D.map = new ol.Map({
         controls: ol.control.defaults({
             attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
@@ -108,8 +110,15 @@ pv.map2D.initMapView = function () {
             })
         ]),
         layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
+
+            new ol.layer.Image({
+                extent: extent,
+                source: new ol.source.ImageWMS({
+                url: 'http://sitn.ne.ch/mapproxy/service',
+                    //crossOrigin: 'anonymous',
+                    params: {'LAYERS': 'plan_ensemble_couleur'},
+                    serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+                })
             }),
             extentLayer,
             visibleBoundsLayer,
@@ -117,10 +126,13 @@ pv.map2D.initMapView = function () {
         ],
         target: 'map',
         view: new ol.View({
-            center: center,
+            projection: pv.map2D.mapProjection,
+            center: pointCloudCenter,
+            extent: extent,
             zoom: pv.params.mapconfig.initialZoom
         })
     });
+
 };
     
 /**
@@ -150,9 +162,9 @@ pv.map2D.updateMapFrustum = function (){
     left = pv.utils.toGeo(left);
     right = pv.utils.toGeo(right);
 
-    camPos = proj4(pv.map2D.swiss, pv.map2D.webMercator, [camPos.x, camPos.y]);
-    left = proj4(pv.map2D.swiss, pv.map2D.webMercator, [left.x, left.y]);
-    right = proj4(pv.map2D.swiss, pv.map2D.webMercator, [right.x, right.y]);
+    camPos = ol.proj.transform([camPos.x, camPos.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
+    left = ol.proj.transform([left.x, left.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
+    right = ol.proj.transform([right.x, right.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
 
     pv.map2D.camFrustum.setCoordinates([camPos, left, right, camPos]);
 };
@@ -162,9 +174,9 @@ pv.map2D.updateMapFrustum = function (){
  */
 pv.map2D.updateMapExtent = function(){
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
-
-    var geoMin = proj4(pv.map2D.swiss, pv.map2D.webMercator, [geoExtent.min.x, geoExtent.min.y]);
-    var geoMax = proj4(pv.map2D.swiss, pv.map2D.webMercator, [geoExtent.max.x, geoExtent.max.y]);
+    
+    var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
+    var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
 
     pv.map2D.visibleBounds.setCoordinates([
         geoMin,
