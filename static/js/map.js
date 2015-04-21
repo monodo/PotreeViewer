@@ -107,7 +107,8 @@ pv.map2D.initMapView = function () {
             new ol.control.ZoomToExtent({
                 extent: extent,
                 closest: true
-            })
+            }),
+            new ol.control.ScaleLine(),
         ]),
         layers: [
 
@@ -139,7 +140,6 @@ pv.map2D.initMapView = function () {
  * update the frustum in the map window according to the pv.scene3D.camera
  */
 pv.map2D.updateMapFrustum = function (){
-
     pv.map2D.camFrustum = new ol.geom.LineString([ [0,0], [0, 0] ]);
 
     var feature = new ol.Feature(pv.map2D.camFrustum);
@@ -170,9 +170,11 @@ pv.map2D.updateMapFrustum = function (){
 };
 
 /**
- * update the map extent in the map window
+ * Method: update the map extent in the map window
+ * Parameters: none
  */
 pv.map2D.updateMapExtent = function(){
+    
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
