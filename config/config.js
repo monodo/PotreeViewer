@@ -100,7 +100,14 @@ pv.params = {
         // WARNING: when using other projections than EPSG 3857 or 4326, 
         // you must edit index.html to load alternative projection from epsg.io
         'mapCRS': 'EPSG:21781',
-        'pointCloudCRS': 'EPSG:21781'
+        'pointCloudCRS': 'EPSG:21781',
+        'wmsUrl': 'http://sitn.ne.ch/mapproxy/service',
+        'wmsDefaultLayer': 'plan_ensemble_couleur',
+        'layers': [
+            'plan_ensemble_couleur',
+            'plan_gris'
+        ]
+        
 
     }
 };
