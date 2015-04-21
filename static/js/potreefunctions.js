@@ -1,5 +1,6 @@
 /**
- * transform from geo pv.scene3D.scene coordinates to local coordinates
+ * Method: transform from geo pv.scene3D.scene coordinates to local coordinates
+ * Parameters: position (THREE.Vector3 object)
  */
 pv.utils.toLocal = function (position){
     var scenePos = position.clone().applyMatrix4(pv.scene3D.referenceFrame.matrixWorld);
@@ -7,7 +8,8 @@ pv.utils.toLocal = function (position){
 };
 
 /**
- * transform from local pv.scene3D.scene coordinates to geo coordinates
+ * Method: transform from local pv.scene3D.scene coordinates to geo coordinates
+ * Parameters: Three scene child object
  */
 pv.utils.toGeo = function(object){
     var geo;
@@ -24,7 +26,8 @@ pv.utils.toGeo = function(object){
 };
 
 /**
- * Flip YZ Coordinates
+ * Method: Flip YZ Coordinates
+ * Parameters: none
  */
 pv.utils.flipYZ = function (){
     pv.params.isFlipYZ = !pv.params.isFlipYZ;
@@ -57,6 +60,10 @@ pv.utils.flipYZ = function (){
     pv.scene3D.referenceFrame.updateMatrixWorld(true);
 };
 
+/***
+* Method: set transformationTool keyboard events
+* Parameters: keyboard event
+***/
 pv.utils.onKeyDown = function (event){
     if(event.keyCode === 69){
         // e pressed
@@ -70,6 +77,10 @@ pv.utils.onKeyDown = function (event){
     }
 };
 
+/***
+* Method: update Three scene
+* Parameters: none
+***/
 pv.utils.update = function (){
     if(pv.scene3D.pointcloud){
         var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
@@ -152,6 +163,10 @@ pv.utils.update = function (){
     }
 };
 
+/***
+* Method: set the First Person Control as navigation tool
+* Parameters: none
+***/
 pv.utils.useFPSControls = function (){
     if(pv.scene3D.controls){
         pv.scene3D.controls.enabled = false;
@@ -165,6 +180,10 @@ pv.utils.useFPSControls = function (){
     pv.scene3D.controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
 };
 
+/***
+* Method: set the Orbit Control as navigation tool
+* Parameters: none
+***/
 pv.utils.useOrbitControls = function (){
     if(pv.scene3D.controls){
         pv.scene3D.controls.enabled = false;
@@ -175,12 +194,12 @@ pv.utils.useOrbitControls = function (){
 
     pv.scene3D.controls = pv.scene3D.orbitControls;
     pv.scene3D.controls.enabled = true;
-    
-    // if(pv.scene3D.pointcloud){
-        // pv.scene3D.controls.target.copy(pv.scene3D.pointcloud.boundingSphere.center.clone().applyMatrix4(pv.scene3D.pointcloud.matrixWorld));
-    // }
 };
 
+/***
+* Method: set the Earth Control as navigation tool
+* Parameters: none
+***/
 pv.utils.useEarthControls = function() {
     if(pv.scene3D.controls){
         pv.scene3D.controls.enabled = false;
@@ -192,6 +211,10 @@ pv.utils.useEarthControls = function() {
     pv.scene3D.controls.enabled = true;
 }
 
+/***
+* Method: get the intersecting point between the mouse position and the point cloud
+* Parameters: none
+***/
 pv.utils.getMousePointCloudIntersection = function (){
 
     var vector = new THREE.Vector3( pv.scene3D.mouse.x, pv.scene3D.mouse.y, 0.5 );
@@ -214,14 +237,19 @@ pv.utils.getMousePointCloudIntersection = function (){
     return closestPoint ? closestPoint.position : null;
 };
 
+/***
+* Method: mouse move event
+* Parameters: none
+***/
 pv.utils.onMouseMove = function (event){
     pv.scene3D.mouse.x = ( event.clientX / pv.scene3D.renderer.domElement.clientWidth ) * 2 - 1;
     pv.scene3D.mouse.y = - ( event.clientY / pv.scene3D.renderer.domElement.clientHeight ) * 2 + 1;
 };
 
-/**
- * update the coordinate display if the "coordinates" checkbox is checked
- */
+/***
+ * Method: update the geographical coordinate display if the "coordinates" checkbox is checked
+ * Parameters: none
+ ***/
 pv.utils.updateCoordinatePicking = function (){
     if(pv.params.showCoordinates){
         var I = pv.utils.getMousePointCloudIntersection();
@@ -232,8 +260,6 @@ pv.utils.updateCoordinatePicking = function (){
             var msg = "EPSG:21781: " + geoCoordinates.x.toFixed(2) + " / ";
             msg += geoCoordinates.y.toFixed(2) + " / ";
             msg += geoCoordinates.z.toFixed(2);
-            // msg += "  -  sceneCoordinates: " + sceneCoordinates.x.toFixed(2) + " / ";
-            // msg += sceneCoordinates.y.toFixed(2) + " / ";
             $('#lblCoordinates').html(msg)
         }
     }else{
@@ -241,6 +267,10 @@ pv.utils.updateCoordinatePicking = function (){
     }
 };
 
+/***
+* Method: update the tile loading progress bar
+* Parameters: none
+***/
 pv.utils.updateProgressBar = function (){
     if(pv.scene3D.pointcloud){
         var progress = pv.scene3D.pointcloud.visibleNodes.length / pv.scene3D.pointcloud.visibleGeometry.length;
@@ -259,6 +289,10 @@ pv.utils.updateProgressBar = function (){
     }
 };
 
+/***
+* Method: render the Three 3D scene
+* Parameters: none
+***/
 pv.scene3D.render = function(){
     // resize
     var width = pv.ui.elRenderArea.clientWidth;
@@ -309,8 +343,10 @@ pv.scene3D.render = function(){
     transformationTool.render();
 };
 
-// high quality rendering using splats
-// 
+/***
+* Method: set rtDepth 
+* Parameters: width (integer), height (integer)
+***/
 pv.utils.rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.NearestFilter, 
     magFilter: THREE.NearestFilter, 
@@ -318,6 +354,10 @@ pv.utils.rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, {
     type: THREE.FloatType
 } );
 
+/***
+* Method: rtNormalize
+* Parameters: width (integer), height (integer)
+***/
 pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.LinearFilter, 
     magFilter: THREE.NearestFilter, 
@@ -325,12 +365,14 @@ pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, {
     type: THREE.FloatType
 } );
 
-var sceneNormalize;
+/***
+* Method: render high quality (splats)
+* Parameters: none
+***/
+pv.utils.renderHighQuality = function (){
 
-var depthMaterial, weightedMaterial;
-
-// render with splats
-function renderHighQuality(){
+    var sceneNormalize;
+    var depthMaterial, weightedMaterial;
 
     if(!sceneNormalize){
         sceneNormalize = new THREE.Scene();
@@ -366,7 +408,6 @@ function renderHighQuality(){
     pv.utils.rtNormalize.setSize(width, height);
 
     pv.scene3D.renderer.clear();
-    // render pv.scene3D.skybox
     if(pv.params.showSkybox){
         pv.scene3D.skybox.pv.scene3D.camera.rotation.copy(pv.scene3D.camera.rotation);
         pv.scene3D.renderer.render(pv.scene3D.skybox.pv.scene3D.scene, pv.scene3D.skybox.pv.scene3D.camera);
@@ -383,10 +424,10 @@ function renderHighQuality(){
         }
 
         pv.scene3D.pointcloud.material = depthMaterial;
-        
+
         var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
         
-        // get rid of this
+        // TODO: clean this
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
         pv.scene3D.pointcloud.material.opacity = pv.params.opacity;
@@ -401,7 +442,7 @@ function renderHighQuality(){
         pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
         pv.scene3D.renderer.clearTarget(pv.utils.rtDepth, true, true, true);
         pv.scene3D.renderer.clearTarget(pv.utils.rtNormalize, true, true, true);
-        
+
         var origType = pv.scene3D.pointcloud.material.pointColorType;
         pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.utils.rtDepth);
         pv.scene3D.pointcloud.material = weightedMaterial;
@@ -434,13 +475,17 @@ function renderHighQuality(){
     }
 }
 
+/***
+* Method: loop (recursive function)
+* Parameters: none
+***/
 pv.utils.loop = function () {
     requestAnimationFrame(pv.utils.loop);
 
     pv.utils.update();
 
     if(pv.params.quality  === "Splats"){
-        renderHighQuality();
+        pv.utils.renderHighQuality();
     }else{
         pv.scene3D.render();
     }
@@ -448,7 +493,8 @@ pv.utils.loop = function () {
 };
 
 /***
-* Disable all controls 
+* Method: disable all controls
+* Parameters: none
 */
 pv.utils.disableControls = function () {
     
@@ -457,5 +503,4 @@ pv.utils.disableControls = function () {
     pv.scene3D.measuringTool.setEnabled(false);
     pv.scene3D.areaTool.setEnabled(false);
     pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
-    
 }

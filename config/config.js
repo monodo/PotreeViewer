@@ -1,5 +1,5 @@
 /**
-    * Set up global viewer parameters here
+* Set up global viewer parameters here
 */
 
 pv.params = {
@@ -55,7 +55,7 @@ pv.params = {
     'opacityMin': 0.1,
     'opacityMax': 1,
     'opacityStep': 0.1,
-    'pointCloudPath': 'static/libs/potree/resources/pointclouds/vol_total/cloud.js',
+    'pointCloudPath': 'cloud/1124322.las/cloud.js',
     'isPointCloudGeoreferenced': true,
     'stats': false,
     'BoundingBox': false,
@@ -87,16 +87,17 @@ pv.params = {
         'Splats': 'Splats'
     },
     'defaultPointMaterial':Potree.PointColorType.RGB,
+    // Materials type: outcomment availables ones (depends on used parameters for conversion)
     'pointMaterialTypes': {
         'rgb': Potree.PointColorType.RGB,
-        'color': Potree.PointColorType.COLOR,
+        //'color': Potree.PointColorType.COLOR,
         'height': Potree.PointColorType.HEIGHT,
         'intensity': Potree.PointColorType.INTENSITY,
         'intensity_gradient': Potree.PointColorType.INTENSITY_GRADIENT,
         'classification': Potree.PointColorType.CLASSIFICATION,
-        'return_number': Potree.PointColorType.RETURN_NUMBER,
+        //'return_number': Potree.PointColorType.RETURN_NUMBER,
         'octree_depth': Potree.PointColorType.OCTREE_DEPTH,
-        'point_index': Potree.PointColorType.POINT_INDEX
+        //'point_index': Potree.PointColorType.POINT_INDEX
     },
     'defaultPointClip': Potree.ClipMode.HIGHLIGHT_INSIDE,
     'pointClipTypes': {
