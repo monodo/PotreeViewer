@@ -122,6 +122,32 @@ pv.ui.initGUI = function (){
             pv.map2D.map.updateSize();
         }
     }); 
+    
+    // Map layers selector
+        // Point size type
+    $("#layerSelector").selectmenu({
+        select: function( event, data ) {
+
+            pv.map2D.baseLayer.setSource(
+                new ol.source.ImageWMS({
+                url: pv.params.mapconfig.wmsUrl,
+                    params: {'LAYERS': data.item.value},
+                    serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+                })
+            );
+        }
+    });
+    
+    for (var key in pv.params.mapconfig.layers){
+        var val = pv.params.mapconfig.layers[key];
+        var option = new Option(val, key);
+        if (val == pv.params.mapconfig.wmsDefaultLayer){
+            option.setAttribute("selected", "selected");
+        }
+        $("#layerSelector").append(option);
+    }
+
+    $("#layerSelector").selectmenu( "refresh" );
 
     // Language selector 
     $( "#languageSelect" ).selectmenu({
@@ -165,6 +191,7 @@ pv.ui.initGUI = function (){
     // Minimize the mapbox
     $("#minimizeMapButton").click(function(){
         $("#mapBox").slideUp(600);
+        $("#showMapButton").show();
     });        
 
     // Close the profile container
@@ -173,18 +200,20 @@ pv.ui.initGUI = function (){
     });
 
     // Show the mapbox
-    $( "#showMapButton" ).button().click(function() {
+    $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
             $("#mapBox").slideUp(600);
             $("#showMapButton").blur();
+            $("#showMapButton").hide();
         }
         else {
             $("#mapBox").slideDown(600);
+            $("#showMapButton").hide();
         }
     });
 
     if (!pv.params.isPointCloudGeoreferenced) {
-        $( "#showMapButton" ).hide();
+        $( "#showMapButton").hide();
     }
 
     // Sliders

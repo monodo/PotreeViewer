@@ -103,11 +103,13 @@ pv.params = {
         'pointCloudCRS': 'EPSG:21781',
         'wmsUrl': 'http://sitn.ne.ch/mapproxy/service',
         'wmsDefaultLayer': 'plan_ensemble_couleur',
-        'layers': [
-            'plan_ensemble_couleur',
-            'plan_gris'
-        ]
-        
-
+        'layers': {
+            'plan_ensemble_couleur': 'Plan d\'ensemble couleur',
+            'topo': 'Carte topographique',
+            'ortho2011': 'Orthophoto 2011',
+            'mnt2010': 'MNT 2010',
+            'mns2010': 'MNS 2010',
+            'densitelidar2010': 'Densité LiDAR 2010',
+        }
     }
 };

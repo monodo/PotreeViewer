@@ -91,19 +91,21 @@ pv.map2D.initMapView = function () {
 
     var extent = pv.params.mapconfig.mapExtent;
     
+    pv.map2D.baseLayer = new ol.layer.Image({
+        extent: extent,
+        source: new ol.source.ImageWMS({
+            url: pv.params.mapconfig.wmsUrl,
+                params: {'LAYERS': pv.params.mapconfig.wmsDefaultLayer},
+                serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+        })
+    })
+    
     pv.map2D.map = new ol.Map({
         controls: [
             new ol.control.ScaleLine(),
         ],
         layers: [
-            new ol.layer.Image({
-                extent: extent,
-                source: new ol.source.ImageWMS({
-                url: pv.params.mapconfig.wmsUrl,
-                    params: {'LAYERS': pv.params.mapconfig.wmsDefaultLayer},
-                    serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
-                })
-            }),
+            pv.map2D.baseLayer,
             extentLayer,
             visibleBoundsLayer,
             camFrustumLayer
