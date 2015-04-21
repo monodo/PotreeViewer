@@ -3,10 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>SITN Point cloud viewer</title>
-    
-    <!-- Dygraph -->
-    <script src="static/libs/dygraph/dygraph-combined-dev.js"></script>
-    
+
     <!-- D3 -->
     <script src="static/libs/d3/d3.js"></script>
 
@@ -15,13 +12,16 @@
     <script src="static/libs/jquery-ui/external/jquery/jquery.js"></script>
     <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
 
-    <!-- Openlayers TO BE SET AS SUMBODULE LATER-->
+    <!-- Openlayers + proj4 TO BE SET AS GIT SUMBODULE LATER-->
+    <script src="static/libs/potree/libs/proj4/proj4.js"></script>
     <link rel="stylesheet" href="static/libs/ol3/css/ol.css" type="text/css">
     <script src="static/libs/ol3/build/ol.js" type="text/javascript"></script>
+    <!-- ***Load required projections here*** -->
+    <script src="http://epsg.io/21781-1753.js" type="text/javascript"></script>
+
     
     <!-- Three & Potree -->
     <script src="static/libs/potree/libs/three.js/build/three.js"></script>
-    <script src="static/libs/potree/libs/proj4/proj4.js"></script>
     <script src="static/libs/potree/build/js/potree.js"></script>
     <script src="static/libs/others/ProgressBar.js"></script>
     <script src="static/libs/potree/libs/plasio/js/laslaz.js"></script>
@@ -49,9 +49,14 @@
     <div id="lblNumVisibleNodes" class="info"></div>
     <div id="lblNumVisiblePoints" class="info"></div>
 
+    <!-- Display map button -->
+        <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=50 height=50 data-i18n="[title]nav.show_2d_map"></button>
     <!-- 2D map -->
     <div id="mapBox" class="mapBox">
-        <div id="dragMap" title="Déplacer la carte 3D"><div id="minimizeMapButton" class="ui-icon ui-icon-close" title="Masquer la carte 2D"></div></div>
+        <div id="dragMap" title="Déplacer la carte 2D">
+            <select id="layerSelector"></select>
+            <div id="minimizeMapButton" class="ui-icon ui-icon-close" title="Masquer la carte 2D"></div>
+        </div>
         <div id="map" class="map"></div>
     </div>
     
@@ -95,7 +100,6 @@
                     <span>
                     <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
                     <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
-                    <button id="showMapButton" class="showMapButton" title="Afficher / Masquer la carte 2D"><img src="static/images/geoloc.png" width=32 height=32 data-i18n="[title]nav.show_2d_map"></button>
                     </span>
                    <!-- Let the user choose the flying speed  -->
                     <table id="moveSpeedCursor" class="guiTable">
