@@ -1,5 +1,5 @@
 /**
-    * Set up global viewer parameters here
+* Set up global viewer parameters here
 */
 
 pv.params = {

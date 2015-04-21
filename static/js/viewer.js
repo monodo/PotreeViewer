@@ -1,3 +1,7 @@
+/***
+* Method: initialize the Three 3D scene objects
+* Parameters: none
+***/
 pv.scene3D.initThree = function (){
 
     pv.ui.elRenderArea = document.getElementById("renderArea");
@@ -84,12 +88,12 @@ pv.scene3D.initThree = function (){
 };
 
 /**
- * create a dat.GUI widget that lets the user modify certain values
+ * Method: initialize the JQuery UI objects and translations
+ * Parameters: none
  */
 pv.ui.initGUI = function (){
 
     // i18next translation initialization
-
     // Get the available languages defined in config.js
     var langList = [];
     for (var lkey in pv.params.availableLanguages) {
@@ -105,8 +109,6 @@ pv.ui.initGUI = function (){
         // Start translation once everything is loaded
         pv.ui.translate();
     });
-
-    // Potree Viewer Jquery initialization
 
     // Toolbox tabs
     $( "#toolboxTabs" ).tabs({
@@ -186,7 +188,6 @@ pv.ui.initGUI = function (){
     }
 
     // Sliders
-
     // Max point number
      $("#pointNumberSlider").slider({
         min: pv.params.pointCountTargetMin,
@@ -282,7 +283,7 @@ pv.ui.initGUI = function (){
     for (var key in pv.params.pointQualityTypes){
         var val = pv.params.pointQualityTypes[key];
         option = new Option(key, val);
-        option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase())
+        option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase());
         if (val == pv.params.defaultPointQuality){
             option.setAttribute("selected", "selected");
         }
@@ -548,6 +549,9 @@ pv.ui.initGUI = function (){
 
 };
 
+/***
+* Method: reset UI to default settings as defined in config/config.js fileCreatedDate
+***/
 pv.ui.resetUIToDefault = function (){
 
     $("#mapBox").hide();
@@ -569,7 +573,6 @@ pv.ui.resetUIToDefault = function (){
     $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
     $("#profileWidth").val(pv.params.profileWidth);
 
-    // to be finalized - event managment issue...
     $("#pointNumber").val(pv.params.pointCountTarget).change();
     $("#pointSize").val(pv.params.pointSize).change();
     $("#pointOpacity").val(pv.params.opacity).change();
@@ -595,8 +598,11 @@ pv.ui.resetUIToDefault = function (){
     $("#profileWidth").val(pv.params.profile_width).change();
 
 };
-// set here all translation operations
 
+/***
+* Method: translate the UI
+* Parameters: none
+***/
 pv.ui.translate = function() {
 
     $("#toolboxTabs").i18n();

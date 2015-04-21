@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Potree Viewer Prototype</title>
+    <title>SITN Point cloud viewer</title>
     
     <!-- Dygraph -->
     <script src="static/libs/dygraph/dygraph-combined-dev.js"></script>
@@ -38,7 +38,6 @@
     <script src="static/js/map.js"></script>
     <script src="static/js/potreefunctions.js"></script>
     <script src="static/js/viewer.js"></script>
-    <script src="static/js/profile.js"></script>
     <script src="static/js/d3Profile.js"></script>
 
     <!--Translation: i18next-->
@@ -276,15 +275,11 @@
         </script>
         <script type="text/javascript">
             pv.ui.loaded = false;
-            // start the engine...
+            
             pv.map2D.initMapView();
             pv.scene3D.initThree();
             pv.ui.initGUI();
             pv.utils.loop();
-            // reset UI once everything is loaded
-            //$( window ).load(function(){
-                //pv.ui.resetUIToDefault();
-            //});
 
         </script>
     </body>

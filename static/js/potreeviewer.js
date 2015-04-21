@@ -8,23 +8,23 @@ if (typeof pv === "undefined") {
          */
         params: {},
         /**
-         * The map
+         * The 2D map
          */
         map2D: {},
         /**
-         * The Potree Viewer UI elements
+         * The Potree Viewer UI 
          */
         ui: {},
         /**
-         * The Potree Viewer utils
+         * The Potree Viewer util functions
          */
         utils: {},
         /**
-         * The Potree Viewer 3D scene
+         * The Potree Viewer 3D scene 
          */
         scene3D: {},
         /**
-         * The Potree Viewer Profile tools
+         * The Potree Viewer Profile tools 
          */
         profile: {}
     };
