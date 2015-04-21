@@ -47,13 +47,6 @@ pv.map2D.initMapView = function () {
         })
     });
 
-    if (!pv.map2D.visibleBounds) {
-        pv.map2D.visibleBounds = new ol.geom.LineString([
-            minWebCloud, [maxWebCloud[0], minWebCloud[1]], maxWebCloud, [minWebCloud[0], maxWebCloud[1]], minWebCloud
-        ]);
-        var visibleBoundsFeature = new ol.Feature(pv.map2D.visibleBounds);
-    }
-
     var visibleBoundsLayer = new ol.layer.Vector({
         source: featureVector,
         style: new ol.style.Style({
@@ -99,25 +92,15 @@ pv.map2D.initMapView = function () {
     var extent = pv.params.mapconfig.mapExtent;
     
     pv.map2D.map = new ol.Map({
-        controls: ol.control.defaults({
-            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
-                collapsible: false
-            })
-        }).extend([
-            new ol.control.ZoomToExtent({
-                extent: extent,
-                closest: true
-            }),
+        controls: [
             new ol.control.ScaleLine(),
-        ]),
+        ],
         layers: [
-
             new ol.layer.Image({
                 extent: extent,
                 source: new ol.source.ImageWMS({
-                url: 'http://sitn.ne.ch/mapproxy/service',
-                    //crossOrigin: 'anonymous',
-                    params: {'LAYERS': 'plan_ensemble_couleur'},
+                url: pv.params.mapconfig.wmsUrl,
+                    params: {'LAYERS': pv.params.mapconfig.wmsDefaultLayer},
                     serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
                 })
             }),
@@ -174,17 +157,9 @@ pv.map2D.updateMapFrustum = function (){
  * Parameters: none
  */
 pv.map2D.updateMapExtent = function(){
-    
+    //TODO: update the map zoom level
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
-
-    pv.map2D.visibleBounds.setCoordinates([
-        geoMin,
-        [geoMax[0], geoMin[1]],
-        geoMax,
-        [geoMin[0], geoMax[1]],
-        geoMin
-    ]);
 };
