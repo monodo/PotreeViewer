@@ -1,6 +1,6 @@
 // Potree viewer namespace
 
-if (typeof PointScope === "undefined") {
+if (typeof pv === "undefined") {
     var pv = {
             
         /**
