@@ -108,8 +108,7 @@
                             <td><div id="moveSpeedSlider"></div></td>
                         </tr>
                     </table>
-                   
-                   
+
                 </div>
                 <!-- Rendering options tab: Max point number, point size, etc.. -->
                 <div id="RenderOptions">
@@ -246,8 +245,9 @@
             </div>
         </div>
 
-        <!-- TODO: comment these scripts -->
         <script id="vs" type="x-shader/x-vertex">
+        // Specific webGL config
+
         varying vec2 vUv;
 
         void main() {
@@ -259,7 +259,7 @@
         </script>
 
         <script id="fs" type="x-shader/x-vertex">
-
+        // Specific webGL config
         #extension GL_EXT_frag_depth : enable
         uniform sampler2D depthMap;
         uniform sampler2D texture;
@@ -274,11 +274,16 @@
         }
         </script>
         <script type="text/javascript">
-            pv.ui.loaded = false;
             
+            // This variable will be set to true once Jquery UI set up is completed
+            pv.ui.loaded = false;
+            // Init the 3D Ol3 map object
             pv.map2D.initMapView();
+            // Init the Three 3D Scene with Potree Octree point cloud
             pv.scene3D.initThree();
+            // Init the JQuery UI objects
             pv.ui.initGUI();
+            // Start the potree rendering
             pv.utils.loop();
 
         </script>
