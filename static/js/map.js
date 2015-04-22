@@ -209,7 +209,8 @@ pv.map2D.updateMapExtent = function(){
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
+
     var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
+    console.log(currentExtent);
     pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
- 
 };
