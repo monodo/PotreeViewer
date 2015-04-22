@@ -127,14 +127,33 @@ pv.ui.initGUI = function (){
         // Point size type
     $("#layerSelector").selectmenu({
         select: function( event, data ) {
-
-            pv.map2D.baseLayer.setSource(
-                new ol.source.ImageWMS({
-                url: pv.params.mapconfig.wmsUrl,
-                    params: {'LAYERS': data.item.value},
-                    serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
-                })
-            );
+            if (pv.params.mapconfig.mapServiceType == 'WMS') {
+                pv.map2D.baseLayer.setSource(
+                    new ol.source.ImageWMS({
+                        attributions: [pv.map2D.attributions],
+                        url: pv.params.mapconfig.mapServiceUrl,
+                        params: {'LAYERS': data.item.value},
+                        serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+                    })
+                );
+            } else {
+                pv.map2D.baseLayer.setSource(
+                    new ol.source.WMTS({
+                        attributions: [pv.map2D.attributions],
+                        url: pv.params.mapconfig.mapServiceUrl,
+                        layer: data.item.value,
+                        matrixSet: pv.params.mapconfig.wmtsMatrixSet,
+                        format: pv.params.mapconfig.mapServiceImageFormat,
+                        projection: pv.map2D.mapProjection,
+                        tileGrid: new ol.tilegrid.WMTS({
+                          origin: ol.extent.getTopLeft(pv.params.mapconfig.projectionExtent),
+                          resolutions: pv.map2D.resolutions,
+                          matrixIds: pv.map2D.matrixIds
+                        }),
+                        style: 'default'
+                    })
+                );
+            }
         }
     });
     

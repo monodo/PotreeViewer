@@ -1,15 +1,18 @@
 pv.map2D.initMapView = function () {
-    
+
+    // base layers' attributions
+    pv.map2D.attributions = new ol.Attribution({
+        html: pv.params.mapconfig.attributionsHtml
+    });
+
+    // From their CRS, get the projection system of the pointcloud and the 2D map
     pv.map2D.mapProjection = ol.proj.get(pv.params.mapconfig.mapCRS);
+    pv.map2D.mapProjection.setExtent(pv.params.mapconfig.projectionExtent);
     pv.map2D.pointCloudProjection = ol.proj.get(pv.params.mapconfig.pointCloudCRS);
 
     // extent of the point cloud (with altitude)
     var pointCloudExtentMin = pv.params.mapconfig.pointCloudExtentMin;
     var pointCloudExtentMax = pv.params.mapconfig.pointCloudExtentMax;
-    
-    // extent of the map 
-    var mapExtentMin = pv.params.mapconfig.mapExtentMin;
-    var mapExtentMax = pv.params.mapconfig.mapExtentMax;
 
     // point cloud extent in map CRS
     var minWebCloud = ol.proj.transform([pointCloudExtentMin[0],pointCloudExtentMin[1]], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
@@ -91,18 +94,61 @@ pv.map2D.initMapView = function () {
 
     var extent = pv.params.mapconfig.mapExtent;
     
-    pv.map2D.baseLayer = new ol.layer.Image({
-        extent: extent,
-        source: new ol.source.ImageWMS({
-            url: pv.params.mapconfig.wmsUrl,
-                params: {'LAYERS': pv.params.mapconfig.wmsDefaultLayer},
-                serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
-        })
-    })
+    if (pv.params.mapconfig.mapServiceType == 'WMTS') {
+
+        // WMTS
+        var size = ol.extent.getWidth(pv.params.mapconfig.projectionExtent) / 256;
+        pv.map2D.resolutions = new Array(14);
+        pv.map2D.matrixIds = new Array(14);
+        for (var z = 0; z < 14; ++z) {
+            pv.map2D.resolutions[z] = size / Math.pow(2, z);
+            pv.map2D.matrixIds[z] = z;
+        }
+
+        pv.map2D.baseLayer = new ol.layer.Tile({
+          opacity: 1,
+          extent: pv.params.mapconfig.projectionExtent,
+          source: new ol.source.WMTS({
+            attributions: [pv.map2D.attributions],
+            url: pv.params.mapconfig.mapServiceUrl,
+            layer: pv.params.mapconfig.mapDefaultLayer,
+            matrixSet: pv.params.mapconfig.wmtsMatrixSet,
+            format: pv.params.mapconfig.mapServiceImageFormat,
+            projection: pv.map2D.mapProjection,
+            tileGrid: new ol.tilegrid.WMTS({
+              origin: ol.extent.getTopLeft(pv.params.mapconfig.projectionExtent),
+              resolutions: pv.map2D.resolutions,
+              matrixIds: pv.map2D.matrixIds
+            }),
+            style: 'default'
+          })
+        });
     
+    } else {
+        // WMS
+        pv.map2D.baseLayer = new ol.layer.Image({
+            extent: extent,
+            source: new ol.source.ImageWMS({
+                attributions: [pv.map2D.attributions],
+                url: pv.params.mapconfig.mapServiceUrl,
+                params: {'LAYERS': pv.params.mapconfig.mapDefaultLayer},
+                serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+            })
+        });
+    }
+
+    var mousePositionControl = new ol.control.MousePosition({
+        coordinateFormat: ol.coordinate.createStringXY(4),
+        projection: pv.params.mapconfig.mapCRS,
+        //className: 'custom-mouse-position',
+        // target: document.getElementById('mouse-position'),
+        undefinedHTML: '&nbsp;'
+    });
+
     pv.map2D.map = new ol.Map({
         controls: [
             new ol.control.ScaleLine(),
+            mousePositionControl
         ],
         layers: [
             pv.map2D.baseLayer,

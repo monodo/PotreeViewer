@@ -42,7 +42,7 @@ pv.params = {
     'opacityMin': 0.1,
     'opacityMax': 1,
     'opacityStep': 0.1,
-    'pointCloudPath': 'cloud/1124322.las/cloud.js',
+    'pointCloudPath': 'cloud/potree_v16/resources/pointclouds/CH03_LN02/cloud.js',
     'isPointCloudGeoreferenced': true,
     'stats': false,
     'BoundingBox': false,
@@ -93,16 +93,21 @@ pv.params = {
         'inside': Potree.ClipMode.HIGHLIGHT_INSIDE
     },
     'mapconfig': {
-        'pointCloudExtentMin': [556500, 222500, 800],
-        'pointCloudExtentMax': [557300, 223900, 1000],
-        'mapExtent': [510000, 180000, 590000, 240000],
-        'initialZoom': 13,
+        'pointCloudExtentMin': [550000, 200000, 0],
+        'pointCloudExtentMax': [560000, 220000, 1700],
+        'mapExtent': [523000, 190000, 580000, 224500],
+        'initialZoom': 8,
         // WARNING: when using other projections than EPSG 3857 or 4326, 
         // you must edit index.html to load alternative projection from epsg.io
+        'attributionsHtml': 'Tiles &copy; <http://ne.ch/sitn">SITN</a>',
+        'mapServiceType': 'WMS', // Possible values: [WMS, WMTS]
+        'mapServiceImageFormat': 'image/png',
         'mapCRS': 'EPSG:21781',
+        'projectionExtent': [485869.5728, 76443.1884, 837076.5648, 299941.7864],
         'pointCloudCRS': 'EPSG:21781',
-        'wmsUrl': 'http://sitn.ne.ch/mapproxy/service',
-        'wmsDefaultLayer': 'plan_ensemble_couleur',
+        'wmtsMatrixSet': 'swiss_grid_new',
+        'mapServiceUrl': 'http://sitn.ne.ch/mapproxy/service',
+        'mapDefaultLayer': 'plan_ensemble_couleur',
         'layers': {
             'plan_ensemble_couleur': 'Plan d\'ensemble couleur',
             'topo': 'Carte topographique',

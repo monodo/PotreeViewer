@@ -32,6 +32,10 @@ body {
     width: 100%;
 }
 
+.custom-mouse-position{
+    color: white;
+}
+
 .showMapButton{
     position: absolute;
     left: 15px;
