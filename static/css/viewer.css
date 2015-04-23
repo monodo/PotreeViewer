@@ -32,6 +32,19 @@ body {
     width: 100%;
 }
 
+.menuOverFlow{
+    height: 200px !important;
+}
+
+.chkSynchronize{
+    position: absolute;
+    left: 50px;
+}
+
+.custom-mouse-position{
+    color: white;
+}
+
 .showMapButton{
     position: absolute;
     left: 15px;

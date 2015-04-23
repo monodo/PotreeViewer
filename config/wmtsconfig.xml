@@ -1,0 +1,1235 @@
+<Capabilities xmlns="http://www.opengis.net/wmts/1.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml" xsi:schemaLocation="http://www.opengis.net/wmts/1.0 ../wmtsGetCapabilities_response.xsd" version="1.0.0">
+<ows:ServiceIdentification>
+<ows:Title/>
+<ows:Abstract/>
+<ows:ServiceType>OGC WMTS</ows:ServiceType>
+<ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+<ows:Fees>none</ows:Fees>
+<ows:AccessConstraints>none</ows:AccessConstraints>
+</ows:ServiceIdentification>
+<ows:OperationsMetadata>
+<ows:Operation name="GetCapabilities">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://sitn.ne.ch/mapproxy/service/?">
+<ows:Constraint name="GetEncoding">
+<ows:AllowedValues>
+<ows:Value>KVP</ows:Value>
+</ows:AllowedValues>
+</ows:Constraint>
+</ows:Get>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+<ows:Operation name="GetTile">
+<ows:DCP>
+<ows:HTTP>
+<ows:Get xlink:href="http://sitn.ne.ch/mapproxy/service/?">
+<ows:Constraint name="GetEncoding">
+<ows:AllowedValues>
+<ows:Value>KVP</ows:Value>
+</ows:AllowedValues>
+</ows:Constraint>
+</ows:Get>
+</ows:HTTP>
+</ows:DCP>
+</ows:Operation>
+</ows:OperationsMetadata>
+<Contents>
+<Layer>
+<ows:Title>Cartes nationales</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>cn</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Citimage 2013</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>citimage2013</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Rayonnement global 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>rayglobal2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan cadastral couleur du SITN</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_cadastral_couleur_c2c</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 1981</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho1981</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Cartes nationales grises</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>cn_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Pente 2010, classifié</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>pentes2010_class</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>SITN OpenStreetMap</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>osm</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNT 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mnt2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Merveilleux 1713</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_merveilleux</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2006 PIR</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2006_pir</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Berolini 1707</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_berolini</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 1966</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho1966</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan cadastral couleur du SITN</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_cadastral_couleur_20150423</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Rayonnement diffus 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>raydiffus2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2011 grise</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2011_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNS 2010 rayonnement annuel</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mns2010rayannuel</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Hybride - Orthophoto et plan</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mixte</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2011</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2011</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Fusion LIDAR 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>fusionlidar2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Kiraly 1973</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_kiraly_1973</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan d'ensemble couleur</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_ensemble_couleur</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Andriveau 1850</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_andriveau</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Densité LIDAR 2001</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>densitelidar2001</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNS 2001</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mns2001</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNC 2002 10 classes</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mnc2002_10cl</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Kiraly 1968</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_kiraly_1968</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Rayonnement direct 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>raydirect2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Fonds de plan gris du SITN</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2006</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2006_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Evolution canopée 2001 à 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mncdiff20012010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto swissphoto 2009</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>swissphoto2009</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Siegfried 1870-1892</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_siegfried</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNC 2010 10 classes</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mnc2010_10cl</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Densité LIDAR 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>densitelidar2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Pentes 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>pentes2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan de ville du SITN / non màj</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_ville_c2c</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Cartes nationales / plan d'ensemble</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>topo</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 1990</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho1990</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Pente 2010, classe 30 à 50</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>pentes2010_30a50</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Citimage 2014</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>citimage2014</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Homann 1778</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_homann</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2008 gris</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2008_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Coltop Raster 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>coltopraster2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 1998</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho1998</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan cadastral du SITN</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_cadastral_20150423</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Pente 2010, classe 18 à 35</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>pentes2010_18a35</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2009 (Villes du Haut)</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2009</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2008</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2008</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Clermont 1779</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_clermont</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNS 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mns2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan d'ensemble gris</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_ensemble_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2005 (Bas du Canton)</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2005</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2004</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2004</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orthophoto 2006</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>ortho2006</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan cadastral du SITN / non màj</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_cadastral_c2c</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Cartes nationales grises / plan d'ensemble gris</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>topo_gris</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>MNT 2001</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>mnt2001</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Orientation 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>orientation2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Ostervald 1838-1845</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_ostervald</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Radiation solaire 2012</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>solarradiation2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Intensité LIDAR 2010</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>intensitelidar2010</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan de ville du SITN 2.5D</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_ville_25d</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Plan de ville du SITN / non màj</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>plan_ville_20150403</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/png</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Dufour 1842-1864</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_dufour</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<Layer>
+<ows:Title>Carte Inselin 1699</ows:Title>
+<ows:Abstract/>
+<ows:WGS84BoundingBox>
+<ows:LowerCorner>5.00975350292 45.3560008302</ows:LowerCorner>
+<ows:UpperCorner>11.4843752596 48.3871980057</ows:UpperCorner>
+</ows:WGS84BoundingBox>
+<ows:Identifier>carte_inselin</ows:Identifier>
+<Style>
+<ows:Identifier>default</ows:Identifier>
+</Style>
+<Format>image/jpeg</Format>
+<TileMatrixSetLink>
+<TileMatrixSet>swiss_grid_new</TileMatrixSet>
+</TileMatrixSetLink>
+</Layer>
+<TileMatrixSet>
+<ows:Identifier>swiss_grid_new</ows:Identifier>
+<ows:SupportedCRS>EPSG:21781</ows:SupportedCRS>
+<TileMatrix>
+<ows:Identifier>00</ows:Identifier>
+<ScaleDenominator>892857.142857</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>8</MatrixWidth>
+<MatrixHeight>6</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>01</ows:Identifier>
+<ScaleDenominator>357142.857143</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>19</MatrixWidth>
+<MatrixHeight>13</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>02</ows:Identifier>
+<ScaleDenominator>178571.428571</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>38</MatrixWidth>
+<MatrixHeight>26</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>03</ows:Identifier>
+<ScaleDenominator>71428.5714286</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>94</MatrixWidth>
+<MatrixHeight>65</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>04</ows:Identifier>
+<ScaleDenominator>35714.2857143</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>188</MatrixWidth>
+<MatrixHeight>129</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>05</ows:Identifier>
+<ScaleDenominator>17857.1428571</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>375</MatrixWidth>
+<MatrixHeight>258</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>06</ows:Identifier>
+<ScaleDenominator>8928.57142857</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>750</MatrixWidth>
+<MatrixHeight>516</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>07</ows:Identifier>
+<ScaleDenominator>7142.85714286</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>938</MatrixWidth>
+<MatrixHeight>645</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>08</ows:Identifier>
+<ScaleDenominator>5357.14285714</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>1250</MatrixWidth>
+<MatrixHeight>860</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>09</ows:Identifier>
+<ScaleDenominator>3571.42857143</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>1875</MatrixWidth>
+<MatrixHeight>1290</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>10</ows:Identifier>
+<ScaleDenominator>1785.71428571</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>3750</MatrixWidth>
+<MatrixHeight>2579</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>11</ows:Identifier>
+<ScaleDenominator>892.857142857</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>7500</MatrixWidth>
+<MatrixHeight>5157</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>12</ows:Identifier>
+<ScaleDenominator>446.428571429</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>15000</MatrixWidth>
+<MatrixHeight>10313</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>13</ows:Identifier>
+<ScaleDenominator>223.214285714</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>30000</MatrixWidth>
+<MatrixHeight>20625</MatrixHeight>
+</TileMatrix>
+<TileMatrix>
+<ows:Identifier>14</ows:Identifier>
+<ScaleDenominator>111.607142857</ScaleDenominator>
+<TopLeftCorner>420000.0 360000.0</TopLeftCorner>
+<TileWidth>256</TileWidth>
+<TileHeight>256</TileHeight>
+<MatrixWidth>60000</MatrixWidth>
+<MatrixHeight>41250</MatrixHeight>
+</TileMatrix>
+</TileMatrixSet>
+</Contents>
+</Capabilities>

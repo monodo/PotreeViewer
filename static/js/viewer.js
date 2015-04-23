@@ -127,27 +127,33 @@ pv.ui.initGUI = function (){
         // Point size type
     $("#layerSelector").selectmenu({
         select: function( event, data ) {
+            if (pv.params.mapconfig.mapServiceType == 'WMS') {
+                pv.map2D.baseLayer.setSource(
+                    new ol.source.ImageWMS({
+                        attributions: [pv.map2D.attributions],
+                        url: pv.params.mapconfig.mapServiceUrl,
+                        params: {'LAYERS': data.item.value},
+                        serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+                    })
+                );
+            } else {
 
-            pv.map2D.baseLayer.setSource(
-                new ol.source.ImageWMS({
-                url: pv.params.mapconfig.wmsUrl,
-                    params: {'LAYERS': data.item.value},
-                    serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
-                })
-            );
-        }
-    });
-    
-    for (var key in pv.params.mapconfig.layers){
-        var val = pv.params.mapconfig.layers[key];
-        var option = new Option(val, key);
-        if (val == pv.params.mapconfig.wmsDefaultLayer){
-            option.setAttribute("selected", "selected");
-        }
-        $("#layerSelector").append(option);
-    }
+                pv.map2D.WMTSOptions.layer = data.item.value;
+                var imageFormat = data.item.element[0].getAttribute('imageFormat');
+                pv.map2D.WMTSOptions.format = imageFormat;
 
-    $("#layerSelector").selectmenu( "refresh" );
+                pv.map2D.baseLayer = new ol.layer.Tile({
+                    opacity: 1,
+                    source: new ol.source.WMTS(pv.map2D.WMTSOptions)
+                });
+
+                var layersCollection = pv.map2D.map.getLayers();
+                layersCollection.removeAt(0);
+                layersCollection.insertAt(0, pv.map2D.baseLayer);
+
+            }
+        }
+    }).selectmenu("menuWidget").addClass("menuOverflow");
 
     // Language selector 
     $( "#languageSelect" ).selectmenu({

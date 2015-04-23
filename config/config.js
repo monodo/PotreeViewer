@@ -42,7 +42,7 @@ pv.params = {
     'opacityMin': 0.1,
     'opacityMax': 1,
     'opacityStep': 0.1,
-    'pointCloudPath': 'cloud/1124322.las/cloud.js',
+    'pointCloudPath': 'cloud/potree_v16/resources/pointclouds/CH03_LN02/cloud.js',
     'isPointCloudGeoreferenced': true,
     'stats': false,
     'BoundingBox': false,
@@ -93,16 +93,28 @@ pv.params = {
         'inside': Potree.ClipMode.HIGHLIGHT_INSIDE
     },
     'mapconfig': {
-        'pointCloudExtentMin': [556500, 222500, 800],
-        'pointCloudExtentMax': [557300, 223900, 1000],
-        'mapExtent': [510000, 180000, 590000, 240000],
-        'initialZoom': 13,
-        // WARNING: when using other projections than EPSG 3857 or 4326, 
-        // you must edit index.html to load alternative projection from epsg.io
-        'mapCRS': 'EPSG:21781',
-        'pointCloudCRS': 'EPSG:21781',
-        'wmsUrl': 'http://sitn.ne.ch/mapproxy/service',
-        'wmsDefaultLayer': 'plan_ensemble_couleur',
+        /***IMPORTANT: when using other projections than EPSG 3857 or 4326, 
+        /* you must edit index.html to load alternative projection from epsg.io
+        ***/
+        'pointCloudCRS': 'EPSG:21781', // CRS of the point cloud
+        'pointCloudExtentMin': [550000, 200000, 0], // point cloud LL corner in point cloud CRS
+        'pointCloudExtentMax': [560000, 220000, 1700], // point cloud UR corner in point cloud CRS
+        'mapExtent': [523000, 190000, 580000, 224500], // initial map extent at loading in map CRS
+        'initialZoom': 4, // Initial map zoom
+        'attributionsHtml': 'Tiles &copy; <http://ne.ch/sitn">SITN</a>', // map's attributions
+        'mapCRS': 'EPSG:21781', // Map's CRS
+        'projectionExtent': [485869.5728, 76443.1884, 837076.5648, 299941.7864], // Map's project extent
+        'mapServiceType': 'WMTS', // Possible values: [WMS, WMTS]
+        /*** 
+        * WMTS Configuration only (automatic, production)
+        * Configuration gets loaded from local wmtsGetCapabilities xml file or URL.
+        * Beware of cross-domain request errors...
+        ***/
+        'wmtsGetCapabilities': 'config/wmtsconfig.xml',
+        'mapDefaultLayer': 'plan_ensemble_couleur',
+        /*** 
+        * WMS Configuration only (manual, dev purposes)
+        ***/
         'layers': {
             'plan_ensemble_couleur': 'Plan d\'ensemble couleur',
             'topo': 'Carte topographique',
@@ -110,6 +122,8 @@ pv.params = {
             'mnt2010': 'MNT 2010',
             'mns2010': 'MNS 2010',
             'densitelidar2010': 'Densité LiDAR 2010',
-        }
+        },
+        'mapServiceUrl': 'http://sitn.ne.ch/mapproxy/service',
+        'mapServiceImageFormat': 'image/png',
     }
 };
