@@ -137,36 +137,23 @@ pv.ui.initGUI = function (){
                     })
                 );
             } else {
-                pv.map2D.baseLayer.setSource(
-                    new ol.source.WMTS({
-                        attributions: [pv.map2D.attributions],
-                        url: pv.params.mapconfig.mapServiceUrl,
-                        layer: data.item.value,
-                        matrixSet: pv.params.mapconfig.wmtsMatrixSet,
-                        format: pv.params.mapconfig.mapServiceImageFormat,
-                        projection: pv.map2D.mapProjection,
-                        tileGrid: new ol.tilegrid.WMTS({
-                          origin: ol.extent.getTopLeft(pv.params.mapconfig.projectionExtent),
-                          resolutions: pv.map2D.resolutions,
-                          matrixIds: pv.map2D.matrixIds
-                        }),
-                        style: 'default'
-                    })
-                );
+
+                pv.map2D.WMTSOptions.layer = data.item.value;
+                var imageFormat = data.item.element[0].getAttribute('imageFormat');
+                pv.map2D.WMTSOptions.format = imageFormat;
+
+                pv.map2D.baseLayer = new ol.layer.Tile({
+                    opacity: 1,
+                    source: new ol.source.WMTS(pv.map2D.WMTSOptions)
+                });
+
+                var layersCollection = pv.map2D.map.getLayers();
+                layersCollection.removeAt(0);
+                layersCollection.insertAt(0, pv.map2D.baseLayer);
+
             }
         }
-    });
-    
-    for (var key in pv.params.mapconfig.layers){
-        var val = pv.params.mapconfig.layers[key];
-        var option = new Option(val, key);
-        if (val == pv.params.mapconfig.wmsDefaultLayer){
-            option.setAttribute("selected", "selected");
-        }
-        $("#layerSelector").append(option);
-    }
-
-    $("#layerSelector").selectmenu( "refresh" );
+    }).selectmenu("menuWidget").addClass("menuOverflow");
 
     // Language selector 
     $( "#languageSelect" ).selectmenu({

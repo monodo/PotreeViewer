@@ -120,31 +120,44 @@ pv.map2D.initMapView = function () {
             zoom: pv.params.mapconfig.initialZoom
         })
     });
-    
-        
+
     if (pv.params.mapconfig.mapServiceType == 'WMTS') {
-        
+
         var parser = new ol.format.WMTSCapabilities();
 
         $.ajax(pv.params.mapconfig.wmtsGetCapabilities).then(function(response) {
             var result = parser.read(response);
-            var options = ol.source.WMTS.optionsFromCapabilities(
+            // Generate layer list from getCapabilities file
+            for (var i=0; i < result.Contents.Layer.length; i++){
+                var val = result.Contents.Layer[i].Title;
+                var key = result.Contents.Layer[i].Identifier;
+                var option = new Option(val, key);
+                option.setAttribute("Imageformat", result.Contents.Layer[i].Format[0]);
+                if (key == pv.params.mapconfig.mapDefaultLayer){
+                    option.setAttribute("selected", "selected");
+                }
+                $("#layerSelector").append(option);
+            }
+
+            $("#layerSelector").selectmenu( "refresh" );
+
+            pv.map2D.WMTSOptions = ol.source.WMTS.optionsFromCapabilities(
                 result,
                 {
                     layer: pv.params.mapconfig.mapDefaultLayer, 
                     matrixSet: pv.params.mapconfig.mapCRS
                 });
-            console.log(options);
+
             pv.map2D.baseLayer = new ol.layer.Tile({
                 opacity: 1,
-                source: new ol.source.WMTS(options)
+                source: new ol.source.WMTS(pv.map2D.WMTSOptions)
             })
 
             var layersCollection = pv.map2D.map.getLayers();
             layersCollection.insertAt(0, pv.map2D.baseLayer);
+
         });
-        
-    
+
     } else {
         // WMS
         pv.map2D.baseLayer = new ol.layer.Image({
@@ -205,7 +218,7 @@ pv.map2D.updateMapExtent = function(){
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
-
-    var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
-    pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
+    // TODO: uncomment when pointcloud.getVisibleExtent() is fixed
+    // var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
+    // pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
 };
