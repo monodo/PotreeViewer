@@ -100,12 +100,14 @@ pv.params = {
         // WARNING: when using other projections than EPSG 3857 or 4326, 
         // you must edit index.html to load alternative projection from epsg.io
         'attributionsHtml': 'Tiles &copy; <http://ne.ch/sitn">SITN</a>',
-        'mapServiceType': 'WMS', // Possible values: [WMS, WMTS]
+        'mapServiceType': 'WMTS', // Possible values: [WMS, WMTS]
         'mapServiceImageFormat': 'image/png',
         'mapCRS': 'EPSG:21781',
         'projectionExtent': [485869.5728, 76443.1884, 837076.5648, 299941.7864],
         'pointCloudCRS': 'EPSG:21781',
         'wmtsMatrixSet': 'swiss_grid_new',
+        // Define WMTS GetCapabilities here to prevent cross domain errors
+        'wmtsGetCapabilities': 'config/wmtsconfig.xml',
         'mapServiceUrl': 'http://sitn.ne.ch/mapproxy/service',
         'mapDefaultLayer': 'plan_ensemble_couleur',
         'layers': {

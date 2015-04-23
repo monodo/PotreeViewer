@@ -93,49 +93,6 @@ pv.map2D.initMapView = function () {
     });
 
     var extent = pv.params.mapconfig.mapExtent;
-    
-    if (pv.params.mapconfig.mapServiceType == 'WMTS') {
-
-        // WMTS
-        var size = ol.extent.getWidth(pv.params.mapconfig.projectionExtent) / 256;
-        pv.map2D.resolutions = new Array(14);
-        pv.map2D.matrixIds = new Array(14);
-        for (var z = 0; z < 14; ++z) {
-            pv.map2D.resolutions[z] = size / Math.pow(2, z);
-            pv.map2D.matrixIds[z] = z;
-        }
-
-        pv.map2D.baseLayer = new ol.layer.Tile({
-          opacity: 1,
-          extent: pv.params.mapconfig.projectionExtent,
-          source: new ol.source.WMTS({
-            attributions: [pv.map2D.attributions],
-            url: pv.params.mapconfig.mapServiceUrl,
-            layer: pv.params.mapconfig.mapDefaultLayer,
-            matrixSet: pv.params.mapconfig.wmtsMatrixSet,
-            format: pv.params.mapconfig.mapServiceImageFormat,
-            projection: pv.map2D.mapProjection,
-            tileGrid: new ol.tilegrid.WMTS({
-              origin: ol.extent.getTopLeft(pv.params.mapconfig.projectionExtent),
-              resolutions: pv.map2D.resolutions,
-              matrixIds: pv.map2D.matrixIds
-            }),
-            style: 'default'
-          })
-        });
-    
-    } else {
-        // WMS
-        pv.map2D.baseLayer = new ol.layer.Image({
-            extent: extent,
-            source: new ol.source.ImageWMS({
-                attributions: [pv.map2D.attributions],
-                url: pv.params.mapconfig.mapServiceUrl,
-                params: {'LAYERS': pv.params.mapconfig.mapDefaultLayer},
-                serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
-            })
-        });
-    }
 
     var mousePositionControl = new ol.control.MousePosition({
         coordinateFormat: ol.coordinate.createStringXY(4),
@@ -151,7 +108,6 @@ pv.map2D.initMapView = function () {
             mousePositionControl
         ],
         layers: [
-            pv.map2D.baseLayer,
             extentLayer,
             visibleBoundsLayer,
             camFrustumLayer
@@ -164,6 +120,46 @@ pv.map2D.initMapView = function () {
             zoom: pv.params.mapconfig.initialZoom
         })
     });
+    
+        
+    if (pv.params.mapconfig.mapServiceType == 'WMTS') {
+        
+        var parser = new ol.format.WMTSCapabilities();
+
+        $.ajax(pv.params.mapconfig.wmtsGetCapabilities).then(function(response) {
+            var result = parser.read(response);
+            var options = ol.source.WMTS.optionsFromCapabilities(
+                result,
+                {
+                    layer: pv.params.mapconfig.mapDefaultLayer, 
+                    matrixSet: pv.params.mapconfig.mapCRS
+                });
+            console.log(options);
+            pv.map2D.baseLayer = new ol.layer.Tile({
+                opacity: 1,
+                source: new ol.source.WMTS(options)
+            })
+
+            var layersCollection = pv.map2D.map.getLayers();
+            layersCollection.insertAt(0, pv.map2D.baseLayer);
+        });
+        
+    
+    } else {
+        // WMS
+        pv.map2D.baseLayer = new ol.layer.Image({
+            extent: extent,
+            source: new ol.source.ImageWMS({
+                attributions: [pv.map2D.attributions],
+                url: pv.params.mapconfig.mapServiceUrl,
+                params: {'LAYERS': pv.params.mapconfig.mapDefaultLayer},
+                serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+            })
+        });
+
+        var layersCollection = pv.map2D.map.getLayers();
+        layersCollection.insertAt(0, pv.map2D.baseLayer);
+    }
 
 };
     
@@ -211,6 +207,5 @@ pv.map2D.updateMapExtent = function(){
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
 
     var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
-    console.log(currentExtent);
     pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
 };
