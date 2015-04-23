@@ -151,7 +151,7 @@ pv.map2D.initMapView = function () {
             pv.map2D.baseLayer = new ol.layer.Tile({
                 opacity: 1,
                 source: new ol.source.WMTS(pv.map2D.WMTSOptions)
-            })
+            });
 
             var layersCollection = pv.map2D.map.getLayers();
             layersCollection.insertAt(0, pv.map2D.baseLayer);
