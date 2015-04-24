@@ -79,13 +79,20 @@ pv.profile.draw = function () {
         .scale(y)
         .orient("left")
         .ticks(10, "m");
+        
+    var zoom = d3.behavior.zoom()
+    .x(x)
+    .y(y)
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
 
     var svg = d3.select("div#profileContainer").append("svg")
+        .call(zoom)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+        
     // Append axis to the chart
     svg.append("g")
         .attr("class", "x axis")
@@ -104,5 +111,26 @@ pv.profile.draw = function () {
         .attr("cy", function(d) { return y(d.altitude); })
         .attr("r", 1)
         .style("fill", function(d) { return d.color})
-        .style("stroke", function(d) { return d.color});
+        .style("stroke", function(d) { return d.color})
+            
+    svg.selectAll("text")
+        .style("fill", "white");
+
+        
+    function zoomed() {
+        console.log("zoomed");
+        svg.select(".x.axis").call(xAxis);
+        svg.select(".y.axis").call(yAxis);
+        svg.attr("circle", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        svg.selectAll("text")
+            .style("fill", "white");
+    }
+
+    function reset() {
+      svg.call(zoom
+          .x(x.domain([-width / 2, width / 2]))
+          .y(y.domain([-height / 2, height / 2]))
+          .event);
+    }
+
 };

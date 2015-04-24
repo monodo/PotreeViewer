@@ -62,64 +62,6 @@ body {
     opacity: 0.7;
 }
 
-
-
-/* .bar {
-  fill: steelblue;
-  color: white;
-
-} */
-
-/* .bar text {
-    fill: white;
-}
-
-.bar:hover {
-  fill: red;
-} */
-
-.axis {
-  font: 10px sans-serif;
-  color: white;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: white;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  fill: none;
-  stroke: white;
-  shape-rendering: crispEdges;
-}
-
-circle, .line {
-    fill: none;
-    /* stroke: steelblue; */
-    stroke-width: 2px; 
-}
-circle {
-    fill: white;
-    /* fill-opacity: 0.2; */
-    /* cursor: move;  */
-}
-circle.selected {
-    fill: #ff7f0e;
-    stroke: #ff7f0e;    
-}
-circle:hover {
-    fill: #ff7f0e;
-    stroke: red; 
-    stroke-width:5px;
-}
-circle.selected:hover {
-    fill: #ff7f0e;
-    stroke: #ff7f0e; 
-}
-
 .toolbox  {
     min-width: 300px;
     background-color: #00001F;
@@ -267,4 +209,49 @@ a:hover, a:visited, a:link, a:active{
     top: 65px !important;
 }
 
+/****
+Chart style
+*/
+
+.axis {
+  font: 10px sans-serif;
+  color: white;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+/* .x.axis path {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+ */
+circle, .line {
+    fill: none;
+    /* stroke: steelblue; */
+    stroke-width: 2px; 
+}
+circle {
+    fill: white;
+    /* fill-opacity: 0.2; */
+    /* cursor: move;  */
+}
+circle.selected {
+    fill: #ff7f0e;
+    stroke: #ff7f0e;    
+}
+circle:hover {
+    fill: #ff7f0e;
+    stroke: red; 
+    stroke-width:5px;
+}
+circle.selected:hover {
+    fill: #ff7f0e;
+    stroke: #ff7f0e; 
+}
 
