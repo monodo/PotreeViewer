@@ -9,6 +9,13 @@ pv.profile.getProfilePoints = function(){
     var data = [];
     var distance = 0;
     var totalDistance = 0;
+    var minX = Math.max();
+    var minY = Math.max();
+    var minZ = Math.max();
+    var maxX = 0;
+    var maxY = 0;
+    var maxZ = 0;
+    
     for(var i = 0; i < segments.length; i++){
         var segment = segments[i];        
         var xOA = segment.end.x - segment.start.x;
@@ -17,7 +24,34 @@ pv.profile.getProfilePoints = function(){
         var points = segment.points;
         // TODO: add attribute support
         for(var j = 0; j < points.numPoints; j++){
+            
             var p = points.position[j];
+
+            // get min/max values            
+            if (p.x < minX) {
+                minX = p.x;
+            };
+            
+            if (p.y < minY) {
+                minY = p.y;
+            };
+            
+            if (p.z < minZ) {
+                minZ = p.z
+            };
+            
+            if (p.x > maxX) {
+                maxX = p.x;
+            };
+            
+            if (p.y < maxY) {
+                maxY = p.y;
+            };
+            
+            if (p.z < maxZ) {
+                maxZ = p.z
+            };
+            
             var xOB = p.x - segment.start.x;
             var yOB = p.z - segment.start.z;
             var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
@@ -30,14 +64,24 @@ pv.profile.getProfilePoints = function(){
                     'altitude': p.y,
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
-                    'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
+                    // 'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
         }
         totalDistance += segmentLength;
     }
+    
+    var output = {
+        'data': data,
+        'minX': minX,
+        'minY': minY,
+        'minZ': minZ,
+        'maxX': maxX,
+        'maxY': maxY,
+        'maxZ': maxZ
+    }
 
-    return data;
+    return output;
 };
 /***
 * pv.profile.draw(data)
@@ -46,7 +90,8 @@ pv.profile.getProfilePoints = function(){
 pv.profile.draw = function () {
     
     // Get the profile'points, including attributes
-    var data = pv.profile.getProfilePoints();
+    var output = pv.profile.getProfilePoints();
+    var data = output.data;
     
     if (data.length === 0){
         return;
@@ -85,8 +130,19 @@ pv.profile.draw = function () {
     var zoom = d3.behavior.zoom()
     .x(x)
     .y(y)
-    .scaleExtent([1, 10])
-    .on("zoom", zoomed);
+    .on("zoom",  function(){
+
+        // Zoom-Pan axis
+        svg.select(".x.axis").call(xAxis);
+        svg.select(".y.axis").call(yAxis);
+        // Zoom-Pan points
+        svg.selectAll(".circle")
+            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
+        
+        svg.selectAll("text")
+            .style("fill", "white");
+            
+    });
 
     var svg = d3.select("div#profileContainer").append("svg")
         .call(zoom)
@@ -104,6 +160,8 @@ pv.profile.draw = function () {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
+        
+
     svg.selectAll(".circle")
         .data(data)
         .enter().append("circle")
@@ -138,16 +196,6 @@ pv.profile.draw = function () {
             
     svg.selectAll("text")
         .style("fill", "white");
-
-        
-    function zoomed() {
-        console.log("zoomed");
-        svg.select(".x.axis").call(xAxis);
-        svg.select(".y.axis").call(yAxis);
-        svg.attr("circle", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        svg.selectAll("text")
-            .style("fill", "white");
-    }
 
     function reset() {
       svg.call(zoom

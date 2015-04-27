@@ -100,7 +100,7 @@ body {
 
 #closeProfileContainer {
     position: absolute;
-    left: 5px;
+    right: 3px;
     top: 0px;
     cursor: pointer;
 }
