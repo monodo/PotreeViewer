@@ -500,6 +500,7 @@ pv.utils.disableControls = function () {
     if (pv.scene3D.profileTool.activeProfile) {
         pv.scene3D.profileTool.finishInsertion();
     }
+
     pv.scene3D.profileTool.enabled = false;
     pv.scene3D.volumeTool.enabled = false;
     pv.scene3D.measuringTool.setEnabled(false);

@@ -94,11 +94,14 @@ pv.profile.getProfilePoints = function(){
 * Creates a D3 altitude profile
 ***/
 pv.profile.draw = function () {
-    
-    // Get the profile'points, including attributes
+
+    var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
+
+    pv.map2D.updateToolLayer(thePoints);
+
     var output = pv.profile.getProfilePoints();
     var data = output.data;
-    
+
     if (data.length === 0){
         return;
     }
