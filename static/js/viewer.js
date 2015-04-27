@@ -295,6 +295,9 @@ pv.ui.initGUI = function (){
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
+            if (pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1]) {
+                pv.profile.draw();
+            }
         }
     });
 

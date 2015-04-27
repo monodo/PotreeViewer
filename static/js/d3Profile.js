@@ -5,10 +5,10 @@ pv.profile.getProfilePoints = function(){
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, 2);
+    console.log(segments);
     var data = [];
     var distance = 0;
     var totalDistance = 0;
-
     for(var i = 0; i < segments.length; i++){
         var segment = segments[i];        
         var xOA = segment.end.x - segment.start.x;
@@ -28,7 +28,9 @@ pv.profile.getProfilePoints = function(){
                 data.push({
                     'distance': dist,
                     'altitude': p.y,
-                    'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)'
+                    'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
+                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
+                    'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
         }
@@ -102,7 +104,6 @@ pv.profile.draw = function () {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
-
     svg.selectAll(".circle")
         .data(data)
         .enter().append("circle")
@@ -110,8 +111,30 @@ pv.profile.draw = function () {
         .attr("cx", function(d) { return x(d.distance); })
         .attr("cy", function(d) { return y(d.altitude); })
         .attr("r", 1)
-        .style("fill", function(d) { return d.color})
-        .style("stroke", function(d) { return d.color})
+        .style("fill", function(d) {
+            if (pv.params.pointColorType === Potree.PointColorType.RGB) {
+                return d.color;
+            } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
+                return d.intensity;
+            } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
+                // TODO: get the color map
+                return d.color;
+            } else {
+                return d.color;
+            }
+        })
+        .style("stroke", function(d) { 
+            if (pv.params.pointColorType === Potree.PointColorType.RGB) {
+                return d.color;
+            } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
+                return d.intensity;
+            } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
+                // TODO: get the color map
+                return d.color;
+            } else {
+                return d.color;
+            }
+        })
             
     svg.selectAll("text")
         .style("fill", "white");
