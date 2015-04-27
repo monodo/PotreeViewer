@@ -15,6 +15,11 @@ pv.profile.getProfilePoints = function(){
     var maxY = 0;
     var maxZ = 0;
     
+    // TODO in Potree later:
+    var colorRamp = d3.scale.linear()
+        .domain([300, 800])
+        .range(["#4700b6", "blue", "aqua", "green", "yellow", "orange", "red"]);
+    
     for(var i = 0; i < segments.length; i++){
         var segment = segments[i];        
         var xOA = segment.end.x - segment.start.x;
@@ -57,12 +62,14 @@ pv.profile.getProfilePoints = function(){
             var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
             var alpha = Math.acos(cosAlpha);
             var dist = hypo * cosAlpha + totalDistance;
+
             if (!isNaN(dist)) {
                 data.push({
                     'distance': dist,
                     'altitude': p.y,
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
-                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)'
+                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
+                    'heightColor': colorRamp(p.y)
                     // 'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
@@ -189,6 +196,11 @@ pv.profile.draw = function () {
             } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
                 // TODO: get the color map
                 return d.color;
+            } else if (pv.params.pointColorType === Potree.PointColorType.HEIGHT) {
+                // TODO: get the color map
+                console.log("height");
+                console.log(d.heightColor);
+                return d.heightColor;
             } else {
                 return d.color;
             }
