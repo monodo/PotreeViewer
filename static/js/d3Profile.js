@@ -5,7 +5,6 @@ pv.profile.getProfilePoints = function(){
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, 2);
-    console.log(segments);
     var data = [];
     var distance = 0;
     var totalDistance = 0;
@@ -24,34 +23,34 @@ pv.profile.getProfilePoints = function(){
         var points = segment.points;
         // TODO: add attribute support
         for(var j = 0; j < points.numPoints; j++){
-            
+
             var p = points.position[j];
 
             // get min/max values            
             if (p.x < minX) {
                 minX = p.x;
-            };
-            
+            }
+
             if (p.y < minY) {
                 minY = p.y;
-            };
-            
+            }
+
             if (p.z < minZ) {
-                minZ = p.z
-            };
-            
+                minZ = p.z;
+            }
+
             if (p.x > maxX) {
                 maxX = p.x;
-            };
-            
+            }
+
             if (p.y < maxY) {
                 maxY = p.y;
-            };
-            
+            }
+
             if (p.z < maxZ) {
-                maxZ = p.z
-            };
-            
+                maxZ = p.z;
+            }
+
             var xOB = p.x - segment.start.x;
             var yOB = p.z - segment.start.z;
             var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
@@ -63,7 +62,7 @@ pv.profile.getProfilePoints = function(){
                     'distance': dist,
                     'altitude': p.y,
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
-                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
+                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)'
                     // 'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
@@ -79,7 +78,7 @@ pv.profile.getProfilePoints = function(){
         'maxX': maxX,
         'maxY': maxY,
         'maxZ': maxZ
-    }
+    };
 
     return output;
 };
@@ -137,11 +136,11 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         // Zoom-Pan points
         svg.selectAll(".circle")
-            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
+            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         
         svg.selectAll("text")
             .style("fill", "white")
-            .style("font-size", "8px")
+            .style("font-size", "8px");
             
     });
 
@@ -160,7 +159,7 @@ pv.profile.draw = function () {
 
     svg.append("g")
         .attr("class", "y axis")
-        .call(yAxis)
+        .call(yAxis);
         
 
     svg.selectAll(".circle")
@@ -193,7 +192,7 @@ pv.profile.draw = function () {
             } else {
                 return d.color;
             }
-        })
+        });
             
     svg.selectAll("text")
         .style("fill", "white");
