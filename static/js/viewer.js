@@ -206,6 +206,12 @@ pv.ui.initGUI = function (){
         $("#showProfileButton").show(600);
     });
     
+    // Reset the profile zoom-pan
+    $("#resetProfileZoom").click(function(){
+        console.log('ici');
+        pv.profile.resetPanZoom();
+    });
+    
     // Show the mapbox
     $("#showProfileButton").button({   
         text: false,

@@ -198,8 +198,6 @@ pv.profile.draw = function () {
                 return d.color;
             } else if (pv.params.pointColorType === Potree.PointColorType.HEIGHT) {
                 // TODO: get the color map
-                console.log("height");
-                console.log(d.heightColor);
                 return d.heightColor;
             } else {
                 return d.color;
@@ -208,12 +206,15 @@ pv.profile.draw = function () {
             
     svg.selectAll("text")
         .style("fill", "white");
+        
+    pv.profile.resetPanZoom = function reset() {
+        svg.call(zoom
+            .x(x.domain([-width / 2, width / 2]))
+            .y(y.domain([-height / 2, height / 2]))
+            .event);
+}
 
-    function reset() {
-      svg.call(zoom
-          .x(x.domain([-width / 2, width / 2]))
-          .y(y.domain([-height / 2, height / 2]))
-          .event);
-    }
+
 
 };
+

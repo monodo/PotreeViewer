@@ -109,6 +109,12 @@ body {
     top: 0px;
     cursor: pointer;
 }
+#resetProfileZoom {
+    position: absolute;
+    right: 17px;
+    top: 0px;
+    cursor: pointer;
+}
 
 #showProfileButton {
     width: 20px;
