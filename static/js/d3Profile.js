@@ -140,7 +140,8 @@ pv.profile.draw = function () {
             .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
         
         svg.selectAll("text")
-            .style("fill", "white");
+            .style("fill", "white")
+            .style("font-size", "8px")
             
     });
 

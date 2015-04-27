@@ -203,8 +203,27 @@ pv.ui.initGUI = function (){
     // Close the profile container
     $("#closeProfileContainer").click(function(){
         $("#profileContainer").slideUp(600);
+        $("#showProfileButton").show(600);
     });
-
+    
+    // Show the mapbox
+    $("#showProfileButton").button({   
+        text: false,
+        icons: {
+            primary: 'ui-icon-triangle-1-nw'
+        }
+    }).click(function() {
+        if ($("#profileContainer").is(":visible")) {
+            $("#profileContainer").slideUp(600);
+            $("#showProfileButton").blur();
+            $("#showProfileButton").hide();
+        }
+        else {
+            $("#profileContainer").slideDown(600);
+            $("#showProfileButton").hide(600);
+        }
+    });
+    $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
@@ -217,9 +236,12 @@ pv.ui.initGUI = function (){
             $("#showMapButton").hide();
         }
     });
+    
+    // $("#showMapButton").removeClass();
+    $("#showMapButton").addClass('showMapButton');
 
     if (!pv.params.isPointCloudGeoreferenced) {
-        $( "#showMapButton").hide();
+        $("#showMapButton").hide();
     }
 
     // Sliders

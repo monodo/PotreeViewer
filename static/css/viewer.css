@@ -51,6 +51,11 @@ body {
     top: 15px;
     width: 65px;
     height: 65px;
+    padding: none !important;
+    margin: none !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .profileContainer {
@@ -103,6 +108,17 @@ body {
     right: 3px;
     top: 0px;
     cursor: pointer;
+}
+
+#showProfileButton {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 
 #moveDiv { 
