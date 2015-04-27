@@ -208,8 +208,15 @@ pv.ui.initGUI = function (){
     
     // Reset the profile zoom-pan
     $("#resetProfileZoom").click(function(){
-        console.log('ici');
         pv.profile.resetPanZoom();
+    });
+    
+    $("#profileZoomIn").click(function(){
+        pv.profile.manualZoom(1);
+    });
+    
+    $("#profileZoomOut").click(function(){
+        pv.profile.manualZoom(-1);
     });
     
     // Show the mapbox

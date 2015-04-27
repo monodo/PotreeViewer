@@ -109,9 +109,24 @@ body {
     top: 0px;
     cursor: pointer;
 }
+
 #resetProfileZoom {
     position: absolute;
     right: 17px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profileZoomIn {
+    position: absolute;
+    right: 31px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profileZoomOut {
+    position: absolute;
+    right: 45px;
     top: 0px;
     cursor: pointer;
 }

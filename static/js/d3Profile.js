@@ -133,7 +133,7 @@ pv.profile.draw = function () {
         .orient("left")
         .ticks(10, "m");
         
-    var zoom = d3.behavior.zoom()
+    pv.profile.zoom = d3.behavior.zoom()
     .x(x)
     .y(y)
     .on("zoom",  function(){
@@ -143,7 +143,7 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         // Zoom-Pan points
         svg.selectAll(".circle")
-            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
         
         svg.selectAll("text")
             .style("fill", "white")
@@ -152,7 +152,7 @@ pv.profile.draw = function () {
     });
 
     var svg = d3.select("div#profileContainer").append("svg")
-        .call(zoom)
+        .call(pv.profile.zoom)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -202,19 +202,31 @@ pv.profile.draw = function () {
             } else {
                 return d.color;
             }
-        });
+        })
             
     svg.selectAll("text")
         .style("fill", "white");
         
     pv.profile.resetPanZoom = function reset() {
-        svg.call(zoom
+        svg.call(pv.profile.zoom
             .x(x.domain([-width / 2, width / 2]))
             .y(y.domain([-height / 2, height / 2]))
             .event);
-}
-
-
+    }
 
 };
+
+
+pv.profile.manualZoom = function (increment) {
+
+    var currentScale = pv.profile.zoom.scale();
+    var nextScale = currentScale + increment;
+    if (nextScale > 0) {
+        pv.profile.zoom.scale([nextScale])
+        pv.profile.zoom.event(d3.select("div#profileContainer"))
+    } else {
+        pv.profile.zoom.scale([1])
+        pv.profile.zoom.event(d3.select("div#profileContainer"))
+    }
+}
 
