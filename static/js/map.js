@@ -50,6 +50,7 @@ pv.map2D.initMapView = function () {
         })
     });
 
+
     var visibleBoundsLayer = new ol.layer.Vector({
         source: featureVector,
         style: new ol.style.Style({
@@ -65,6 +66,20 @@ pv.map2D.initMapView = function () {
                 fill: new ol.style.Fill({
                     color: '#0000ff'
                 })
+            })
+        })
+    });
+    
+    pv.map2D.toolLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+        }),
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 0, 0, 0.5)'
+            }),
+            stroke: new ol.style.Stroke({
+                  color: 'rgba(255, 0, 0, 0.5)',
+                  width: 2
             })
         })
     });
@@ -108,6 +123,7 @@ pv.map2D.initMapView = function () {
             mousePositionControl
         ],
         layers: [
+            pv.map2D.toolLayer,
             extentLayer,
             visibleBoundsLayer,
             camFrustumLayer
@@ -201,7 +217,6 @@ pv.map2D.updateMapFrustum = function (){
     camPos = pv.utils.toGeo(camPos);
     left = pv.utils.toGeo(left);
     right = pv.utils.toGeo(right);
-
     camPos = ol.proj.transform([camPos.x, camPos.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     left = ol.proj.transform([left.x, left.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     right = ol.proj.transform([right.x, right.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
@@ -214,11 +229,30 @@ pv.map2D.updateMapFrustum = function (){
  * Parameters: none
  */
 pv.map2D.updateMapExtent = function(){
-    //TODO: update the map zoom level
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
-    // TODO: uncomment when pointcloud.getVisibleExtent() is fixed
-    // var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
-    // pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
+};
+
+/**
+* Method: update the profile path on the 2D map
+* Parameters: Potree.profile (active profile);
+***/
+
+pv.map2D.updateToolLayer = function (toolVertices) {
+    console.log(toolVertices);
+    if (!toolVertices){
+        return;
+    }
+    var lineString = [];
+    for (var i=0; i<toolVertices.length; i++) {
+        var p = toolVertices[i];
+        var pGeo = pv.utils.toGeo(p);
+        lineString.push([pGeo.x, pGeo.y]);
+    }
+    var line = new ol.geom.LineString(lineString);
+    var feature = new ol.Feature(line);
+    pv.map2D.toolLayer.getSource().clear();
+    pv.map2D.toolLayer.getSource().addFeature(feature);
+    pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
 };

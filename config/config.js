@@ -83,7 +83,7 @@ pv.params = {
         'intensity_gradient': Potree.PointColorType.INTENSITY_GRADIENT,
         'classification': Potree.PointColorType.CLASSIFICATION,
         //'return_number': Potree.PointColorType.RETURN_NUMBER,
-        'octree_depth': Potree.PointColorType.OCTREE_DEPTH,
+        'octree_depth': Potree.PointColorType.OCTREE_DEPTH
         //'point_index': Potree.PointColorType.POINT_INDEX
     },
     'defaultPointClip': Potree.ClipMode.HIGHLIGHT_INSIDE,
@@ -121,9 +121,9 @@ pv.params = {
             'ortho2011': 'Orthophoto 2011',
             'mnt2010': 'MNT 2010',
             'mns2010': 'MNS 2010',
-            'densitelidar2010': 'Densité LiDAR 2010',
+            'densitelidar2010': 'Densité LiDAR 2010'
         },
         'mapServiceUrl': 'http://sitn.ne.ch/mapproxy/service',
-        'mapServiceImageFormat': 'image/png',
+        'mapServiceImageFormat': 'image/png'
     }
 };

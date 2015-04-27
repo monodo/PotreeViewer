@@ -203,8 +203,40 @@ pv.ui.initGUI = function (){
     // Close the profile container
     $("#closeProfileContainer").click(function(){
         $("#profileContainer").slideUp(600);
+        $("#showProfileButton").show(600);
     });
-
+    
+    // Reset the profile zoom-pan
+    $("#resetProfileZoom").click(function(){
+        pv.profile.resetPanZoom();
+    });
+    
+    $("#profileZoomIn").click(function(){
+        pv.profile.manualZoom(1);
+    });
+    
+    $("#profileZoomOut").click(function(){
+        pv.profile.manualZoom(-1);
+    });
+    
+    // Show the mapbox
+    $("#showProfileButton").button({   
+        text: false,
+        icons: {
+            primary: 'ui-icon-triangle-1-nw'
+        }
+    }).click(function() {
+        if ($("#profileContainer").is(":visible")) {
+            $("#profileContainer").slideUp(600);
+            $("#showProfileButton").blur();
+            $("#showProfileButton").hide();
+        }
+        else {
+            $("#profileContainer").slideDown(600);
+            $("#showProfileButton").hide(600);
+        }
+    });
+    $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
@@ -217,9 +249,12 @@ pv.ui.initGUI = function (){
             $("#showMapButton").hide();
         }
     });
+    
+    // $("#showMapButton").removeClass();
+    $("#showMapButton").addClass('showMapButton');
 
     if (!pv.params.isPointCloudGeoreferenced) {
-        $( "#showMapButton").hide();
+        $("#showMapButton").hide();
     }
 
     // Sliders
@@ -295,6 +330,9 @@ pv.ui.initGUI = function (){
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
+            if (pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1]) {
+                pv.profile.draw();
+            }
         }
     });
 
