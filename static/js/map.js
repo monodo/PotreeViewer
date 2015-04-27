@@ -229,13 +229,9 @@ pv.map2D.updateMapFrustum = function (){
  * Parameters: none
  */
 pv.map2D.updateMapExtent = function(){
-    //TODO: update the map zoom level
     var geoExtent = pv.utils.toGeo(pv.scene3D.pointcloud.getVisibleExtent());
     var geoMin = ol.proj.transform([geoExtent.min.x, geoExtent.min.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
     var geoMax = ol.proj.transform([geoExtent.max.x, geoExtent.max.y], pv.map2D.pointCloudProjection, pv.map2D.mapProjection );
-    // TODO: uncomment when pointcloud.getVisibleExtent() is fixed
-    // var currentExtent = [geoMin[0],geoMax[1], geoMax[0],geoMin[1]];
-    // pv.map2D.map.getView().fitExtent(currentExtent, pv.map2D.map.getSize());
 };
 
 /**
@@ -244,7 +240,10 @@ pv.map2D.updateMapExtent = function(){
 ***/
 
 pv.map2D.updateToolLayer = function (toolVertices) {
-
+    console.log(toolVertices);
+    if (!toolVertices){
+        return;
+    }
     var lineString = [];
     for (var i=0; i<toolVertices.length; i++) {
         var p = toolVertices[i];
@@ -256,4 +255,4 @@ pv.map2D.updateToolLayer = function (toolVertices) {
     pv.map2D.toolLayer.getSource().clear();
     pv.map2D.toolLayer.getSource().addFeature(feature);
     pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
-}
+};

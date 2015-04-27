@@ -209,7 +209,7 @@ pv.utils.useEarthControls = function() {
     }
     pv.scene3D.controls = pv.scene3D.earthControls;
     pv.scene3D.controls.enabled = true;
-}
+};
 
 /***
 * Method: get the intersecting point between the mouse position and the point cloud
@@ -260,10 +260,10 @@ pv.utils.updateCoordinatePicking = function (){
             var msg = "EPSG:21781: " + geoCoordinates.x.toFixed(2) + " / ";
             msg += geoCoordinates.y.toFixed(2) + " / ";
             msg += geoCoordinates.z.toFixed(2);
-            $('#lblCoordinates').html(msg)
+            $('#lblCoordinates').html(msg);
         }
     }else{
-        $('#lblCoordinates').html('')
+        $('#lblCoordinates').html('');
     }
 };
 
@@ -473,7 +473,7 @@ pv.utils.renderHighQuality = function (){
         transformationTool.render();
 
     }
-}
+};
 
 /***
 * Method: loop (recursive function)
@@ -507,4 +507,4 @@ pv.utils.disableControls = function () {
     pv.scene3D.areaTool.setEnabled(false);
     pv.scene3D.angleTool.setEnabled(false);
     pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
-}
+};
