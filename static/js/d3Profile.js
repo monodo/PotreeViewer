@@ -154,9 +154,13 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         
         // Zoom-Pan points
-        // d3.selectAll(".circle").remove();
-        svg.selectAll(".circle")
-            .attr("transform", "translate(" + pv.profile.zoom.translate() + ")scale(" + pv.profile.zoom.scale() + ")");
+        //**************************************
+
+        pv.profile.drawPoints(output.data, svg, x, y, 2);
+        
+        //*******************************
+        // svg.selectAll(".circle")
+            // .attr("transform", "translate(" + pv.profile.zoom.translate() + ")scale(" + pv.profile.zoom.scale() + ")");
 
         svg.selectAll("text")
             .style("fill", "white")
@@ -186,13 +190,45 @@ pv.profile.draw = function () {
         .attr("class", "y axis")
         .call(yAxis);
 
-    svg.selectAll(".circle")
+    pv.profile.drawPoints(output.data, svg, x, y, 2);
+            
+    svg.selectAll("text")
+        .style("fill", "white");
+        
+    pv.profile.resetPanZoom = function reset() {
+        svg.call(pv.profile.zoom
+            .x(x.domain([-width / 2, width / 2]))
+            .y(y.domain([-height / 2, height / 2]))
+            .event);
+    };
+    $("#profileContainer").slideDown(600)
+};
+
+
+pv.profile.manualZoom = function (increment) {
+
+    var currentScale = pv.profile.zoom.scale();
+    var nextScale = currentScale + increment;
+    if (nextScale > 0) {
+        pv.profile.zoom.scale([nextScale]);
+        pv.profile.zoom.event(d3.select("div#profileContainer"));
+    } else {
+        pv.profile.zoom.scale([1]);
+        pv.profile.zoom.event(d3.select("div#profileContainer"));
+    }
+};
+
+pv.profile.drawPoints = function(data, svg, x, y, psize) {
+
+        d3.selectAll(".circle").remove();
+
+        svg.selectAll(".circle")
         .data(data)
         .enter().append("circle")
         .attr("class", "circle")
         .attr("cx", function(d) { return x(d.distance); })
         .attr("cy", function(d) { return y(d.altitude); })
-        .attr("r", 1)
+        .attr("r", psize)
         .style("fill", function(d) {
             if (pv.params.pointColorType === Potree.PointColorType.RGB) {
                 return d.color;
@@ -220,30 +256,5 @@ pv.profile.draw = function () {
                 return d.color;
             }
         });
-            
-    svg.selectAll("text")
-        .style("fill", "white");
-        
-    pv.profile.resetPanZoom = function reset() {
-        svg.call(pv.profile.zoom
-            .x(x.domain([-width / 2, width / 2]))
-            .y(y.domain([-height / 2, height / 2]))
-            .event);
-    };
-    $("#profileContainer").slideDown(600)
-};
-
-
-pv.profile.manualZoom = function (increment) {
-
-    var currentScale = pv.profile.zoom.scale();
-    var nextScale = currentScale + increment;
-    if (nextScale > 0) {
-        pv.profile.zoom.scale([nextScale]);
-        pv.profile.zoom.event(d3.select("div#profileContainer"));
-    } else {
-        pv.profile.zoom.scale([1]);
-        pv.profile.zoom.event(d3.select("div#profileContainer"));
-    }
-};
+}
 

@@ -561,7 +561,6 @@ pv.ui.initGUI = function (){
     $('#radioProfile').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.disableControls();
-           // $("#profileContainer").slideDown(600);
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
