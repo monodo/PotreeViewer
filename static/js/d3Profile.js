@@ -139,7 +139,7 @@ pv.profile.draw = function () {
     var y = d3.scale.linear()
         .range([height -5, 5]);
     y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
-
+    
     // Create x/y axis
     var xAxis = d3.svg.axis()
         .scale(x)
