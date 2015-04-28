@@ -130,7 +130,11 @@ pv.ui.initGUI = function (){
         stop: function(event, ui) {
             pv.map2D.map.updateSize();
         }
-    }); 
+    }).draggable({
+        handle: "#dragMap",
+        containment: 'window',
+        scroll: false,
+    }).draggable({ scroll: false });   
 
     // Handle mapbox size on windows resize
     $(window).resize(function(e) {
@@ -196,15 +200,7 @@ pv.ui.initGUI = function (){
         select: function( event, data ) {
             var value = data.item.value;
         }
-    });
-
-    // Draggable mapBox
-    $( "#mapBox" ).draggable({
-        handle: "#dragMap",
-        containment: 'window',
-        scroll: false,
-        helper: 'clone'
-    }).draggable({ scroll: false });    
+    });   
 
     // Minimize button for the toolbox tabs
     $("#minimizeButton").click(function(){
