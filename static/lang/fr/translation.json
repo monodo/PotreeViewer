@@ -51,10 +51,12 @@
     },
     "disp": {
         "skybox": "Ciel",
-        "stats": "Statistiques",
         "box": "Boite",
         "coordinates": "Coordonnées",
-        "show_txt": "Montrer"
+        "show_txt": "Montrer",
+        "pointNumber": "Nombre de points",
+        "visibleNodes": "Nb. noeuds visibles",
+        "visiblePoints": "Nb points visibles"
     },
     "settings": {
         "language": "Langue",
@@ -69,6 +71,8 @@
         "volume_tt": "Mesurer un volume",
         "profile_tt": "Mesurer un profil",
         "clip_tt": "Sélectionner des points par un volume",
-        "profile_width": "Largeur du profil"
+        "profile_width": "Largeur du profil",
+        "classification": "Classification",
+        "intensity": "Intensité"
     }
 }

@@ -51,9 +51,11 @@
     },
     "disp": {
         "skybox": "Skybox",
-        "stats": "Stats",
         "box": "Box",
-        "coordinates": "Coordinates"
+        "coordinates": "Coordinates",
+        "pointNumber": "Points number",
+        "visibleNodes": "Visible nodes",
+        "visiblePoints": "Visible points"
     },
     "settings": {
         "language": "Language",
@@ -68,6 +70,8 @@
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
         "clip_tt": "Clip volume",
-        "profile_width": "Profile width"
+        "profile_width": "Profile width",
+        "classification": "Classification",
+        "intensity": "Intensity"
     }
 }

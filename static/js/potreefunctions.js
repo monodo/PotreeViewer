@@ -98,28 +98,21 @@ pv.utils.update = function (){
         pv.map2D.updateMapExtent();
     }
 
-    if(pv.ui.stats && pv.params.stats){
-        document.getElementById("lblNumVisibleNodes").style.display = "";
-        document.getElementById("lblNumVisiblePoints").style.display = "";
-        pv.ui.stats.domElement.style.display = "";
-        pv.ui.stats.update();
-
-        if(pv.scene3D.pointcloud){
-            document.getElementById("lblNumVisibleNodes").innerHTML = "visible nodes: " + pv.scene3D.pointcloud.numVisibleNodes;
-            document.getElementById("lblNumVisiblePoints").innerHTML = "visible points: " + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
-        }
-    }else if(pv.ui.stats){
-        document.getElementById("lblNumVisibleNodes").style.display = "none";
-        document.getElementById("lblNumVisiblePoints").style.display = "none";
-        pv.ui.stats.domElement.style.display = "none";
+    if (pv.params.showPointNumber) {
+        var nbPointsInfo = i18n.t('disp.visibleNodes') + ': ' + pv.scene3D.pointcloud.numVisibleNodes;
+        nbPointsInfo += "<br>" + i18n.t('disp.visiblePoints') + ': ' + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
+        $('#lblNumVisibleNodes').html(nbPointsInfo);
+        
+    } else {
+        $('#lblNumVisibleNodes').html('');
     }
-
+    
     pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
 
     // update progress bar
     if(pv.scene3D.pointcloud){
         var progress = pv.scene3D.pointcloud.visibleNodes.length / pv.scene3D.pointcloud.visibleGeometry.length;
-        
+
         pv.ui.progressBar.progress = progress;
         pv.ui.progressBar.message = "loading: " + pv.scene3D.pointcloud.visibleNodes.length + " / " + pv.scene3D.pointcloud.visibleGeometry.length;
 
@@ -132,7 +125,7 @@ pv.utils.update = function (){
         pv.ui.progressBar.show();
         pv.ui.progressBar.message = "loading metadata";
     }
-    
+
     pv.scene3D.volumeTool.update();
     transformationTool.update();
     pv.scene3D.profileTool.update();

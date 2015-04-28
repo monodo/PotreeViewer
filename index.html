@@ -29,7 +29,6 @@
     <script src="static/libs/potree/libs/plasio/vendor/bluebird.js"></script>
     <script src="static/libs/potree/libs/other/OrbitControls.js"></script>
     <script src="static/libs/potree/src/EarthControls.js"></script>
-    <script src="static/libs/potree/libs/other/stats.min.js"></script>
 
     <!-- Viewer -->
     <link rel="stylesheet" href="static/css/viewer.css" type="text/css">
@@ -45,10 +44,6 @@
 
 </head>
 <body>
-    <!-- Infos -->
-    <div id="lblNumVisibleNodes" class="info"></div>
-    <div id="lblNumVisiblePoints" class="info"></div>
-
     <!-- Display map button -->
     <button id="showMapButton"><img src="static/images/geoloc.png" width=50 height=50 data-i18n="[title]nav.show_2d_map"></button>
     <!-- 2D map -->
@@ -59,14 +54,18 @@
         </div>
         <div id="map" class="map"></div>
     </div>
-    
+
+    <!-- Infos -->
+    <div id="lblNumVisibleNodes" class="info"></div>
+
     <!-- Coordinates display DIV -->
-    <div id="lblCoordinates" class="lblCoordinates"> -- Coordinates --</div>
+    <div id="lblCoordinates" class="lblCoordinates"></div>
     
     <button id="showProfileButton"></button>
     
     <!-- profile Div -->
     <div id="profileContainer" class="profileContainer">
+        <div id="profileInfo"></div>
         <div id="profileZoomOut" class="ui-icon ui-icon-zoomout"></div>
         <div id="profileZoomIn" class="ui-icon ui-icon-zoomin"></div>
         <div id="resetProfileZoom" class="ui-icon ui-icon-arrow-4"></div>
@@ -76,7 +75,7 @@
     <!-- 3D pv.scene3D.scene -->
     <div id="renderArea" class="renderArea" tabindex=0></div>
 
-    <!-- Floating toolbox containing all tools and options grouped in tabs JQuery initialization functions in viewer.js-->
+    <!-- Toolbox containing all tools and options grouped in tabs JQuery initialization functions in viewer.js-->
     <div id="toolbox" class="toolbox">
         <!-- Drag / Collapse toolbar -->
         <div id="moveDiv">
@@ -171,7 +170,7 @@
                         </tr>
                     </table>
                 </div>
-                <!-- Display options tab: pv.scene3D.skybox, Stats, Box, Coordinates, ... -->
+                <!-- Display options tab: pv.scene3D.skybox, Box, Coordinates, ... -->
                 <div id="DisplayReferences">
                     <table class="guiTable">
                         <tr>
@@ -183,11 +182,6 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td data-i18n="disp.stats"></td>
-                            <td><input type="checkbox" id="chkStats"><label for="chkStats" class="chkBoxDefault"></></label></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td data-i18n="disp.box"></td>
                             <td><input type="checkbox" id="chkBBox"><label for="chkBBox" class="chkBoxDefault"></></label></td>
                             <td></td>
@@ -195,6 +189,11 @@
                         <tr>
                             <td data-i18n="disp.coordinates"></td>
                             <td><input type="checkbox" id="chkCoordinates"><label for="chkCoordinates" class="chkBoxDefault"></></label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="disp.pointNumber"></td>
+                            <td><input type="checkbox" id="chkPointNumber"><label for="chkPointNumber" class="chkBoxDefault"></></label></td>
                             <td></td>
                         </tr>
                     </table>

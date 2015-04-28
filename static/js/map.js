@@ -240,7 +240,6 @@ pv.map2D.updateMapExtent = function(){
 ***/
 
 pv.map2D.updateToolLayer = function (toolVertices) {
-    console.log(toolVertices);
     if (!toolVertices){
         return;
     }

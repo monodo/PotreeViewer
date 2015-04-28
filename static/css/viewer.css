@@ -7,6 +7,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: 0.5em;
+    font-family: arial;
 }
 
 .renderArea{
@@ -63,13 +64,13 @@ body {
     height: 30%;
     position: absolute;
     bottom: 0px;
-    background-color: black;
+    background-color: #585858;
     opacity: 0.7;
 }
 
 .toolbox  {
-    min-width: 300px;
-    background-color: #00001F;
+    min-width: 350px;
+    background-color: #515151;
     padding: 0.5em;
     position: absolute;
     right: 10px;
@@ -79,14 +80,25 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
     border-style: solid;
-    border-width: 2px;
-    border-color: gray;
+    border-width: 1px;
+    border-color: gray
 }
 
 /* Jquery-UI trick for toggle button (checkbox) without text*/
 .chkBoxDefault{
     width: 20px !important;
     height: 20px !important;
+}
+
+#profileInfo {
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    cursor: pointer;
+    color: #D0D0D0;
+    font-size: 1.5em;
+    padding-top: 3px;
+    padding-left: 5px;
 }
 
 #minimizeButton {
@@ -131,6 +143,12 @@ body {
     cursor: pointer;
 }
 
+.overlay {
+  fill: black;
+  pointer-events: all;
+  opacity: 0.8;
+}
+
 #showProfileButton {
     width: 20px;
     height: 20px;
@@ -145,6 +163,7 @@ body {
 #moveDiv { 
     height: 12px;
     width: 80%;
+    cursor: move;
 }
 
 #dragMap {
@@ -166,11 +185,7 @@ body {
     margin-top: 10px;
 }
 
-#statDiv {
-    color: red;
-}
-
-/* gui table*/
+/* UI html table*/
 .guiTable{
     font-size: 1em;
     width: 100%;
@@ -192,11 +207,11 @@ select {
 /*Coordinates display*/
 .lblCoordinates {
     position: absolute;
-    right: 400;
-    top: 10;
+    right: 600px;
+    top: 10px;
     width: 300px;
     height: 25px;
-    color: white;
+    color: #CFCFCF;
     font-size: 12px;
 }
 
@@ -224,8 +239,11 @@ select {
 }
 
 .info{
-    color: red;
-    font-weight: bold;
+    color: #CFCFCF;
+    position: absolute;
+    right: 500px;
+    top: 10px;
+    font-size: 12px;
 }
 
 a:hover, a:visited, a:link, a:active{
@@ -261,34 +279,3 @@ Chart style
   stroke: white;
   shape-rendering: crispEdges;
 }
-
-/* .x.axis path {
-  fill: none;
-  stroke: white;
-  shape-rendering: crispEdges;
-}
- */
-circle, .line {
-    fill: none;
-    /* stroke: steelblue; */
-    stroke-width: 2px; 
-}
-circle {
-    fill: white;
-    /* fill-opacity: 0.2; */
-    /* cursor: move;  */
-}
-circle.selected {
-    fill: #ff7f0e;
-    stroke: #ff7f0e;    
-}
-circle:hover {
-    fill: #ff7f0e;
-    stroke: red; 
-    stroke-width:5px;
-}
-circle.selected:hover {
-    fill: #ff7f0e;
-    stroke: #ff7f0e; 
-}
-

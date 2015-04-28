@@ -114,6 +114,11 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
+    
+     $("#toolbox").draggable({
+        handle: "#moveDiv"
+    });    
+
 
     // Map
     $("#mapBox").resizable({
@@ -196,14 +201,14 @@ pv.ui.initGUI = function (){
 
     // Minimize the mapbox
     $("#minimizeMapButton").click(function(){
-        $("#mapBox").slideUp(600);
+        $("#mapBox").slideUp(300);
         $("#showMapButton").show();
     });        
 
     // Close the profile container
     $("#closeProfileContainer").click(function(){
-        $("#profileContainer").slideUp(600);
-        $("#showProfileButton").show(600);
+        $("#profileContainer").slideUp(300);
+        $("#showProfileButton").show(300);
     });
     
     // Reset the profile zoom-pan
@@ -219,7 +224,7 @@ pv.ui.initGUI = function (){
         pv.profile.manualZoom(-1);
     });
     
-    // Show the mapbox
+    // Show the profile
     $("#showProfileButton").button({   
         text: false,
         icons: {
@@ -227,25 +232,25 @@ pv.ui.initGUI = function (){
         }
     }).click(function() {
         if ($("#profileContainer").is(":visible")) {
-            $("#profileContainer").slideUp(600);
+            $("#profileContainer").slideUp(300);
             $("#showProfileButton").blur();
             $("#showProfileButton").hide();
         }
         else {
-            $("#profileContainer").slideDown(600);
-            $("#showProfileButton").hide(600);
+            $("#profileContainer").slideDown(300);
+            $("#showProfileButton").hide(300);
         }
     });
     $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
-            $("#mapBox").slideUp(600);
+            $("#mapBox").slideUp(300);
             $("#showMapButton").blur();
             $("#showMapButton").hide();
         }
         else {
-            $("#mapBox").slideDown(600);
+            $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
         }
     });
@@ -399,24 +404,6 @@ pv.ui.initGUI = function (){
         }
     });
 
-    $("#chkStats").button({
-        text: false,
-        icons: {
-            primary: 'ui-icon-circle-check'
-        }
-    });
-    $('#chkStats').bind('change', function(){
-        if($(this).is(':checked')){
-            $('#chkStats').button("option", "label", "masquer");
-            pv.params.showStats = true;
-
-        } else {
-            $('#chkStats').button("option", "label", "montrer");
-            this.blur();
-            pv.params.showStats = false;
-        }
-    });        
-
     $("#chkBBox").button({
         text: false,
         icons: {
@@ -448,6 +435,24 @@ pv.ui.initGUI = function (){
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;
+            this.blur();
+        }
+    });
+
+    $("#chkPointNumber").button({
+        text: false,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        }
+    });
+    $('#chkPointNumber').bind('change', function(){
+        if($(this).is(':checked')){
+            $('#chkPointNumber').button("option", "label", "masquer");
+            pv.params.showPointNumber = true;
+
+        } else {
+            $('#chkPointNumber').button("option", "label", "montrer");
+            pv.params.showPointNumber = false;
             this.blur();
         }
     });
@@ -490,7 +495,7 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.profiles[0].update();
             pv.profile.draw();
         }
-    });
+    }); 
 
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
@@ -556,7 +561,6 @@ pv.ui.initGUI = function (){
     $('#radioProfile').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.disableControls();
-            $("#profileContainer").slideDown(600);
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
@@ -566,7 +570,7 @@ pv.ui.initGUI = function (){
             });
             
         } else {
-            $("#profileContainer").slideUp(600);
+            $("#profileContainer").slideUp(300);
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
@@ -595,13 +599,6 @@ pv.ui.initGUI = function (){
     $("#profileContainer").hide();
     $("#profileWidthCursor").hide();
 
-    // TODO: Style stats and move to dedicated place!
-    pv.ui.stats = new Stats();
-    pv.ui.stats.domElement.style.position = 'fixed';
-    pv.ui.stats.domElement.style.top = '0px';
-    pv.ui.stats.domElement.style.margin = '5px';
-    document.body.appendChild(pv.ui.stats.domElement );
-    
     // Prevent default keydown events
     $('#toolbox').keydown(function (event) {
         $('#renderArea').focus();
@@ -657,9 +654,6 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkSkybox").prop("checked", pv.params.showSkyBox);
     $("#chkSkybox").change();
-
-    $("#chkStats").prop("checked", pv.params.stats);
-    $("#chkStats").change();
     
     $("#chkBBox").prop("checked", pv.params.BoundingBox);
     $("#chkBBox").change();
@@ -667,7 +661,7 @@ pv.ui.resetUIToDefault = function (){
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();
     
-    $("#profileWidth").val(pv.params.profile_width).change();
+    $("#profileWidth").val(pv.params.profileWidth).change();
 
 };
 
