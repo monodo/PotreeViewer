@@ -5,6 +5,10 @@ pv.profile.getProfilePoints = function(){
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, 2);
+    if (segments.length <= 1){
+        return false;
+    }
+
     var data = [];
     var distance = 0;
     var totalDistance = 0;
@@ -20,16 +24,20 @@ pv.profile.getProfilePoints = function(){
         .domain([300, 800])
         .range(["#4700b6", "blue", "aqua", "green", "yellow", "orange", "red"]);
     
-    for(var i = 0; i < segments.length; i++){
-        var segment = segments[i];        
-        var xOA = segment.end.x - segment.start.x;
-        var yOA = segment.end.z - segment.start.z;
+    for(var i = 0; i < segments.length - 1; i++){
+
+        var segment = segments[i];
+        var segStartGeo = pv.utils.toGeo(segment.start);
+        var segEndGeo = pv.utils.toGeo(segment.end);
+        var xOA = segEndGeo.x - segStartGeo.x;
+        var yOA = segEndGeo.y - segStartGeo.y;
+
         var segmentLength = Math.sqrt(xOA * xOA + yOA * yOA);
         var points = segment.points;
         // TODO: add attribute support
         for(var j = 0; j < points.numPoints; j++){
 
-            var p = points.position[j];
+            var p = pv.utils.toGeo(points.position[j]);
 
             // get min/max values            
             if (p.x < minX) {
@@ -56,17 +64,18 @@ pv.profile.getProfilePoints = function(){
                 maxZ = p.z;
             }
 
-            var xOB = p.x - segment.start.x;
-            var yOB = p.z - segment.start.z;
+            var xOB = p.x - segStartGeo.x;
+            var yOB = p.y - segStartGeo.y;
             var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
             var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
             var alpha = Math.acos(cosAlpha);
             var dist = hypo * cosAlpha + totalDistance;
-
             if (!isNaN(dist)) {
                 data.push({
                     'distance': dist,
-                    'altitude': p.y,
+                    'x': p.x,
+                    'y': p.y,
+                    'altitude': p.z,
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
                     'heightColor': colorRamp(p.y)
@@ -100,6 +109,10 @@ pv.profile.draw = function () {
     pv.map2D.updateToolLayer(thePoints);
 
     var output = pv.profile.getProfilePoints();
+
+    if (!output){
+        return;
+    }
     var data = output.data;
 
     if (data.length === 0){
@@ -112,7 +125,7 @@ pv.profile.draw = function () {
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
         
-    var margin = {top: 15, right: 10, bottom: 20, left: 30},
+    var margin = {top: 25, right: 10, bottom: 20, left: 30},
         width = containerWidth - margin.left - margin.right,
         height = containerHeight - margin.top - margin.bottom;
     
@@ -154,13 +167,7 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         
         // Zoom-Pan points
-        //**************************************
-
         pv.profile.drawPoints(output.data, svg, x, y, 2);
-        
-        //*******************************
-        // svg.selectAll(".circle")
-            // .attr("transform", "translate(" + pv.profile.zoom.translate() + ")scale(" + pv.profile.zoom.scale() + ")");
 
         svg.selectAll("text")
             .style("fill", "white")
@@ -229,6 +236,7 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
         .attr("cx", function(d) { return x(d.distance); })
         .attr("cy", function(d) { return y(d.altitude); })
         .attr("r", psize)
+        .on("mouseover", pv.profile.pointHighlightEvent)
         .style("fill", function(d) {
             if (pv.params.pointColorType === Potree.PointColorType.RGB) {
                 return d.color;
@@ -256,5 +264,11 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
                 return d.color;
             }
         });
+}
+
+pv.profile.pointHighlightEvent = function (d) {
+    // var html = 'x: ' + d.
+    
+    $('#profileInfo').html('toto');
 }
 

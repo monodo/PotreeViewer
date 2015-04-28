@@ -89,6 +89,14 @@ body {
     height: 20px !important;
 }
 
+#profileInfo {
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    cursor: pointer;
+    color: #CFCFCF;
+}
+
 #minimizeButton {
     position: absolute;
     right: 5px;
@@ -173,11 +181,7 @@ body {
     margin-top: 10px;
 }
 
-#statDiv {
-    color: red;
-}
-
-/* gui table*/
+/* UI html table*/
 .guiTable{
     font-size: 1em;
     width: 100%;
