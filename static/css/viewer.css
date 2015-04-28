@@ -63,7 +63,7 @@ body {
     height: 30%;
     position: absolute;
     bottom: 0px;
-    background-color: black;
+    background-color: #585858;
     opacity: 0.7;
 }
 
@@ -129,6 +129,12 @@ body {
     right: 45px;
     top: 0px;
     cursor: pointer;
+}
+
+.overlay {
+  fill: black;
+  pointer-events: all;
+  opacity: 0.6;
 }
 
 #showProfileButton {

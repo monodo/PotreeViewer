@@ -112,17 +112,17 @@ pv.profile.draw = function () {
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
         
-    var margin = {top: 10, right: 10, bottom: 20, left: 30},
+    var margin = {top: 15, right: 10, bottom: 20, left: 30},
         width = containerWidth - margin.left - margin.right,
         height = containerHeight - margin.top - margin.bottom;
     
     // Create the x/y scale functions
     // TODO: same x/y scale
     var x = d3.scale.linear()
-        .range([0, width]);
+        .range([5, width -5]);
     x.domain([d3.min(data, function(d) { return d.distance; }), d3.max(data, function(d) { return d.distance; })]);
     var y = d3.scale.linear()
-        .range([height, 0]);
+        .range([height -5, 5]);
     y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
 
     // Create x/y axis
@@ -141,13 +141,23 @@ pv.profile.draw = function () {
     .y(y)
     .on("zoom",  function(){
 
+      var t = pv.profile.zoom.translate(),
+      tx = t[0],
+      ty = t[1];
+
+      tx = Math.min(tx, 0);
+      tx = Math.max(tx, width - output.maxX);
+      pv.profile.zoom.translate([tx, ty]);
+
         // Zoom-Pan axis
         svg.select(".x.axis").call(xAxis);
         svg.select(".y.axis").call(yAxis);
-        // Zoom-Pan points
-        svg.selectAll(".circle")
-            .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         
+        // Zoom-Pan points
+        // d3.selectAll(".circle").remove();
+        svg.selectAll(".circle")
+            .attr("transform", "translate(" + pv.profile.zoom.translate() + ")scale(" + pv.profile.zoom.scale() + ")");
+
         svg.selectAll("text")
             .style("fill", "white")
             .style("font-size", "8px");
@@ -160,7 +170,12 @@ pv.profile.draw = function () {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+    
+    svg.append("rect")
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height);
+    
     // Append axis to the chart
     svg.append("g")
         .attr("class", "x axis")
@@ -170,7 +185,6 @@ pv.profile.draw = function () {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
-        
 
     svg.selectAll(".circle")
         .data(data)
@@ -216,7 +230,7 @@ pv.profile.draw = function () {
             .y(y.domain([-height / 2, height / 2]))
             .event);
     };
-
+    $("#profileContainer").slideDown(600)
 };
 
 
