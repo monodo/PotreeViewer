@@ -210,7 +210,7 @@ pv.profile.draw = function () {
             .y(y.domain([-height / 2, height / 2]))
             .event);
     };
-    $("#profileContainer").slideDown(300)
+    $("#profileContainer").slideDown(300);
 };
 
 
@@ -239,19 +239,30 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
         .attr("cy", function(d) { return y(d.altitude); })
         .attr("r", psize)
         .on("mouseover", pv.profile.pointHighlightEvent)
-        .style("fill", function(d) {
-            if (pv.params.pointColorType === Potree.PointColorType.RGB) {
-                return d.color;
-            } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
-                return d.intensity;
-            } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
-                // TODO: get the color map
-                return d.color;
-            } else {
-                return d.color;
-            }
+        .on("mouseout", function(d){
+            $('#profileInfo').html('');
+            d3.select(this)
+                .style("stroke", pv.profile.strokeColor);
         })
-        .style("stroke", function(d) { 
+        .style("fill", pv.profile.strokeColor)
+        .style("stroke-width", 3)
+        .style("stroke", pv.profile.strokeColor);
+};
+
+pv.profile.pointHighlightEvent = function (d) {
+
+    d3.select(this)
+        .style("stroke", "yellow");
+
+    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.y) / 10 + '  -  ';
+    html += i18n.t('tools.classification') + ': ' + d.classificationCode + '  -  ';
+    html += i18n.t('tools.intensity') + ': ' + d.intensityCode;
+
+    $('#profileInfo').html(html);
+
+};
+
+pv.profile.strokeColor = function (d) {
             if (pv.params.pointColorType === Potree.PointColorType.RGB) {
                 return d.color;
             } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
@@ -265,16 +276,4 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
             } else {
                 return d.color;
             }
-        });
-}
-
-pv.profile.pointHighlightEvent = function (d) {
-    
-    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.y) / 10 + '  -  ';
-    html += i18n.t('tools.classification') + ': ' + d.classificationCode + '  -  ';
-    html += i18n.t('tools.intensity') + ': ' + d.intensityCode;
-    
-    
-    $('#profileInfo').html(html);
-}
-
+};

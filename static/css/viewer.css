@@ -279,32 +279,3 @@ Chart style
   stroke: white;
   shape-rendering: crispEdges;
 }
-
-/* .x.axis path {
-  fill: none;
-  stroke: white;
-  shape-rendering: crispEdges;
-}
- */
-circle, .line {
-    fill: none;
-    /* stroke: steelblue; */
-    stroke-width: 2px; 
-}
-circle {
-    fill: white;
-}
-circle.selected {
-    fill: #ff7f0e;
-    stroke: #ff7f0e;    
-}
-circle:hover {
-    fill: #ff7f0e;
-    stroke: red; 
-    stroke-width:5px;
-}
-circle.selected:hover {
-    fill: #ff7f0e;
-    stroke: #ff7f0e; 
-}
-
