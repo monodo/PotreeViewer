@@ -116,9 +116,10 @@ pv.ui.initGUI = function (){
     });
     
      $("#toolbox").draggable({
-        handle: "#moveDiv"
-    });    
-
+        handle: "#moveDiv",
+        containment: 'window',
+        scroll: false,
+    }).draggable({ scroll: false });  
 
     // Map
     $("#mapBox").resizable({
@@ -197,8 +198,11 @@ pv.ui.initGUI = function (){
 
     // Draggable mapBox
     $( "#mapBox" ).draggable({
-        handle: "#dragMap"
-    });    
+        handle: "#dragMap",
+        containment: 'window',
+        scroll: false,
+        helper: 'clone'
+    }).draggable({ scroll: false });    
 
     // Minimize button for the toolbox tabs
     $("#minimizeButton").click(function(){
