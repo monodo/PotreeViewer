@@ -36,6 +36,7 @@ pv.params = {
     'interpolate': false,
     'circles': false,
     'showCoordinates': false,
+    'showPointNumber': false,
     'showSkyBox': false,
     'showProgressBar': true,
     'opacity': 1,

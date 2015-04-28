@@ -44,10 +44,6 @@
 
 </head>
 <body>
-    <!-- Infos -->
-    <div id="lblNumVisibleNodes" class="info"></div>
-    <div id="lblNumVisiblePoints" class="info"></div>
-
     <!-- Display map button -->
     <button id="showMapButton"><img src="static/images/geoloc.png" width=50 height=50 data-i18n="[title]nav.show_2d_map"></button>
     <!-- 2D map -->
@@ -58,9 +54,12 @@
         </div>
         <div id="map" class="map"></div>
     </div>
-    
+
+    <!-- Infos -->
+    <div id="lblNumVisibleNodes" class="info"></div>
+
     <!-- Coordinates display DIV -->
-    <div id="lblCoordinates" class="lblCoordinates"> -- Coordinates --</div>
+    <div id="lblCoordinates" class="lblCoordinates"></div>
     
     <button id="showProfileButton"></button>
     
@@ -189,6 +188,11 @@
                         <tr>
                             <td data-i18n="disp.coordinates"></td>
                             <td><input type="checkbox" id="chkCoordinates"><label for="chkCoordinates" class="chkBoxDefault"></></label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="disp.pointNumber"></td>
+                            <td><input type="checkbox" id="chkPointNumber"><label for="chkPointNumber" class="chkBoxDefault"></></label></td>
                             <td></td>
                         </tr>
                     </table>

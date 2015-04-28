@@ -53,7 +53,10 @@
         "skybox": "Ciel",
         "box": "Boite",
         "coordinates": "Coordonnées",
-        "show_txt": "Montrer"
+        "show_txt": "Montrer",
+        "pointNumber": "Nombre de points",
+        "visibleNodes": "Nb. noeuds visibles",
+        "visiblePoints": "Nb points visibles"
     },
     "settings": {
         "language": "Langue",

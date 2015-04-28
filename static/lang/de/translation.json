@@ -51,7 +51,10 @@
     "disp": {
         "skybox": "Skybox",
         "box": "Box",
-        "coordinates": "Coordinates"
+        "coordinates": "Coordinates",
+        "pointNumber": "Points number",
+        "visibleNodes": "Nb. noeuds visibles",
+        "visiblePoints": "Nb points visibles"
     },
     "settings": {
         "language": "Language",

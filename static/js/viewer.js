@@ -434,6 +434,24 @@ pv.ui.initGUI = function (){
         }
     });
 
+    $("#chkPointNumber").button({
+        text: false,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        }
+    });
+    $('#chkPointNumber').bind('change', function(){
+        if($(this).is(':checked')){
+            $('#chkPointNumber').button("option", "label", "masquer");
+            pv.params.showPointNumber = true;
+
+        } else {
+            $('#chkPointNumber').button("option", "label", "montrer");
+            pv.params.showPointNumber = false;
+            this.blur();
+        }
+    });
+
     //Navigation buttons
     $("#radioFPSControl").button();
     $('#radioFPSControl').bind('change', function(){

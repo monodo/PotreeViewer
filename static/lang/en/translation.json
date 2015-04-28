@@ -52,7 +52,10 @@
     "disp": {
         "skybox": "Skybox",
         "box": "Box",
-        "coordinates": "Coordinates"
+        "coordinates": "Coordinates",
+        "pointNumber": "Points number",
+        "visibleNodes": "Visible nodes",
+        "visiblePoints": "Visible points"
     },
     "settings": {
         "language": "Language",

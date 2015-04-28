@@ -192,11 +192,11 @@ select {
 /*Coordinates display*/
 .lblCoordinates {
     position: absolute;
-    right: 400;
-    top: 10;
+    right: 600px;
+    top: 10px;
     width: 300px;
     height: 25px;
-    color: white;
+    color: #CFCFCF;
     font-size: 12px;
 }
 
@@ -224,8 +224,11 @@ select {
 }
 
 .info{
-    color: red;
-    font-weight: bold;
+    color: #CFCFCF;
+    position: absolute;
+    right: 500px;
+    top: 10px;
+    font-size: 12px;
 }
 
 a:hover, a:visited, a:link, a:active{
