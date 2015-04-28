@@ -201,7 +201,7 @@ pv.profile.draw = function () {
             .y(y.domain([-height / 2, height / 2]))
             .event);
     };
-    $("#profileContainer").slideDown(600)
+    $("#profileContainer").slideDown(300)
 };
 
 

@@ -201,14 +201,14 @@ pv.ui.initGUI = function (){
 
     // Minimize the mapbox
     $("#minimizeMapButton").click(function(){
-        $("#mapBox").slideUp(600);
+        $("#mapBox").slideUp(300);
         $("#showMapButton").show();
     });        
 
     // Close the profile container
     $("#closeProfileContainer").click(function(){
-        $("#profileContainer").slideUp(600);
-        $("#showProfileButton").show(600);
+        $("#profileContainer").slideUp(300);
+        $("#showProfileButton").show(300);
     });
     
     // Reset the profile zoom-pan
@@ -232,25 +232,25 @@ pv.ui.initGUI = function (){
         }
     }).click(function() {
         if ($("#profileContainer").is(":visible")) {
-            $("#profileContainer").slideUp(600);
+            $("#profileContainer").slideUp(300);
             $("#showProfileButton").blur();
             $("#showProfileButton").hide();
         }
         else {
-            $("#profileContainer").slideDown(600);
-            $("#showProfileButton").hide(600);
+            $("#profileContainer").slideDown(300);
+            $("#showProfileButton").hide(300);
         }
     });
     $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
-            $("#mapBox").slideUp(600);
+            $("#mapBox").slideUp(300);
             $("#showMapButton").blur();
             $("#showMapButton").hide();
         }
         else {
-            $("#mapBox").slideDown(600);
+            $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
         }
     });
@@ -570,7 +570,7 @@ pv.ui.initGUI = function (){
             });
             
         } else {
-            $("#profileContainer").slideUp(600);
+            $("#profileContainer").slideUp(300);
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
