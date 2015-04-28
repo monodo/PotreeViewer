@@ -127,7 +127,7 @@ pv.profile.draw = function () {
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
         
-    var margin = {top: 25, right: 10, bottom: 20, left: 30},
+    var margin = {top: 25, right: 10, bottom: 20, left: 40},
         width = containerWidth - margin.left - margin.right,
         height = containerHeight - margin.top - margin.bottom;
     
@@ -210,6 +210,10 @@ pv.profile.draw = function () {
             .y(y.domain([-height / 2, height / 2]))
             .event);
     };
+    
+    // Everything ready, show the containers;
+    $("#mapBox").css("height", "70%");
+    setTimeout( function() { pv.map2D.map.updateSize();}, 400);
     $("#profileContainer").slideDown(300);
 };
 

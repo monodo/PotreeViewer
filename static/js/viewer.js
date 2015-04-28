@@ -55,6 +55,9 @@ pv.scene3D.initThree = function (){
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
+        pv.utils.useEarthControls();
+        pv.scene3D.earthControls.pointclouds.push(pv.scene3D.pointcloud);
+
     });
 
     var grid = Potree.utils.createGrid(5, 5, 2);
@@ -116,9 +119,10 @@ pv.ui.initGUI = function (){
     });
     
      $("#toolbox").draggable({
-        handle: "#moveDiv"
-    });    
-
+        handle: "#moveDiv",
+        containment: 'window',
+        scroll: false,
+    }).draggable({ scroll: false });  
 
     // Map
     $("#mapBox").resizable({
@@ -126,7 +130,23 @@ pv.ui.initGUI = function (){
         stop: function(event, ui) {
             pv.map2D.map.updateSize();
         }
-    }); 
+    }).draggable({
+        handle: "#dragMap",
+        containment: 'window',
+        scroll: false,
+    }).draggable({ scroll: false });   
+
+    // Handle mapbox size on windows resize
+    $(window).resize(function(e) {
+            if (e.target == window){
+                if (!$("#profileContainer").is(":visible")) {
+                    pv.map2D.updateMapSize(false); 
+                } else {
+                    $("#mapBox").css("height", "70%");
+                    pv.map2D.updateMapSize(true); 
+                }
+            }
+    });
     
     // Map layers selector
         // Point size type
@@ -180,12 +200,7 @@ pv.ui.initGUI = function (){
         select: function( event, data ) {
             var value = data.item.value;
         }
-    });
-
-    // Draggable mapBox
-    $( "#mapBox" ).draggable({
-        handle: "#dragMap"
-    });    
+    });   
 
     // Minimize button for the toolbox tabs
     $("#minimizeButton").click(function(){
@@ -209,6 +224,7 @@ pv.ui.initGUI = function (){
     $("#closeProfileContainer").click(function(){
         $("#profileContainer").slideUp(300);
         $("#showProfileButton").show(300);
+        pv.map2D.updateMapSize(false); 
     });
     
     // Reset the profile zoom-pan
@@ -231,16 +247,11 @@ pv.ui.initGUI = function (){
             primary: 'ui-icon-triangle-1-nw'
         }
     }).click(function() {
-        if ($("#profileContainer").is(":visible")) {
-            $("#profileContainer").slideUp(300);
-            $("#showProfileButton").blur();
-            $("#showProfileButton").hide();
-        }
-        else {
             $("#profileContainer").slideDown(300);
             $("#showProfileButton").hide(300);
-        }
+            pv.map2D.updateMapSize(true);
     });
+    
     $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
@@ -250,8 +261,15 @@ pv.ui.initGUI = function (){
             $("#showMapButton").hide();
         }
         else {
+            if (!$("#profileContainer").is(":visible")) {
+                pv.map2D.updateMapSize(false); 
+            } else {
+                pv.map2D.updateMapSize(true); 
+            }
+
             $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         }
     });
     
@@ -559,7 +577,7 @@ pv.ui.initGUI = function (){
 
     $( "#radioProfile" ).button();
     $('#radioProfile').bind('change', function(){
-        if($(this).is(':checked')){
+        if($(this).is(':checked')){            
             pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
@@ -676,4 +694,18 @@ pv.ui.translate = function() {
     $("#pointMaterialSelect").selectmenu( "refresh" );
     $("#pointQualitySelect").selectmenu( "refresh" );
     $("#pointClipSelect").selectmenu( "refresh" );
+};
+
+/***
+* Method: update the map container size
+* Parameters: isProfileOpen [Boolean]
+**/
+pv.map2D.updateMapSize = function(isProfileOpen) {
+        if (!isProfileOpen) {
+            $("#mapBox").css("height", $("#renderArea").height() - (5 + $("#mapBox").position().top));
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+        } else {
+            $("#mapBox").css("height", "70%");
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+        }
 };

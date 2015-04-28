@@ -22,10 +22,6 @@ body {
     position: absolute;
     left: 0px;
     top: 0px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: gray;
-    border-top-width: 0px;
 }
 
 .map {
@@ -92,7 +88,7 @@ body {
 
 #profileInfo {
     position: absolute;
-    left: 5px;
+    left: 25px;
     top: 0px;
     cursor: pointer;
     color: #D0D0D0;
@@ -207,7 +203,7 @@ select {
 /*Coordinates display*/
 .lblCoordinates {
     position: absolute;
-    right: 600px;
+    right: 700px;
     top: 10px;
     width: 300px;
     height: 25px;
