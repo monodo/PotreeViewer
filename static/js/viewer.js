@@ -490,7 +490,7 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.profiles[0].update();
             pv.profile.draw();
         }
-    });
+    }); 
 
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
@@ -657,7 +657,7 @@ pv.ui.resetUIToDefault = function (){
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();
     
-    $("#profileWidth").val(pv.params.profile_width).change();
+    $("#profileWidth").val(pv.params.profileWidth).change();
 
 };
 
