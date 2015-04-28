@@ -70,6 +70,8 @@
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
         "clip_tt": "Clip volume",
-        "profile_width": "Profile width"
+        "profile_width": "Profile width",
+        "classification": "Classification",
+        "intensity": "Intensity"
     }
 }

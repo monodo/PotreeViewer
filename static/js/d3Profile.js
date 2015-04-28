@@ -78,7 +78,9 @@ pv.profile.getProfilePoints = function(){
                     'altitude': p.z,
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
-                    'heightColor': colorRamp(p.y)
+                    'intensityCode': points.intensity[j],
+                    'heightColor': colorRamp(p.y),
+                    'classificationCode': points.classification[i]
                     // 'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
@@ -267,8 +269,12 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
 }
 
 pv.profile.pointHighlightEvent = function (d) {
-    // var html = 'x: ' + d.
     
-    $('#profileInfo').html('toto');
+    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.y) / 10 + '  -  ';
+    html += i18n.t('tools.classification') + ': ' + d.classificationCode + '  -  ';
+    html += i18n.t('tools.intensity') + ': ' + d.intensityCode;
+    
+    
+    $('#profileInfo').html(html);
 }
 

@@ -67,6 +67,8 @@
         "surface_tt": "Surface measure",
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
-        "clip_tt": "Clip volume"
+        "clip_tt": "Clip volume",
+        "classification": "Classification",
+        "intensity": "Intensity"
     }
 }
