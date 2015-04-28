@@ -210,6 +210,10 @@ pv.profile.draw = function () {
             .y(y.domain([-height / 2, height / 2]))
             .event);
     };
+    
+    // Everything ready, show the containers;
+    $("#mapBox").css("height", "70%");
+    setTimeout( function() { pv.map2D.map.updateSize();}, 400);
     $("#profileContainer").slideDown(300);
 };
 

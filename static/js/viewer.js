@@ -128,6 +128,17 @@ pv.ui.initGUI = function (){
         }
     }); 
     
+        
+    // Handle mapbox size on windows resize
+    $(window).resize(function() {
+        if (!$("#profileContainer").is(":visible")) {
+            pv.map2D.updateMapSize(false); 
+        } else {
+            $("#mapBox").css("height", "70%");
+            pv.map2D.updateMapSize(true); 
+        }
+    });
+    
     // Map layers selector
         // Point size type
     $("#layerSelector").selectmenu({
@@ -209,6 +220,7 @@ pv.ui.initGUI = function (){
     $("#closeProfileContainer").click(function(){
         $("#profileContainer").slideUp(300);
         $("#showProfileButton").show(300);
+        pv.map2D.updateMapSize(false); 
     });
     
     // Reset the profile zoom-pan
@@ -231,16 +243,11 @@ pv.ui.initGUI = function (){
             primary: 'ui-icon-triangle-1-nw'
         }
     }).click(function() {
-        if ($("#profileContainer").is(":visible")) {
-            $("#profileContainer").slideUp(300);
-            $("#showProfileButton").blur();
-            $("#showProfileButton").hide();
-        }
-        else {
             $("#profileContainer").slideDown(300);
             $("#showProfileButton").hide(300);
-        }
+            pv.map2D.updateMapSize(true);
     });
+    
     $("#showProfileButton").hide();
     // Show the mapbox
     $("#showMapButton").button().click(function() {
@@ -250,8 +257,15 @@ pv.ui.initGUI = function (){
             $("#showMapButton").hide();
         }
         else {
+            if (!$("#profileContainer").is(":visible")) {
+                pv.map2D.updateMapSize(false); 
+            } else {
+                pv.map2D.updateMapSize(true); 
+            }
+
             $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         }
     });
     
@@ -559,7 +573,7 @@ pv.ui.initGUI = function (){
 
     $( "#radioProfile" ).button();
     $('#radioProfile').bind('change', function(){
-        if($(this).is(':checked')){
+        if($(this).is(':checked')){            
             pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
@@ -677,3 +691,17 @@ pv.ui.translate = function() {
     $("#pointQualitySelect").selectmenu( "refresh" );
     $("#pointClipSelect").selectmenu( "refresh" );
 };
+
+/***
+* Method: update the map container size
+* Parameters: isProfileOpen [Boolean]
+**/
+pv.map2D.updateMapSize = function(isProfileOpen) {
+        if (!isProfileOpen) {
+            $("#mapBox").css("height", $("#renderArea").height() - (5 + $("#mapBox").position().top));
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+        } else {
+            $("#mapBox").css("height", "70%");
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+        }
+}
