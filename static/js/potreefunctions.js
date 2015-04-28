@@ -170,7 +170,6 @@ pv.utils.useFPSControls = function (){
 
     pv.scene3D.controls = pv.scene3D.fpControls;
     pv.scene3D.controls.enabled = true;
-    pv.scene3D.controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
 };
 
 /***
@@ -202,6 +201,8 @@ pv.utils.useEarthControls = function() {
     }
     pv.scene3D.controls = pv.scene3D.earthControls;
     pv.scene3D.controls.enabled = true;
+    
+    pv.scene3D.controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
 };
 
 /***

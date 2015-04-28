@@ -55,6 +55,9 @@ pv.scene3D.initThree = function (){
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
         pv.utils.flipYZ();
+        pv.utils.useEarthControls();
+        pv.scene3D.earthControls.pointclouds.push(pv.scene3D.pointcloud);
+
     });
 
     var grid = Potree.utils.createGrid(5, 5, 2);
@@ -128,8 +131,7 @@ pv.ui.initGUI = function (){
             pv.map2D.map.updateSize();
         }
     }); 
-    
-        
+
     // Handle mapbox size on windows resize
     $(window).resize(function(e) {
             if (e.target == window){
