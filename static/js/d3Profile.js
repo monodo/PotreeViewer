@@ -127,7 +127,7 @@ pv.profile.draw = function () {
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
         
-    var margin = {top: 25, right: 10, bottom: 20, left: 30},
+    var margin = {top: 25, right: 10, bottom: 20, left: 40},
         width = containerWidth - margin.left - margin.right,
         height = containerHeight - margin.top - margin.bottom;
     

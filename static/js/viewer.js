@@ -130,13 +130,15 @@ pv.ui.initGUI = function (){
     
         
     // Handle mapbox size on windows resize
-    $(window).resize(function() {
-        if (!$("#profileContainer").is(":visible")) {
-            pv.map2D.updateMapSize(false); 
-        } else {
-            $("#mapBox").css("height", "70%");
-            pv.map2D.updateMapSize(true); 
-        }
+    $(window).resize(function(e) {
+            if (e.target == window){
+                if (!$("#profileContainer").is(":visible")) {
+                    pv.map2D.updateMapSize(false); 
+                } else {
+                    $("#mapBox").css("height", "70%");
+                    pv.map2D.updateMapSize(true); 
+                }
+            }
     });
     
     // Map layers selector
@@ -704,4 +706,4 @@ pv.map2D.updateMapSize = function(isProfileOpen) {
             $("#mapBox").css("height", "70%");
             setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         }
-}
+};
