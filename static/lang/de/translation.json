@@ -50,7 +50,6 @@
     },
     "disp": {
         "skybox": "Skybox",
-        "stats": "Stats",
         "box": "Box",
         "coordinates": "Coordinates"
     },

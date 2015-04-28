@@ -51,7 +51,6 @@
     },
     "disp": {
         "skybox": "Ciel",
-        "stats": "Statistiques",
         "box": "Boite",
         "coordinates": "Coordonnées",
         "show_txt": "Montrer"

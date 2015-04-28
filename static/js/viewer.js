@@ -399,24 +399,6 @@ pv.ui.initGUI = function (){
         }
     });
 
-    $("#chkStats").button({
-        text: false,
-        icons: {
-            primary: 'ui-icon-circle-check'
-        }
-    });
-    $('#chkStats').bind('change', function(){
-        if($(this).is(':checked')){
-            $('#chkStats').button("option", "label", "masquer");
-            pv.params.showStats = true;
-
-        } else {
-            $('#chkStats').button("option", "label", "montrer");
-            this.blur();
-            pv.params.showStats = false;
-        }
-    });        
-
     $("#chkBBox").button({
         text: false,
         icons: {
@@ -595,13 +577,6 @@ pv.ui.initGUI = function (){
     $("#profileContainer").hide();
     $("#profileWidthCursor").hide();
 
-    // TODO: Style stats and move to dedicated place!
-    pv.ui.stats = new Stats();
-    pv.ui.stats.domElement.style.position = 'fixed';
-    pv.ui.stats.domElement.style.top = '0px';
-    pv.ui.stats.domElement.style.margin = '5px';
-    document.body.appendChild(pv.ui.stats.domElement );
-    
     // Prevent default keydown events
     $('#toolbox').keydown(function (event) {
         $('#renderArea').focus();
@@ -657,9 +632,6 @@ pv.ui.resetUIToDefault = function (){
 
     $("#chkSkybox").prop("checked", pv.params.showSkyBox);
     $("#chkSkybox").change();
-
-    $("#chkStats").prop("checked", pv.params.stats);
-    $("#chkStats").change();
     
     $("#chkBBox").prop("checked", pv.params.BoundingBox);
     $("#chkBBox").change();

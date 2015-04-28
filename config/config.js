@@ -44,7 +44,6 @@ pv.params = {
     'opacityStep': 0.1,
     'pointCloudPath': 'cloud/potree_v16/resources/pointclouds/CH03_LN02/cloud.js',
     'isPointCloudGeoreferenced': true,
-    'stats': false,
     'BoundingBox': false,
     'isFlipYZ': false,
     'showFlipYZ': false,

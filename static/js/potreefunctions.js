@@ -98,20 +98,12 @@ pv.utils.update = function (){
         pv.map2D.updateMapExtent();
     }
 
-    if(pv.ui.stats && pv.params.stats){
-        document.getElementById("lblNumVisibleNodes").style.display = "";
-        document.getElementById("lblNumVisiblePoints").style.display = "";
-        pv.ui.stats.domElement.style.display = "";
-        pv.ui.stats.update();
-
-        if(pv.scene3D.pointcloud){
-            document.getElementById("lblNumVisibleNodes").innerHTML = "visible nodes: " + pv.scene3D.pointcloud.numVisibleNodes;
-            document.getElementById("lblNumVisiblePoints").innerHTML = "visible points: " + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
-        }
-    }else if(pv.ui.stats){
+    if(pv.scene3D.pointcloud){
+        document.getElementById("lblNumVisibleNodes").innerHTML = "visible nodes: " + pv.scene3D.pointcloud.numVisibleNodes;
+        document.getElementById("lblNumVisiblePoints").innerHTML = "visible points: " + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
+    } else {
         document.getElementById("lblNumVisibleNodes").style.display = "none";
         document.getElementById("lblNumVisiblePoints").style.display = "none";
-        pv.ui.stats.domElement.style.display = "none";
     }
 
     pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
