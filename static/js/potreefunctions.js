@@ -98,11 +98,11 @@ pv.utils.update = function (){
         pv.map2D.updateMapExtent();
     }
 
-    var nbPointsInfo = i18n.t('disp.visibleNodes') + ': ' + pv.scene3D.pointcloud.numVisibleNodes;
-    nbPointsInfo += "<br>" + i18n.t('disp.visiblePoints') + ': ' + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
-
     if (pv.params.showPointNumber) {
+        var nbPointsInfo = i18n.t('disp.visibleNodes') + ': ' + pv.scene3D.pointcloud.numVisibleNodes;
+        nbPointsInfo += "<br>" + i18n.t('disp.visiblePoints') + ': ' + Potree.utils.addCommas(pv.scene3D.pointcloud.numVisiblePoints);
         $('#lblNumVisibleNodes').html(nbPointsInfo);
+        
     } else {
         $('#lblNumVisibleNodes').html('');
     }

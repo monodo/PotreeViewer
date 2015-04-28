@@ -68,8 +68,8 @@ body {
 }
 
 .toolbox  {
-    min-width: 300px;
-    background-color: #00001F;
+    min-width: 350px;
+    background-color: #515151;
     padding: 0.5em;
     position: absolute;
     right: 10px;
@@ -79,8 +79,8 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
     border-style: solid;
-    border-width: 2px;
-    border-color: gray;
+    border-width: 1px;
+    border-color: gray
 }
 
 /* Jquery-UI trick for toggle button (checkbox) without text*/
@@ -145,6 +145,7 @@ body {
 #moveDiv { 
     height: 12px;
     width: 80%;
+    cursor: move;
 }
 
 #dragMap {
@@ -278,8 +279,6 @@ circle, .line {
 }
 circle {
     fill: white;
-    /* fill-opacity: 0.2; */
-    /* cursor: move;  */
 }
 circle.selected {
     fill: #ff7f0e;

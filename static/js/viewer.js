@@ -114,6 +114,11 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
+    
+     $("#toolbox").draggable({
+        handle: "#moveDiv"
+    });    
+
 
     // Map
     $("#mapBox").resizable({
