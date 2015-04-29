@@ -203,19 +203,15 @@ pv.profile.draw = function () {
             
     svg.selectAll("text")
         .style("fill", "white");
-        
-    pv.profile.resetPanZoom = function reset() {
-        svg.call(pv.profile.zoom
-            .x(x.domain([-width / 2, width / 2]))
-            .y(y.domain([-height / 2, height / 2]))
-            .event);
-    };
 
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
 };
 
+pv.profile.resetPanZoom = function reset() {
+    pv.profile.draw();
+};
 
 pv.profile.manualZoom = function (increment) {
 
