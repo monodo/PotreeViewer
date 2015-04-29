@@ -510,6 +510,17 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.profiles[0].update();
             pv.profile.draw();
         }
+    });
+
+    $("#profilePointSizeSlider").slider({
+        min: pv.params.profilePointSizeMin,
+        max: pv.params.profilePointSizeMax,
+        step: pv.params.profilePointSizeStep,
+        value: pv.params.profilePointSize,
+        slide: function( event, ui ) {
+            $("#profilePointSize").val(ui.value);
+            pv.profile.draw();
+        }
     }); 
 
     $("#radioOrbitControl").button();
@@ -572,9 +583,9 @@ pv.ui.initGUI = function (){
         }
     });
 
-    $( "#radioProfile" ).button();
-    $('#radioProfile').bind('change', function(){
-        if($(this).is(':checked')){            
+    $('#radioProfile').button().bind('change', function(){
+        if($(this).is(':checked')){ 
+            console.log("ici");
             pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
@@ -583,8 +594,10 @@ pv.ui.initGUI = function (){
                 pv.scene3D.profileTool.finishInsertion();
                 pv.scene3D.profileTool.enabled = false;
             });
-            
         } else {
+            console.log("ici");
+            $('#profileWidthCursor').hide();
+            $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
@@ -677,6 +690,7 @@ pv.ui.resetUIToDefault = function (){
     $("#chkCoordinates").change();
     
     $("#profileWidth").val(pv.params.profileWidth).change();
+    $("#profilePointSize").val(pv.params.profilePointSize).change();
 
 };
 

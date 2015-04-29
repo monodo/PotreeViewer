@@ -106,6 +106,8 @@ pv.profile.getProfilePoints = function(){
 ***/
 pv.profile.draw = function () {
 
+    var pointSize = $("#profilePointSizeSlider").slider( "value" );
+    
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
 
     pv.map2D.updateToolLayer(thePoints);
@@ -169,7 +171,7 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         
         // Zoom-Pan points
-        pv.profile.drawPoints(output.data, svg, x, y, 2);
+        pv.profile.drawPoints(output.data, svg, x, y, pointSize);
 
         svg.selectAll("text")
             .style("fill", "white")
@@ -199,7 +201,7 @@ pv.profile.draw = function () {
         .attr("class", "y axis")
         .call(yAxis);
 
-    pv.profile.drawPoints(output.data, svg, x, y, 2);
+    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
             
     svg.selectAll("text")
         .style("fill", "white");

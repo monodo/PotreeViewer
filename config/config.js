@@ -54,6 +54,10 @@ pv.params = {
     'profileWidthMin': 0.1,
     'profileWidthMax': 500,
     'profileWidthStep': 0.1,
+    'profilePointSize': 2,
+    'profilePointSizeMin': 0.1,
+    'profilePointSizeMax': 20,
+    'profilePointSizeStep': 0.1,
     'clipMode': Potree.ClipMode.HIGHLIGHT_INSIDE, 
     'defaultLanguage': 'en',
     'availableLanguages': {

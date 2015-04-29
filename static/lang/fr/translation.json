@@ -72,6 +72,7 @@
         "profile_tt": "Mesurer un profil",
         "clip_tt": "Sélectionner des points par un volume",
         "profile_width": "Largeur du profil",
+        "profile_point_size": "Taille des points",
         "classification": "Classification",
         "intensity": "Intensité"
     }
