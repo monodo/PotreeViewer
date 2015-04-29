@@ -50,7 +50,7 @@ pv.params = {
     'showFlipYZ': false,
     'updateMatrixWorld': true,
     'defaultZoomLevel': 1,
-    'profileWidth': 3,
+    'profileWidth': 20,
     'profileWidthMin': 0.1,
     'profileWidthMax': 500,
     'profileWidthStep': 0.1,

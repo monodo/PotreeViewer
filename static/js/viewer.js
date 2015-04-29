@@ -121,7 +121,7 @@ pv.ui.initGUI = function (){
      $("#toolbox").draggable({
         handle: "#moveDiv",
         containment: 'window',
-        scroll: false,
+        scroll: false
     }).draggable({ scroll: false });  
 
     // Map
@@ -133,7 +133,7 @@ pv.ui.initGUI = function (){
     }).draggable({
         handle: "#dragMap",
         containment: 'window',
-        scroll: false,
+        scroll: false
     }).draggable({ scroll: false });   
 
     // Handle mapbox size on windows resize
@@ -578,7 +578,7 @@ pv.ui.initGUI = function (){
             pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
-            pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
+            pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
             $("#renderArea").dblclick(function(){
                 pv.scene3D.profileTool.finishInsertion();
                 pv.scene3D.profileTool.enabled = false;
