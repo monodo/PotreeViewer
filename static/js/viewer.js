@@ -117,7 +117,7 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
-    
+
      $("#toolbox").draggable({
         handle: "#moveDiv",
         containment: 'window',
@@ -253,23 +253,20 @@ pv.ui.initGUI = function (){
     });
     
     $("#showProfileButton").hide();
-    // Show the mapbox
+    // Show - Hide the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
             $("#mapBox").slideUp(300);
             $("#showMapButton").blur();
             $("#showMapButton").hide();
-        }
-        else {
+        } else {
             if (!$("#profileContainer").is(":visible")) {
                 pv.map2D.updateMapSize(false); 
             } else {
                 pv.map2D.updateMapSize(true); 
             }
-
             $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
-            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         }
     });
     
@@ -706,6 +703,9 @@ pv.map2D.updateMapSize = function(isProfileOpen) {
             setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         } else {
             $("#mapBox").css("height", "70%");
-            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+            setTimeout( function() { 
+                pv.map2D.map.updateSize();
+                pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
+            }, 400); 
         }
 };
