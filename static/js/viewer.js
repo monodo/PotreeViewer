@@ -562,40 +562,35 @@ pv.ui.initGUI = function (){
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
 
+        pv.utils.disableControls();
+
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
-            pv.utils.disableControls();
             pv.scene3D.areaTool.setEnabled(true);
         }
 
         // Measure volume
         if($('#radioVolumeMeasure').is(':checked')){
-            pv.utils.disableControls();
             pv.scene3D.volumeTool.startInsertion(); 
         }
 
         // Clip toolLayer
         if($('#radioClip').is(':checked')){
-            pv.utils.disableControls();
             pv.scene3D.volumeTool.startInsertion({clip: true});
         }
 
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
-            pv.utils.disableControls();
             pv.scene3D.angleTool.setEnabled(true);
         }
 
         // Distance measure
         if($('#radioDistanceMeasure').is(':checked')){
-            pv.utils.disableControls();
             pv.scene3D.measuringTool.setEnabled(true);
         }
 
         // Profile
         if($('#radioProfile').is(':checked')){ 
-            console.log("checked");
-            pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
@@ -604,7 +599,6 @@ pv.ui.initGUI = function (){
                 pv.scene3D.profileTool.enabled = false;
             });
         } else {
-            console.log("unchecked");
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
