@@ -492,6 +492,8 @@ pv.utils.loop = function () {
 */
 pv.utils.disableControls = function () {
 
+    pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
+
     if (pv.scene3D.profileTool.activeProfile) {
         pv.scene3D.profileTool.finishInsertion();
     }
@@ -501,5 +503,4 @@ pv.utils.disableControls = function () {
     pv.scene3D.measuringTool.setEnabled(false);
     pv.scene3D.areaTool.setEnabled(false);
     pv.scene3D.angleTool.setEnabled(false);
-    pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
 };
