@@ -446,7 +446,6 @@ pv.ui.initGUI = function (){
         if($(this).is(':checked')){
             $('#chkCoordinates').button("option", "label", "masquer");
             pv.params.showCoordinates = true;
-
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;
@@ -550,42 +549,52 @@ pv.ui.initGUI = function (){
         pv.utils.flipYZ();
         $("#btnFlipYZ").blur();
     });
-
+    
+    // ***Tools***
+    
+    // Tools' buttons
     $( "#radioDistanceMeasure" ).button();
-    $('#radioDistanceMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.measuringTool.setEnabled(true);
-        }
-    });
-    
-    $( "#radioAngleMeasure" ).button();
-    $('#radioAngleMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.angleTool.setEnabled(true);
-        }
-    });
-    
+    $( "#radioAngleMeasure" ).button();   
     $( "#radioAreaMeasure" ).button();
-    $('#radioAreaMeasure').bind('change', function(){
-        if($(this).is(':checked')){
+    $( "#radioVolumeMeasure" ).button();
+    $( "#radioClip" ).button();
+
+    //Set up tools radio button change behaviour
+    $("#toolsDiv").buttonset().change(function () {
+
+        // Area Measure
+        if($('#radioAreaMeasure').is(':checked')){
             pv.utils.disableControls();
             pv.scene3D.areaTool.setEnabled(true);
         }
-    });
 
-    $( "#radioVolumeMeasure" ).button();
-    $('#radioVolumeMeasure').bind('change', function(){
-        if($(this).is(':checked')){
+        // Measure volume
+        if($('#radioVolumeMeasure').is(':checked')){
             pv.utils.disableControls();
             pv.scene3D.volumeTool.startInsertion(); 
         }
-    });
 
-    $('#radioProfile').button().bind('change', function(){
-        if($(this).is(':checked')){ 
-            console.log("ici");
+        // Clip toolLayer
+        if($('#radioClip').is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.volumeTool.startInsertion({clip: true});
+        }
+
+        // Angle measure
+        if($('#radioAngleMeasure').is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.angleTool.setEnabled(true);
+        }
+
+        // Distance measure
+        if($('#radioDistanceMeasure').is(':checked')){
+            pv.utils.disableControls();
+            pv.scene3D.measuringTool.setEnabled(true);
+        }
+
+        // Profile
+        if($('#radioProfile').is(':checked')){ 
+            console.log("checked");
             pv.utils.disableControls();
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
@@ -595,31 +604,24 @@ pv.ui.initGUI = function (){
                 pv.scene3D.profileTool.enabled = false;
             });
         } else {
-            console.log("ici");
+            console.log("unchecked");
+            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
+    
+    // ***UI parameters***
 
-    $( "#radioClip" ).button();
-    $('#radioClip').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.volumeTool.startInsertion({clip: true});
-        }
-    });
-
-    $("#toolsDiv").buttonset();
-
+    // Reset UI to default
     $("#btnResetUI").button({
         icons: {
             primary: 'ui-icon-arrowrefresh-1-s'
         },
         text: false
-    });
-    $('#btnResetUI').bind('click', function(){
+    }).bind('click', function(){
         pv.ui.resetUIToDefault();
     });
 
