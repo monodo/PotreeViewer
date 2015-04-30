@@ -95,6 +95,9 @@ pv.scene3D.initThree = function (){
  * Parameters: none
  */
 pv.ui.initGUI = function (){
+    
+    // Display version info
+    $('#pvVersionInfo').html(pv.params.versionInfo);
 
     // i18next translation initialization
     // Get the available languages defined in config.js

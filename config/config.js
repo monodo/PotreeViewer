@@ -3,6 +3,7 @@
 */
 
 pv.params = {
+    'versionInfo': '<a href="http://sitn.ne.ch/" target="_blank">SITN</a> Potree Viewer <b><i>Beta</i></b>',
     'near': 10,
     'far': 1000000,
     'fov': 50,
