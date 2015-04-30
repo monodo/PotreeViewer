@@ -225,6 +225,7 @@ pv.ui.initGUI = function (){
 
     // Close the profile container
     $("#closeProfileContainer").click(function(){
+        pv.utils.disableControls();
         $("#profileContainer").slideUp(300);
         $("#showProfileButton").show(300);
         pv.map2D.updateMapSize(false); 
@@ -289,7 +290,9 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#pointNumber").val(ui.value);
             pv.params.pointCountTarget = ui.value;
-            pv.profile.draw();
+            if (pv.scene3D.profileTool.profiles.length > 0) {
+                pv.profile.draw();
+            }
         }
     });
 
@@ -353,7 +356,7 @@ pv.ui.initGUI = function (){
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
-            if (pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1]) {
+            if (pv.scene3D.profileTool.profiles.length > 0) {
                 pv.profile.draw();
             }
         }
@@ -368,7 +371,7 @@ pv.ui.initGUI = function (){
         }
         $("#pointMaterialSelect").append(option);
     }
-    $("#pointMaterialSelect").selectmenu( "refresh" );
+    $("#pointMaterialSelect").selectmenu("refresh");
 
     $("#pointQualitySelect").selectmenu({
         select: function(event, data) {
@@ -385,7 +388,7 @@ pv.ui.initGUI = function (){
         }
         $("#pointQualitySelect").append(option);
     }
-    $("#pointQualitySelect").selectmenu( "refresh" );
+    $("#pointQualitySelect").selectmenu("refresh");
 
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {
@@ -510,7 +513,9 @@ pv.ui.initGUI = function (){
             $("#profileWidth").val(ui.value);
             pv.scene3D.profileTool.profiles[0].setWidth(ui.value);
             pv.scene3D.profileTool.profiles[0].update();
-            pv.profile.draw();
+            if (pv.scene3D.profileTool.profiles.length > 0) {
+                pv.profile.draw();
+            };
         }
     });
 
@@ -521,7 +526,9 @@ pv.ui.initGUI = function (){
         value: pv.params.profilePointSize,
         slide: function( event, ui ) {
             $("#profilePointSize").val(ui.value);
-            pv.profile.draw();
+            if (pv.scene3D.profileTool.profiles.length > 0) {
+                pv.profile.draw();
+            }
         }
     });
     
@@ -532,7 +539,9 @@ pv.ui.initGUI = function (){
         value: pv.params.profilePointSize,
         slide: function( event, ui ) {
             $("#profilePointLOD").val(ui.value);
-            pv.profile.draw();
+            if (pv.scene3D.profileTool.profiles.length > 0) {
+                pv.profile.draw();
+            }
         }
     }); 
 
@@ -617,7 +626,6 @@ pv.ui.initGUI = function (){
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);
-            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
     
