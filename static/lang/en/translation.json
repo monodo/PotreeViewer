@@ -70,6 +70,7 @@
         "volume_tt": "Volume measure",
         "profile_tt": "Profile",
         "profile_point_size": "Point size",
+        "profile_point_lod": "Points density",
         "clip_tt": "Clip volume",
         "profile_width": "Profile width",
         "classification": "Classification",

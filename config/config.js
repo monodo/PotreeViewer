@@ -55,6 +55,8 @@ pv.params = {
     'profileWidthMax': 500,
     'profileWidthStep': 0.1,
     'profilePointSize': 2,
+    'profilePointLOD': 3,
+    'profilePointMaxLOD': 10,
     'profilePointSizeMin': 0.1,
     'profilePointSizeMax': 20,
     'profilePointSizeStep': 0.1,

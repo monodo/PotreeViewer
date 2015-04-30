@@ -70,6 +70,7 @@
         "angle_tt": "Mesurer un angle",
         "volume_tt": "Mesurer un volume",
         "profile_tt": "Mesurer un profil",
+        "profile_point_lod": "Densité de points",
         "clip_tt": "Sélectionner des points par un volume",
         "profile_width": "Largeur du profil",
         "profile_point_size": "Taille des points",
