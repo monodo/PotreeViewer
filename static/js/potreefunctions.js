@@ -491,6 +491,7 @@ pv.utils.loop = function () {
 * Parameters: none
 */
 pv.utils.disableControls = function () {
+
     if (pv.scene3D.profileTool.activeProfile) {
         pv.scene3D.profileTool.finishInsertion();
     }

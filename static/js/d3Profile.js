@@ -106,6 +106,8 @@ pv.profile.getProfilePoints = function(){
 ***/
 pv.profile.draw = function () {
 
+    var pointSize = $("#profilePointSizeSlider").slider( "value" );
+    
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
 
     pv.map2D.updateToolLayer(thePoints);
@@ -169,7 +171,7 @@ pv.profile.draw = function () {
         svg.select(".y.axis").call(yAxis);
         
         // Zoom-Pan points
-        pv.profile.drawPoints(output.data, svg, x, y, 2);
+        pv.profile.drawPoints(output.data, svg, x, y, pointSize);
 
         svg.selectAll("text")
             .style("fill", "white")
@@ -199,24 +201,19 @@ pv.profile.draw = function () {
         .attr("class", "y axis")
         .call(yAxis);
 
-    pv.profile.drawPoints(output.data, svg, x, y, 2);
+    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
             
     svg.selectAll("text")
         .style("fill", "white");
-        
-    pv.profile.resetPanZoom = function reset() {
-        svg.call(pv.profile.zoom
-            .x(x.domain([-width / 2, width / 2]))
-            .y(y.domain([-height / 2, height / 2]))
-            .event);
-    };
-    
+
     // Everything ready, show the containers;
-    $("#mapBox").css("height", "70%");
-    setTimeout( function() { pv.map2D.map.updateSize();}, 400);
+    pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
 };
 
+pv.profile.resetPanZoom = function reset() {
+    pv.profile.draw();
+};
 
 pv.profile.manualZoom = function (increment) {
 

@@ -69,16 +69,16 @@ pv.map2D.initMapView = function () {
             })
         })
     });
-    
+
     pv.map2D.toolLayer = new ol.layer.Vector({
         source: new ol.source.Vector({
         }),
         style: new ol.style.Style({
             fill: new ol.style.Fill({
-                color: 'rgba(255, 0, 0, 0.5)'
+                color: 'rgba(255, 0, 0, 1)'
             }),
             stroke: new ol.style.Stroke({
-                  color: 'rgba(255, 0, 0, 0.5)',
+                  color: 'rgba(255, 0, 0, 1)',
                   width: 2
             })
         })
@@ -112,8 +112,6 @@ pv.map2D.initMapView = function () {
     var mousePositionControl = new ol.control.MousePosition({
         coordinateFormat: ol.coordinate.createStringXY(4),
         projection: pv.params.mapconfig.mapCRS,
-        //className: 'custom-mouse-position',
-        // target: document.getElementById('mouse-position'),
         undefinedHTML: '&nbsp;'
     });
 

@@ -8,6 +8,7 @@ body {
     padding: 0;
     font-size: 0.5em;
     font-family: arial;
+    overflow: hidden !important;
 }
 
 .renderArea{

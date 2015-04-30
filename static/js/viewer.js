@@ -117,11 +117,11 @@ pv.ui.initGUI = function (){
     $( "#toolboxTabs" ).tabs({
         active: 0
     });
-    
+
      $("#toolbox").draggable({
         handle: "#moveDiv",
         containment: 'window',
-        scroll: false,
+        scroll: false
     }).draggable({ scroll: false });  
 
     // Map
@@ -133,7 +133,7 @@ pv.ui.initGUI = function (){
     }).draggable({
         handle: "#dragMap",
         containment: 'window',
-        scroll: false,
+        scroll: false
     }).draggable({ scroll: false });   
 
     // Handle mapbox size on windows resize
@@ -253,23 +253,20 @@ pv.ui.initGUI = function (){
     });
     
     $("#showProfileButton").hide();
-    // Show the mapbox
+    // Show - Hide the mapbox
     $("#showMapButton").button().click(function() {
         if ($("#mapBox").is(":visible")) {
             $("#mapBox").slideUp(300);
             $("#showMapButton").blur();
             $("#showMapButton").hide();
-        }
-        else {
+        } else {
             if (!$("#profileContainer").is(":visible")) {
                 pv.map2D.updateMapSize(false); 
             } else {
                 pv.map2D.updateMapSize(true); 
             }
-
             $("#mapBox").slideDown(300);
             $("#showMapButton").hide();
-            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         }
     });
     
@@ -449,7 +446,6 @@ pv.ui.initGUI = function (){
         if($(this).is(':checked')){
             $('#chkCoordinates').button("option", "label", "masquer");
             pv.params.showCoordinates = true;
-
         } else {
             $('#chkCoordinates').button("option", "label", "montrer");
             pv.params.showCoordinates = false;
@@ -513,6 +509,17 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.profiles[0].update();
             pv.profile.draw();
         }
+    });
+
+    $("#profilePointSizeSlider").slider({
+        min: pv.params.profilePointSizeMin,
+        max: pv.params.profilePointSizeMax,
+        step: pv.params.profilePointSizeStep,
+        value: pv.params.profilePointSize,
+        slide: function( event, ui ) {
+            $("#profilePointSize").val(ui.value);
+            pv.profile.draw();
+        }
     }); 
 
     $("#radioOrbitControl").button();
@@ -542,74 +549,73 @@ pv.ui.initGUI = function (){
         pv.utils.flipYZ();
         $("#btnFlipYZ").blur();
     });
-
+    
+    // ***Tools***
+    
+    // Tools' buttons
     $( "#radioDistanceMeasure" ).button();
-    $('#radioDistanceMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.measuringTool.setEnabled(true);
-        }
-    });
-    
-    $( "#radioAngleMeasure" ).button();
-    $('#radioAngleMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.angleTool.setEnabled(true);
-        }
-    });
-    
+    $( "#radioAngleMeasure" ).button();   
     $( "#radioAreaMeasure" ).button();
-    $('#radioAreaMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
+    $( "#radioVolumeMeasure" ).button();
+    $( "#radioClip" ).button();
+
+    //Set up tools radio button change behaviour
+    $("#toolsDiv").buttonset().change(function () {
+
+        pv.utils.disableControls();
+
+        // Area Measure
+        if($('#radioAreaMeasure').is(':checked')){
             pv.scene3D.areaTool.setEnabled(true);
         }
-    });
 
-    $( "#radioVolumeMeasure" ).button();
-    $('#radioVolumeMeasure').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
+        // Measure volume
+        if($('#radioVolumeMeasure').is(':checked')){
             pv.scene3D.volumeTool.startInsertion(); 
         }
-    });
 
-    $( "#radioProfile" ).button();
-    $('#radioProfile').bind('change', function(){
-        if($(this).is(':checked')){            
-            pv.utils.disableControls();
+        // Clip toolLayer
+        if($('#radioClip').is(':checked')){
+            pv.scene3D.volumeTool.startInsertion({clip: true});
+        }
+
+        // Angle measure
+        if($('#radioAngleMeasure').is(':checked')){
+            pv.scene3D.angleTool.setEnabled(true);
+        }
+
+        // Distance measure
+        if($('#radioDistanceMeasure').is(':checked')){
+            pv.scene3D.measuringTool.setEnabled(true);
+        }
+
+        // Profile
+        if($('#radioProfile').is(':checked')){ 
             pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
-            pv.scene3D.profileTool.startInsertion({width: pv.scene3D.pointcloud.boundingSphere.radius / 100});
+            pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
             $("#renderArea").dblclick(function(){
                 pv.scene3D.profileTool.finishInsertion();
                 pv.scene3D.profileTool.enabled = false;
             });
-            
         } else {
+            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
+            $('#profileWidthCursor').hide();
+            $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);
             pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
         }
     });
+    
+    // ***UI parameters***
 
-    $( "#radioClip" ).button();
-    $('#radioClip').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.disableControls();
-            pv.scene3D.volumeTool.startInsertion({clip: true});
-        }
-    });
-
-    $("#toolsDiv").buttonset();
-
+    // Reset UI to default
     $("#btnResetUI").button({
         icons: {
             primary: 'ui-icon-arrowrefresh-1-s'
         },
         text: false
-    });
-    $('#btnResetUI').bind('click', function(){
+    }).bind('click', function(){
         pv.ui.resetUIToDefault();
     });
 
@@ -680,6 +686,7 @@ pv.ui.resetUIToDefault = function (){
     $("#chkCoordinates").change();
     
     $("#profileWidth").val(pv.params.profileWidth).change();
+    $("#profilePointSize").val(pv.params.profilePointSize).change();
 
 };
 
@@ -706,6 +713,9 @@ pv.map2D.updateMapSize = function(isProfileOpen) {
             setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
         } else {
             $("#mapBox").css("height", "70%");
-            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+            setTimeout( function() { 
+                pv.map2D.map.updateSize();
+                pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
+            }, 400); 
         }
 };
