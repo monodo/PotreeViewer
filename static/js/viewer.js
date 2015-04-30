@@ -531,7 +531,7 @@ pv.ui.initGUI = function (){
             }
         }
     });
-    
+
     $("#profilePointLODSlider").slider({
         min: 1,
         max: pv.params.profilePointMaxLOD,
@@ -572,9 +572,9 @@ pv.ui.initGUI = function (){
         pv.utils.flipYZ();
         $("#btnFlipYZ").blur();
     });
-    
+
     // ***Tools***
-    
+
     // Tools' buttons
     $( "#radioDistanceMeasure" ).button();
     $( "#radioAngleMeasure" ).button();   
@@ -693,8 +693,7 @@ pv.ui.resetUIToDefault = function (){
     $("#pointOpacity").val(pv.params.opacity).change();
 
     $("#pointSizeTypeSelect").val(pv.params.pointSizeType);
-    $("#pointMaterialSelect").val(pv.params.material);
-    $("#pointMaterialSelect").change();
+    $("#pointMaterialSelect").val(pv.params.defaultPointMaterial);
     $("#pointQualitySelect").val(pv.params.pointQuality);
     $("#pointClipSelect").val(pv.params.clipMode);
 
