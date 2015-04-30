@@ -95,6 +95,9 @@ pv.scene3D.initThree = function (){
  * Parameters: none
  */
 pv.ui.initGUI = function (){
+    
+    // Display version info
+    $('#pvVersionInfo').html(pv.params.versionInfo);
 
     // i18next translation initialization
     // Get the available languages defined in config.js
@@ -270,7 +273,6 @@ pv.ui.initGUI = function (){
         }
     });
     
-    // $("#showMapButton").removeClass();
     $("#showMapButton").addClass('showMapButton');
 
     if (!pv.params.isPointCloudGeoreferenced) {
@@ -287,6 +289,7 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#pointNumber").val(ui.value);
             pv.params.pointCountTarget = ui.value;
+            pv.profile.draw();
         }
     });
 
@@ -520,6 +523,17 @@ pv.ui.initGUI = function (){
             $("#profilePointSize").val(ui.value);
             pv.profile.draw();
         }
+    });
+    
+    $("#profilePointLODSlider").slider({
+        min: 1,
+        max: pv.params.profilePointMaxLOD,
+        step: 1,
+        value: pv.params.profilePointSize,
+        slide: function( event, ui ) {
+            $("#profilePointLOD").val(ui.value);
+            pv.profile.draw();
+        }
     }); 
 
     $("#radioOrbitControl").button();
@@ -687,6 +701,7 @@ pv.ui.resetUIToDefault = function (){
     
     $("#profileWidth").val(pv.params.profileWidth).change();
     $("#profilePointSize").val(pv.params.profilePointSize).change();
+    $("#profilePointLOD").val(pv.params.profilePointLOD).change();
 
 };
 
