@@ -4,6 +4,40 @@
     <meta charset="utf-8"/>
     <title>SITN Point cloud viewer</title>
 
+    <!-- IE is not supporter for now -->
+    <script>
+    
+        var isWebGLSupported = function webgl_support() { 
+            try {
+                var canvas = document.createElement( 'canvas' ); 
+                return !! window.WebGLRenderingContext && ( 
+                    canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) 
+                 );
+            } catch( e ) { 
+                return false;
+            } 
+        };
+        console.log("ici");
+        if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+            if (navigator.appVersion.indexOf("MSIE 7.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 8.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 9.")!=-1) {
+                alert("9");
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 10.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+        }
+        
+        if(!isWebGLSupported() ){
+            window.location = "templates/browserinfo.html";
+        }
+    </script>
     <!-- D3 -->
     <script src="static/libs/d3/d3.js"></script>
 
@@ -301,7 +335,6 @@
         }
         </script>
         <script type="text/javascript">
-            
             // This variable will be set to true once Jquery UI set up is completed
             pv.ui.loaded = false;
             // Init the 3D Ol3 map object
