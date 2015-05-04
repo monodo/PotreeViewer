@@ -66,7 +66,6 @@ pv.scene3D.initThree = function (){
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
-    pv.scene3D.areaTool = new Potree.AreaTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.volumeTool = new Potree.VolumeTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     transformationTool = new Potree.TransformationTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
 
@@ -589,7 +588,8 @@ pv.ui.initGUI = function (){
 
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
-            pv.scene3D.areaTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: true, closed: true})
+
         }
 
         // Measure volume
@@ -609,7 +609,9 @@ pv.ui.initGUI = function (){
 
         // Distance measure
         if($('#radioDistanceMeasure').is(':checked')){
-            pv.scene3D.measuringTool.setEnabled(true);
+            //pv.scene3D.measuringTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: false, closed: false})
+
         }
 
         // Profile
