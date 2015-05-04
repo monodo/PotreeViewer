@@ -505,16 +505,6 @@ pv.ui.initGUI = function (){
             pv.scene3D.pointcloud.generateDEM = false;
             this.blur();
             pv.scene3D.orbitControls.removeEventListener("proposeTransform", pv.utils.demCollisionHandler)
-
-            // pv.scene3D.orbitControls.addEventListener("proposeTransform", function(event){
-                // if(!pv.scene3D.pointcloud || !pv.params,useDEMCollisions){
-                    // return;
-                // }
-                // var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
-                // if(event.newPosition.y < demHeight){
-                    // event.objections++;
-                // }
-            // });
         }
     });
     
@@ -527,7 +517,7 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#moveSpeed").val(ui.value);
             pv.scene3D.controls.moveSpeed = ui.value * 100;
-            //pv.scene3D.controls.zoomSpeed = ui.value;
+            pv.scene3D.controls.zoomSpeed = ui.value;
         }
     });
 
@@ -635,7 +625,7 @@ pv.ui.initGUI = function (){
 
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
-
+        
         pv.utils.disableControls();
 
         // Area Measure
