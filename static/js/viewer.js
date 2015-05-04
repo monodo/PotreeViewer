@@ -70,8 +70,9 @@ pv.scene3D.initThree = function (){
     pv.scene3D.scene.add(grid);
 
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
-    // pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    pv.scene3D.profileTool.addEventListener("marker_added", pv.profile.draw);
+
     pv.scene3D.volumeTool = new Potree.VolumeTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     transformationTool = new Potree.TransformationTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
 
@@ -652,28 +653,19 @@ pv.ui.initGUI = function (){
 
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
-            //pv.scene3D.angleTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3})
         }
 
         // Distance measure
         if($('#radioDistanceMeasure').is(':checked')){
-            //pv.scene3D.measuringTool.setEnabled(true);
             pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: false, closed: false});
-
         }
 
         // Profile
         if($('#radioProfile').is(':checked')){ 
-            pv.scene3D.profileTool.addEventListener("marker_added", pv.profile.draw);
-
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
-            $("#renderArea").dblclick(function(){
-                pv.scene3D.profileTool.finishInsertion();
-                pv.scene3D.profileTool.enabled = false;
-            });
         } else {
-            pv.scene3D.profileTool.removeEventListener("marker_added", pv.profile.draw);
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);

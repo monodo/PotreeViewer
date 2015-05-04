@@ -332,7 +332,6 @@ pv.scene3D.render = function(){
 
     pv.scene3D.renderer.clearDepth();
     pv.scene3D.measuringTool.render();
-    //pv.scene3D.angleTool.render();
     transformationTool.render();
 };
 
@@ -461,7 +460,6 @@ pv.utils.renderHighQuality = function (){
 
         pv.scene3D.renderer.clearDepth();
         pv.scene3D.measuringTool.render();
-        //pv.scene3D.angleTool.render();
         transformationTool.render();
 
     }
@@ -498,8 +496,19 @@ pv.utils.disableControls = function () {
 
     pv.scene3D.profileTool.enabled = false;
     pv.scene3D.volumeTool.enabled = false;
-    // pv.scene3D.measuringTool.setEnabled(false);
-    //pv.scene3D.angleTool.setEnabled(false);
+    
+    if (pv.scene3D.profileTool){
+        pv.scene3D.profileTool.reset();
+    }
+
+    if (pv.scene3D.volumeTool) {
+        pv.scene3D.volumeTool.reset();
+    }
+    
+    if(pv.scene3D.measureTool) {
+        pv.scene3D.measureTool.reset();
+    }
+
 };
 
 /***
