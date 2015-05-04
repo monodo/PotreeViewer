@@ -481,7 +481,9 @@ pv.ui.initGUI = function (){
     $('#radioFPSControl').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.useFPSControls();
+            pv.scene3D.controls.moveSpeed = $("#moveSpeedSlider").slider( "value" ) * 100;
             $("#moveSpeedCursor").show();
+            $('#renderArea').focus();
         }
     });
     
@@ -493,11 +495,11 @@ pv.ui.initGUI = function (){
         value: pv.params.constrolMoveSpeedFactor,
         slide: function( event, ui ) {
             $("#moveSpeed").val(ui.value);
-            pv.scene3D.controls.moveSpeed = ui.value;
-            pv.scene3D.controls.zoomSpeed = ui.value / 20;
+            pv.scene3D.controls.moveSpeed = ui.value * 100;
+            //pv.scene3D.controls.zoomSpeed = ui.value;
         }
     });
-    
+
     $("#moveSpeed").change(function() {
         $("#moveSpeedSlider").slider("value", parseInt(this.value));
     });
