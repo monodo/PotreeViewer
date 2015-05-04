@@ -501,3 +501,17 @@ pv.utils.disableControls = function () {
     // pv.scene3D.measuringTool.setEnabled(false);
     pv.scene3D.angleTool.setEnabled(false);
 };
+
+/***
+* Method: useDemCollisionsHandler
+* Parameter: event
+***/
+// pv.utils.useDemCollisionsHandler = function(event){
+    // if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
+        // return;
+    // }
+    // var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
+    // if(event.newPosition.y < demHeight){
+        // event.objections++;
+    // }
+// }

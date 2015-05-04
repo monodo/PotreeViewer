@@ -55,7 +55,8 @@
         "coordinates": "Coordinates",
         "pointNumber": "Points number",
         "visibleNodes": "Visible nodes",
-        "visiblePoints": "Visible points"
+        "visiblePoints": "Visible points",
+        "bottom_lock": "Keep above ground"
     },
     "settings": {
         "language": "Language",

@@ -19,6 +19,7 @@ pv.params = {
         'z': 0
     },
     'cameraRotationOrder': 'ZYX',
+    'useDEMCollisions': true,
     'pointSize': 1,
     'pointSizeMin': 0,
     'pointSizeMax': 2,

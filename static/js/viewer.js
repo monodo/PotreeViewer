@@ -487,6 +487,44 @@ pv.ui.initGUI = function (){
         }
     });
     
+    // Keep navigation above ground
+    $("#chkDEM").button({
+        label: null,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        },
+        text: false
+    });
+    
+    $('#chkDEM').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.scene3D.pointcloud.generateDEM = true;
+            
+            pv.scene3D.orbitControls.addEventListener("proposeTransform", function(event){
+                if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
+                    return;
+                }
+                var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
+                if(event.newPosition.y < demHeight){
+                    event.objections++;
+                }
+            });
+
+        } else {
+            pv.scene3D.pointcloud.generateDEM = false;
+            this.blur();
+            // pv.scene3D.orbitControls.addEventListener("proposeTransform", function(event){
+                // if(!pv.scene3D.pointcloud || !pv.params,useDEMCollisions){
+                    // return;
+                // }
+                // var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
+                // if(event.newPosition.y < demHeight){
+                    // event.objections++;
+                // }
+            // });
+        }
+    });
+    
     // Moving speed slider
      $("#moveSpeedSlider").slider({
         min: pv.params.constrolMoveSpeedFactorMin,

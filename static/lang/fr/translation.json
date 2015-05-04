@@ -56,7 +56,8 @@
         "show_txt": "Montrer",
         "pointNumber": "Nombre de points",
         "visibleNodes": "Nb. noeuds visibles",
-        "visiblePoints": "Nb points visibles"
+        "visiblePoints": "Nb points visibles",
+        "bottom_lock": "Rester au-dessus du sol"
     },
     "settings": {
         "language": "Langue",
