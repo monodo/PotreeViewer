@@ -4,6 +4,38 @@
     <meta charset="utf-8"/>
     <title>SITN Point cloud viewer</title>
 
+    <!-- Compatibility check -->
+    <script>
+        var isWebGLSupported = function webgl_support() { 
+            try {
+                var canvas = document.createElement( 'canvas' ); 
+                return !! window.WebGLRenderingContext && ( 
+                    canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) 
+                 );
+            } catch( e ) { 
+                return false;
+            } 
+        };
+        if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+            if (navigator.appVersion.indexOf("MSIE 7.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 8.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 9.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+            if(navigator.appVersion.indexOf("MSIE 10.")!=-1) {
+                window.location = "templates/browserinfo.html";
+            }
+        }
+
+        if(!isWebGLSupported() ){
+            window.location = "templates/browserinfo.html";
+        }
+
+    </script>
     <!-- D3 -->
     <script src="static/libs/d3/d3.js"></script>
 
@@ -12,14 +44,13 @@
     <script src="static/libs/jquery-ui/external/jquery/jquery.js"></script>
     <script src="static/libs/jquery-ui/jquery-ui.min.js"></script>
 
-    <!-- Openlayers + proj4 TO BE SET AS GIT SUMBODULE LATER-->
+    <!-- Openlayers + proj4 -->
     <script src="static/libs/potree/libs/proj4/proj4.js"></script>
     <link rel="stylesheet" href="static/libs/ol3/css/ol.css" type="text/css">
     <script src="static/libs/ol3/build/ol.js" type="text/javascript"></script>
     <!-- ***Load required projections here*** -->
     <script src="http://epsg.io/21781-1753.js" type="text/javascript"></script>
 
-    
     <!-- Three & Potree -->
     <script src="static/libs/potree/libs/three.js/build/three.js"></script>
     <script src="static/libs/potree/build/js/potree.js"></script>
@@ -45,7 +76,7 @@
 </head>
 <body>
     <!-- Display map button -->
-    <button id="showMapButton"><img src="static/images/geoloc.png" width=50 height=50 data-i18n="[title]nav.show_2d_map"></button>
+    <button id="showMapButton"><img class="mapIcon"src="static/images/geoloc.png" width=59 height=59 data-i18n="[title]nav.show_2d_map"></button>
     <!-- 2D map -->
     <div id="mapBox" class="mapBox">
         <div id="dragMap">
@@ -111,6 +142,14 @@
                         <col class="leftCol">
                         <col class="middleCol">
                         <col class="rightCol">
+                        <tr>
+                            <td data-i18n="disp.bottom_lock"></td>
+                            <td>
+                                <input type="checkbox" id="chkDEM">
+                                <label for="chkDEM" class="chkBoxDefault"></label>
+                            </td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td data-i18n="render.move_speed"></td>
                             <td><input id="moveSpeed" class="inputDefault"></td>
@@ -214,6 +253,17 @@
 
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
+                    <!-- top/left/front view -->
+                    <table id="viewTable" class="guiTable">
+                        <tr>
+                            <td>
+                                <button id="btnTopView" class="viewButton"><img class="viewIcon" src="static/images/arrow-down-icon.png" data-i18n="[title]nav.top_view"></button>
+                                <button id="btnFrontView" class="viewButton"><img class="viewIcon" src="static/images/arrow-front-icon.png" data-i18n="[title]nav.front_view"></button>
+                                <button id="btnLeftView" class="viewButton"><img class="viewIcon" src="static/images/arrow-left-icon.png" data-i18n="[title]nav.left_view"></button>
+                            </td>
+                        </tr>
+                    
+                    </table>
                    <!-- Let the user choose the profile width  -->
                     <table id="profileWidthCursor" class="guiTable">
                         <col class="leftCol">
@@ -293,7 +343,6 @@
         }
         </script>
         <script type="text/javascript">
-            
             // This variable will be set to true once Jquery UI set up is completed
             pv.ui.loaded = false;
             // Init the 3D Ol3 map object

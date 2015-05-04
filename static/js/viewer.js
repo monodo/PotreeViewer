@@ -45,7 +45,13 @@ pv.scene3D.initThree = function (){
         pv.scene3D.pointcloud.material.pointSizeType = pv.params.pointSizeType;
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
-
+        pv.scene3D.pointcloud.material.maxSize = pv.params.adaptiveMaxSize;
+        if (pv.params.customGradient) {
+            pv.scene3D.pointcloud.material.gradient = pv.params.customGradient;
+        }
+        if (pv.params.customClassification) {
+            pv.scene3D.pointcloud.material.classification = pv.params.customClassification;
+        }
         pv.scene3D.referenceFrame.add(pv.scene3D.pointcloud);
 
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
@@ -64,9 +70,9 @@ pv.scene3D.initThree = function (){
     pv.scene3D.scene.add(grid);
 
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
-    pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
-    pv.scene3D.areaTool = new Potree.AreaTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    pv.scene3D.profileTool.addEventListener("marker_added", pv.profile.draw);
+
     pv.scene3D.volumeTool = new Potree.VolumeTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     transformationTool = new Potree.TransformationTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
 
@@ -482,7 +488,30 @@ pv.ui.initGUI = function (){
     $('#radioFPSControl').bind('change', function(){
         if($(this).is(':checked')){
             pv.utils.useFPSControls();
+            pv.scene3D.controls.moveSpeed = $("#moveSpeedSlider").slider( "value" ) * 100;
             $("#moveSpeedCursor").show();
+            $('#renderArea').focus();
+        }
+    });
+    
+    // Keep navigation above ground
+    $("#chkDEM").button({
+        label: null,
+        icons: {
+            primary: 'ui-icon-circle-check'
+        },
+        text: false
+    });
+    
+    $('#chkDEM').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.scene3D.pointcloud.generateDEM = true;
+            pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler)
+
+        } else {
+            pv.scene3D.pointcloud.generateDEM = false;
+            this.blur();
+            pv.scene3D.orbitControls.removeEventListener("proposeTransform", pv.utils.demCollisionHandler)
         }
     });
     
@@ -494,11 +523,11 @@ pv.ui.initGUI = function (){
         value: pv.params.constrolMoveSpeedFactor,
         slide: function( event, ui ) {
             $("#moveSpeed").val(ui.value);
-            pv.scene3D.controls.moveSpeed = ui.value;
-            pv.scene3D.controls.zoomSpeed = ui.value / 20;
+            pv.scene3D.controls.moveSpeed = ui.value * 100;
+            pv.scene3D.controls.zoomSpeed = ui.value;
         }
     });
-    
+
     $("#moveSpeed").change(function() {
         $("#moveSpeedSlider").slider("value", parseInt(this.value));
     });
@@ -536,7 +565,7 @@ pv.ui.initGUI = function (){
         min: 1,
         max: pv.params.profilePointMaxLOD,
         step: 1,
-        value: pv.params.profilePointSize,
+        value: pv.params.profilePointLOD,
         slide: function( event, ui ) {
             $("#profilePointLOD").val(ui.value);
             if (pv.scene3D.profileTool.profiles.length > 0) {
@@ -565,6 +594,25 @@ pv.ui.initGUI = function (){
     $("#btnFocus").bind('click', function(){
         pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
         $("#btnFocus").blur();
+    });
+
+    // Top/Front/Left view buttons
+    $("#btnTopView").button();
+    $("#btnTopView").bind('click', function(){
+        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        $("#btnTopView").blur();
+    });
+
+    $("#btnFrontView").button();
+    $("#btnFrontView").bind('click', function(){
+        Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        $("#btnFrontView").blur();
+    });
+
+    $("#btnLeftView").button();
+    $("#btnLeftView").bind('click', function(){
+        Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        $("#btnLeftView").blur();
     });        
 
     $("#btnFlipYZ" ).button();
@@ -584,12 +632,13 @@ pv.ui.initGUI = function (){
 
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
-
+        
         pv.utils.disableControls();
 
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
-            pv.scene3D.areaTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: true, closed: true});
+
         }
 
         // Measure volume
@@ -604,25 +653,19 @@ pv.ui.initGUI = function (){
 
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
-            pv.scene3D.angleTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3})
         }
 
         // Distance measure
         if($('#radioDistanceMeasure').is(':checked')){
-            pv.scene3D.measuringTool.setEnabled(true);
+            pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: false, closed: false});
         }
 
         // Profile
         if($('#radioProfile').is(':checked')){ 
-            pv.ui.elRenderArea.addEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
-            $("#renderArea").dblclick(function(){
-                pv.scene3D.profileTool.finishInsertion();
-                pv.scene3D.profileTool.enabled = false;
-            });
         } else {
-            pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);

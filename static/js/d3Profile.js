@@ -19,13 +19,24 @@ pv.profile.getProfilePoints = function(){
     var maxY = 0;
     var maxZ = 0;
     
-    // TODO in Potree later:
-    var colorRamp = d3.scale.linear()
-        .domain([300, 800])
-        .range(["#4700b6", "blue", "aqua", "green", "yellow", "orange", "red"]);
+    // Get the same color map as Three
+    var minRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMin, 0));
+    var maxRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMax, 0));
+    var heightRange = maxRange.z - minRange.z;
+    var heightRange = heightRange;
+    var colorRange = [];
+    var colorDomain = [];
     
-    for(var i = 0; i < segments.length - 1; i++){
+    for (var c=0; c<pv.scene3D.pointcloud.material.gradient.length; c++){
+        colorDomain.push(minRange.z + heightRange * pv.scene3D.pointcloud.material.gradient[c][0]);
+        colorRange.push('#' + pv.scene3D.pointcloud.material.gradient[c][1].getHexString());
+    }
 
+    var colorRamp = d3.scale.linear()
+      .domain(colorDomain)
+      .range(colorRange);
+
+    for(var i = 0; i < segments.length - 1; i++){
         var segment = segments[i];
         var segStartGeo = pv.utils.toGeo(segment.start);
         var segEndGeo = pv.utils.toGeo(segment.end);
@@ -79,9 +90,8 @@ pv.profile.getProfilePoints = function(){
                     'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
                     'intensityCode': points.intensity[j],
-                    'heightColor': colorRamp(p.y),
+                    'heightColor': colorRamp(p.z),
                     'classificationCode': points.classification[i]
-                    // 'classification': 'rgb(' + points.classification[j][0] * 100 + '%,' + points.classification[j][1] * 100 + '%,' + points.classification[j][2] * 100 + '%)'
                 });
             }
         }
@@ -269,8 +279,11 @@ pv.profile.strokeColor = function (d) {
             } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
                 return d.intensity;
             } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
-                // TODO: get the color map
-                return d.color;
+                var classif = pv.scene3D.pointcloud.material.classification;
+                var color = 'rgb(' + classif[d.classificationCode].r * 100 + '%,';
+                color += classif[d.classificationCode].g * 100 + '%,';
+                color += classif[d.classificationCode].b * 100 + '%)';
+                return color;
             } else if (pv.params.pointColorType === Potree.PointColorType.HEIGHT) {
                 // TODO: get the color map
                 return d.heightColor;

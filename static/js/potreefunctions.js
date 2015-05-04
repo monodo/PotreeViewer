@@ -181,7 +181,7 @@ pv.utils.useOrbitControls = function (){
         pv.scene3D.controls.enabled = false;
     }
     if(!pv.scene3D.orbitControls){
-        pv.scene3D.orbitControls = new THREE.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
+        pv.scene3D.orbitControls = new Potree.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
     }
 
     pv.scene3D.controls = pv.scene3D.orbitControls;
@@ -332,8 +332,6 @@ pv.scene3D.render = function(){
 
     pv.scene3D.renderer.clearDepth();
     pv.scene3D.measuringTool.render();
-    pv.scene3D.angleTool.render();
-    pv.scene3D.areaTool.render();
     transformationTool.render();
 };
 
@@ -462,8 +460,6 @@ pv.utils.renderHighQuality = function (){
 
         pv.scene3D.renderer.clearDepth();
         pv.scene3D.measuringTool.render();
-        pv.scene3D.angleTool.render();
-        pv.scene3D.areaTool.render();
         transformationTool.render();
 
     }
@@ -500,7 +496,31 @@ pv.utils.disableControls = function () {
 
     pv.scene3D.profileTool.enabled = false;
     pv.scene3D.volumeTool.enabled = false;
-    pv.scene3D.measuringTool.setEnabled(false);
-    pv.scene3D.areaTool.setEnabled(false);
-    pv.scene3D.angleTool.setEnabled(false);
+    
+    if (pv.scene3D.profileTool){
+        pv.scene3D.profileTool.reset();
+    }
+
+    if (pv.scene3D.volumeTool) {
+        pv.scene3D.volumeTool.reset();
+    }
+    
+    if(pv.scene3D.measureTool) {
+        pv.scene3D.measureTool.reset();
+    }
+
+};
+
+/***
+* Method: useDemCollisionsHandler
+* Parameter: event
+***/
+pv.utils.demCollisionHandler =  function(event){
+    if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
+        return;
+    }
+    var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
+    if(event.newPosition.y < demHeight){
+        event.objections++;
+    }
 };
