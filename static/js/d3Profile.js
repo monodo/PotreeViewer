@@ -269,8 +269,11 @@ pv.profile.strokeColor = function (d) {
             } else if (pv.params.pointColorType === Potree.PointColorType.INTENSITY) {
                 return d.intensity;
             } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
-                // TODO: get the color map
-                return d.color;
+                var classif = pv.scene3D.pointcloud.material.classification;
+                var color = 'rgb(' + classif[d.classificationCode].r * 100 + '%,';
+                color += classif[d.classificationCode].g * 100 + '%,';
+                color += classif[d.classificationCode].b * 100 + '%)';
+                return color;
             } else if (pv.params.pointColorType === Potree.PointColorType.HEIGHT) {
                 // TODO: get the color map
                 return d.heightColor;
