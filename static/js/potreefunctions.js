@@ -181,7 +181,7 @@ pv.utils.useOrbitControls = function (){
         pv.scene3D.controls.enabled = false;
     }
     if(!pv.scene3D.orbitControls){
-        pv.scene3D.orbitControls = new THREE.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
+        pv.scene3D.orbitControls = new Potree.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
     }
 
     pv.scene3D.controls = pv.scene3D.orbitControls;
