@@ -28,7 +28,7 @@ pv.profile.getProfilePoints = function(){
     var colorDomain = [];
     
     for (var c=0; c<pv.scene3D.pointcloud.material.gradient.length; c++){
-        colorDomain.push(heightRange * pv.scene3D.pointcloud.material.gradient[c][0]);
+        colorDomain.push(minRange.z + heightRange * pv.scene3D.pointcloud.material.gradient[c][0]);
         colorRange.push('#' + pv.scene3D.pointcloud.material.gradient[c][1].getHexString());
     }
 
