@@ -14,7 +14,7 @@ pv.params = {
     'constrolMoveSpeedFactorMax': 1000,
     'constrolMoveSpeedFactorStep': 1,
     'cameraPosition': {
-        'x': 25,
+        'x': 0,
         'y': 25,
         'z': 0
     },
@@ -25,6 +25,7 @@ pv.params = {
     'pointSizeMax': 2,
     'pointSizeStep': 0.1,
     'pointSizeType': Potree.PointSizeType.ADAPTIVE,
+    'adaptiveMaxSize': 2,
     'pointShape': Potree.PointShape.SQUARE,
     'pointQuality': 'Normal',
     'pointCountTarget': 0.2,

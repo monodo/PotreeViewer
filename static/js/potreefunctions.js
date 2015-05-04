@@ -506,12 +506,12 @@ pv.utils.disableControls = function () {
 * Method: useDemCollisionsHandler
 * Parameter: event
 ***/
-// pv.utils.useDemCollisionsHandler = function(event){
-    // if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
-        // return;
-    // }
-    // var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
-    // if(event.newPosition.y < demHeight){
-        // event.objections++;
-    // }
-// }
+pv.utils.demCollisionHandler =  function(event){
+    if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
+        return;
+    }
+    var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
+    if(event.newPosition.y < demHeight){
+        event.objections++;
+    }
+};

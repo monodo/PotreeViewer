@@ -17,7 +17,10 @@
         "zoom_to_center": "Zoomer sur le centre du nuage",
         "flip_xz": "Inverser X et Z",
         "show_2d_map": "Montrer la carte 2D",
-        "earth_control_tt": "Earth controls"
+        "earth_control_tt": "Earth controls",
+        "top_view": "Top view",
+        "front_view": "Front view",
+        "left_view": "Left view"
     },
     "render": {
         "nb_max_pts": "Nb points max.", 

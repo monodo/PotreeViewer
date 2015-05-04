@@ -17,7 +17,10 @@
         "zoom_to_center": "Zoom to cloud center",
         "flip_xz": "Flip X and Y axis",
         "show_2d_map": "Show 2D map",
-        "earth_control_tt": "Earth controls"
+        "earth_control_tt": "Earth controls",
+        "top_view": "Top view",
+        "front_view": "Front view",
+        "left_view": "Left view"
     },
     "render": {
         "nb_max_pts": "Nb points max.", 

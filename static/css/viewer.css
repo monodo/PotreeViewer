@@ -65,6 +65,16 @@ body {
     opacity: 0.7;
 }
 
+.viewButton{
+    width: 29px;
+    height: 29px;
+}
+
+.viewIcon{
+    position: absolute;
+    left: 2px;
+    top: 1px;
+}
 .toolbox  {
     min-width: 350px;
     background-color: #515151;
