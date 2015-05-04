@@ -65,6 +65,11 @@ body {
     opacity: 0.7;
 }
 
+#viewTable {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
 .viewButton{
     width: 29px;
     height: 29px;
