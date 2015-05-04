@@ -46,6 +46,30 @@ pv.params = {
     'opacityMin': 0.1,
     'opacityMax': 1,
     'opacityStep': 0.1,
+    // Custom altitude gradient
+    'customGradient': [
+        [0, new THREE.Color(0.278, 0, 0.714)],
+        [1/6, new THREE.Color(1, 0, 1)],
+        [2/6, new THREE.Color(0, 1, 1)],
+        [3/6, new THREE.Color(0, 1, 0)],
+        [4/6, new THREE.Color(1, 1, 0)],
+        [5/6, new THREE.Color(1, 0.64, 0)],
+        [1, new THREE.Color(1, 0, 0)]
+    ],
+    customClassification:  {
+        0:          new THREE.Color(1.0, 0,0),
+        1:          new THREE.Color(0.2, 0.5,0.5),
+        2:          new THREE.Color(0.3, 0.32, 0.18),
+        3:          new THREE.Color(1.0, 1.0, 0.0),
+        4:          new THREE.Color(0.0, 0.8, 0.0),
+        5:          new THREE.Color(0.6, 0.6, 0.0 ),
+        6:          new THREE.Color(1.0, 0.66, 0.0),
+        7:          new THREE.Color(1.0, 0, 1.0   ),
+        8:          new THREE.Color(1.0, 0, 0.0   ),
+        9:          new THREE.Color(0.0, 0.0, 1.0 ),
+        12:         new THREE.Color(1.0, 1.0, 0.0 ),
+        "DEFAULT":  new THREE.Color(0.3, 0.6, 0.6 )
+    },
     'pointCloudPath': 'cloud/potree_v16/resources/pointclouds/CH03_LN02/cloud.js',
     'isPointCloudGeoreferenced': true,
     'BoundingBox': false,

@@ -46,6 +46,12 @@ pv.scene3D.initThree = function (){
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
         pv.scene3D.pointcloud.material.maxSize = pv.params.adaptiveMaxSize;
+        if (pv.params.customGradient) {
+            pv.scene3D.pointcloud.material.gradient = pv.params.customGradient;
+        }
+        if (pv.params.customClassification) {
+            pv.scene3D.pointcloud.material.classification = pv.params.customClassification;
+        }
         pv.scene3D.referenceFrame.add(pv.scene3D.pointcloud);
 
         pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
@@ -64,7 +70,7 @@ pv.scene3D.initThree = function (){
     pv.scene3D.scene.add(grid);
 
     pv.scene3D.measuringTool = new Potree.MeasuringTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
-    pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
+    // pv.scene3D.angleTool = new Potree.AngleTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.profileTool = new Potree.ProfileTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     pv.scene3D.volumeTool = new Potree.VolumeTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
     transformationTool = new Potree.TransformationTool(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.scene3D.renderer);
@@ -646,7 +652,7 @@ pv.ui.initGUI = function (){
 
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
-            pv.scene3D.angleTool.setEnabled(true);
+            //pv.scene3D.angleTool.setEnabled(true);
         }
 
         // Distance measure
