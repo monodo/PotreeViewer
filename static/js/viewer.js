@@ -328,8 +328,10 @@ pv.ui.initGUI = function (){
     
     $('#chkSkybox').bind('change', function(){
         if($(this).is(':checked')){
+            $('#chkSkybox').button("option", "label", i18n.t("nav.hide"));
             pv.params.showSkybox = true;
         } else {
+            $('#chkSkybox').button("option", "label", i18n.t("nav.show"));
             pv.params.showSkybox = false;
             this.blur();
         }
@@ -344,10 +346,10 @@ pv.ui.initGUI = function (){
     });
     $('#chkBBox').bind('change', function(){
         if($(this).is(':checked')){
-            $('#chkBBox').button("option", "label", "masquer");
+            $('#chkBBox').button("option", "label", i18n.t("nav.hide"));
             pv.params.showBoundingBox = true;
         } else {
-            $('#chkBBox').button("option", "label", "montrer");
+            $('#chkBBox').button("option", "label", i18n.t("nav.show"));
             pv.params.showBoundingBox = false;
             this.blur();
         }
@@ -362,10 +364,10 @@ pv.ui.initGUI = function (){
     });
     $('#chkCoordinates').bind('change', function(){
         if($(this).is(':checked')){
-            $('#chkCoordinates').button("option", "label", "masquer");
+            $('#chkCoordinates').button("option", "label", i18n.t("nav.hide"));
             pv.params.showCoordinates = true;
         } else {
-            $('#chkCoordinates').button("option", "label", "montrer");
+            $('#chkCoordinates').button("option", "label", i18n.t("nav.show"));
             pv.params.showCoordinates = false;
             this.blur();
         }
@@ -380,11 +382,11 @@ pv.ui.initGUI = function (){
     });
     $('#chkPointNumber').bind('change', function(){
         if($(this).is(':checked')){
-            $('#chkPointNumber').button("option", "label", "masquer");
+            $('#chkPointNumber').button("option", "label", i18n.t("nav.hide"));
             pv.params.showPointNumber = true;
 
         } else {
-            $('#chkPointNumber').button("option", "label", "montrer");
+            $('#chkPointNumber').button("option", "label", i18n.t("nav.show"));
             pv.params.showPointNumber = false;
             this.blur();
         }
@@ -535,7 +537,7 @@ pv.ui.initGUI = function (){
             $("#btnFrontView").blur();
     });
 
-    $("#btnLeftView")
+    $("#btnLeftView").button()
         .bind('click', function(){
             Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
             $("#btnLeftView").blur();

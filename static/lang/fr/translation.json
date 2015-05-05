@@ -14,13 +14,16 @@
     "nav": {
         "fps_control_tt": "Navigation FPS",
         "orbit_control_tt": "Navigation en mode vol",
-        "zoom_to_center": "Zoomer sur le centre du nuage",
+        "zoom_to_center": "Revenir à la vue initiale",
         "flip_xz": "Inverser X et Z",
         "show_2d_map": "Montrer la carte 2D",
+        "hide_2d_map": "Masquer la carte 2D",
         "earth_control_tt": "Earth controls",
         "top_view": "Vue de dessus",
         "front_view": "Vue de face",
-        "left_view": "Vue de côté"
+        "left_view": "Vue de côté",
+        "show": "Montrer",
+        "hide": "Hide"
     },
     "render": {
         "nb_max_pts": "Nb points max.", 
@@ -79,6 +82,9 @@
         "profile_width": "Largeur du profil",
         "profile_point_size": "Taille des points",
         "classification": "Classification",
-        "intensity": "Intensité"
+        "intensity": "Intensité",
+        "topview": "Vue de dessus",
+        "frontview": "Vue de face",
+        "leftview": "Vue de côté"
     }
 }
