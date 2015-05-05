@@ -9,7 +9,7 @@ The project is currently developped by [SITN](http://ne.ch/sitn) and focuses on 
 
 The purpose of Potree Viewer is to provide the largest public with a easy access to information rich LiDAR state-wide point clouds. For a live demo please test the [SITN Potree Viewer](http://sitn.ne.ch/lidar/index.html) by enhancing Potree with a intuitive, complete and stable UI.
 
-![](./docs/images/profile_full.png)
+![](./docs/images/basic_ui.png)
 
 ## Features
 
@@ -21,15 +21,8 @@ Potree Viewer supports almost all of Potree features and in addition, provides:
 * Multi-language UI thanks to [I18next](http://i18next.com/)
 * Easy UI configuration from a single configuration file
 
-## UI printscreens
+![](./docs/images/map_profile_synchro.png)
 
-The toolbox
-
-![](./docs/images/navigation_tab.png {width=300px})
-![](./docs/images/rendering_tab.png {width=300px})
-![](./docs/images/info_tab.png {width=300px})
-![](./docs/images/tools_tab.png {width=300px})
-![](./docs/images/parameters_tab.png {width=300px})
 
 ## Showcase
 
