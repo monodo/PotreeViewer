@@ -1,8 +1,8 @@
-// Potree viewer namespace
-
+/*** 
+*Potree viewer namespace and object model
+***/
 if (typeof pv === "undefined") {
     var pv = {
-            
         /**
          * Applications parameters
          */
