@@ -506,12 +506,20 @@ pv.ui.initGUI = function (){
     $('#chkDEM').bind('change', function(){
         if($(this).is(':checked')){
             pv.scene3D.pointcloud.generateDEM = true;
-            pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler)
+            if (pv.scene3D.orbitControls){ 
+                pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
+            }
+            if(pv.scene3D.earthControls){
+                pv.scene3D.earthControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
+            }
+            if(pv.scene3D.fpControls) {
+                pv.scene3D.fpControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
+            }
 
         } else {
             pv.scene3D.pointcloud.generateDEM = false;
             this.blur();
-            pv.scene3D.orbitControls.removeEventListener("proposeTransform", pv.utils.demCollisionHandler)
+            pv.scene3D.orbitControls.removeEventListener("proposeTransform", pv.utils.demCollisionHandler);
         }
     });
     
@@ -544,7 +552,7 @@ pv.ui.initGUI = function (){
             pv.scene3D.profileTool.profiles[0].update();
             if (pv.scene3D.profileTool.profiles.length > 0) {
                 pv.profile.draw();
-            };
+            }
         }
     });
 
@@ -592,26 +600,26 @@ pv.ui.initGUI = function (){
 
     $("#btnFocus").button();
     $("#btnFocus").bind('click', function(){
-        pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud);
+        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
         $("#btnFocus").blur();
     });
 
     // Top/Front/Left view buttons
     $("#btnTopView").button();
     $("#btnTopView").bind('click', function(){
-        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
         $("#btnTopView").blur();
     });
 
     $("#btnFrontView").button();
     $("#btnFrontView").bind('click', function(){
-        Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
         $("#btnFrontView").blur();
     });
 
     $("#btnLeftView").button();
     $("#btnLeftView").bind('click', function(){
-        Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud)
+        Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
         $("#btnLeftView").blur();
     });        
 
@@ -653,7 +661,7 @@ pv.ui.initGUI = function (){
 
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
-            pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3})
+            pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3});
         }
 
         // Distance measure
