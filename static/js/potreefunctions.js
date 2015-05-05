@@ -67,13 +67,13 @@ pv.utils.flipYZ = function (){
 pv.utils.onKeyDown = function (event){
     if(event.keyCode === 69){
         // e pressed
-        transformationTool.translate();
+        pv.scene3D.transformationTool.translate();
     }else if(event.keyCode === 82){
         // r pressed
-        transformationTool.scale();
+        pv.scene3D.transformationTool.scale();
     }else if(event.keyCode === 84){
         // r pressed
-        transformationTool.rotate();
+        pv.scene3D.transformationTool.rotate();
     }
 };
 
@@ -83,13 +83,13 @@ pv.utils.onKeyDown = function (event){
 ***/
 pv.utils.update = function (){
     if(pv.scene3D.pointcloud){
-        var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
 
+        var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
         pv.scene3D.pointcloud.material.clipMode = pv.params.clipMode;
         pv.scene3D.pointcloud.material.heightMin = bbWorld.min.y;
         pv.scene3D.pointcloud.material.heightMax = bbWorld.max.y;
-        pv.scene3D.pointcloud.material.intensityMin = 0;
-        pv.scene3D.pointcloud.material.intensityMax = 200;
+        pv.scene3D.pointcloud.material.intensityMin = pv.params.pointsIntensityMin;
+        pv.scene3D.pointcloud.material.intensityMax = pv.params.pointsIntensityMax;
         pv.scene3D.pointcloud.showBoundingBox = pv.params.showBoundingBox;
         pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
 
@@ -106,7 +106,7 @@ pv.utils.update = function (){
     } else {
         $('#lblNumVisibleNodes').html('');
     }
-    
+
     pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
 
     // update progress bar
@@ -127,7 +127,7 @@ pv.utils.update = function (){
     }
 
     pv.scene3D.volumeTool.update();
-    transformationTool.update();
+    pv.scene3D.transformationTool.update();
     pv.scene3D.profileTool.update();
 
     var clipBoxes = [];
@@ -332,7 +332,7 @@ pv.scene3D.render = function(){
 
     pv.scene3D.renderer.clearDepth();
     pv.scene3D.measuringTool.render();
-    transformationTool.render();
+    pv.scene3D.transformationTool.render();
 };
 
 /***
@@ -460,7 +460,7 @@ pv.utils.renderHighQuality = function (){
 
         pv.scene3D.renderer.clearDepth();
         pv.scene3D.measuringTool.render();
-        transformationTool.render();
+        pv.scene3D.transformationTool.render();
 
     }
 };
@@ -479,7 +479,6 @@ pv.utils.loop = function () {
     }else{
         pv.scene3D.render();
     }
-
 };
 
 /***

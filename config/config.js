@@ -75,6 +75,8 @@ pv.params = {
         15:         new THREE.Color(1.0, 1.0, 0.0 ),
         "DEFAULT":  new THREE.Color(0.3, 0.6, 0.6 )
     },
+    'pointsIntensityMin': 0,
+    'pointsIntensityMax': 200,
     'pointCloudPath': 'cloud/potree_v16_l5/resources/pointclouds/CH03_LN02/cloud.js',
     'isPointCloudGeoreferenced': true,
     'BoundingBox': false,
