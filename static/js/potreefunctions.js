@@ -1,21 +1,24 @@
-/**
- * Method: transform from geo pv.scene3D.scene coordinates to local coordinates
- * Parameters: position (THREE.Vector3 object)
- */
+/***
+* Transform from geo pv.scene3D.scene coordinates to local coordinates
+* Method: toLocal
+* Parameters: position [THREE.Vector3]
+***/
 pv.utils.toLocal = function (position){
     var scenePos = position.clone().applyMatrix4(pv.scene3D.referenceFrame.matrixWorld);
     return scenePos;
 };
 
-/**
- * Method: transform from local pv.scene3D.scene coordinates to geo coordinates
- * Parameters: Three scene child object
+/***
+* Transform from local pv.scene3D.scene coordinates to geo coordinates
+ * Method: toGeo
+ * Parameters: object [Three scene child]
  */
 pv.utils.toGeo = function(object){
+
     var geo;
     var inverse = new THREE.Matrix4().getInverse(pv.scene3D.referenceFrame.matrixWorld);
 
-    if(object instanceof THREE.Vector3){	
+    if(object instanceof THREE.Vector3){
         geo = object.clone().applyMatrix4(inverse);
     }else if(object instanceof THREE.Box3){
         var geoMin = object.min.clone().applyMatrix4(inverse);
@@ -25,10 +28,11 @@ pv.utils.toGeo = function(object){
     return geo;
 };
 
-/**
- * Method: Flip YZ Coordinates
- * Parameters: none
- */
+/***
+* Flip YZ Coordinates
+* Method: flipYZ
+* Parameters: none
+***/
 pv.utils.flipYZ = function (){
     pv.params.isFlipYZ = !pv.params.isFlipYZ;
 
@@ -61,8 +65,9 @@ pv.utils.flipYZ = function (){
 };
 
 /***
-* Method: set transformationTool keyboard events
-* Parameters: keyboard event
+* Set transformationTool keyboard events
+* Method: onKeyDown
+* Parameters: event
 ***/
 pv.utils.onKeyDown = function (event){
     if(event.keyCode === 69){
@@ -78,7 +83,8 @@ pv.utils.onKeyDown = function (event){
 };
 
 /***
-* Method: update Three scene
+* Update Three scene
+* Method: update
 * Parameters: none
 ***/
 pv.utils.update = function (){
@@ -157,7 +163,8 @@ pv.utils.update = function (){
 };
 
 /***
-* Method: set the First Person Control as navigation tool
+* Set the First Person Control as navigation tool
+* Method: useFPSControls
 * Parameters: none
 ***/
 pv.utils.useFPSControls = function (){
@@ -173,7 +180,8 @@ pv.utils.useFPSControls = function (){
 };
 
 /***
-* Method: set the Orbit Control as navigation tool
+* set the Orbit Control as navigation tool
+* Method: useOrbitControls
 * Parameters: none
 ***/
 pv.utils.useOrbitControls = function (){
@@ -189,7 +197,8 @@ pv.utils.useOrbitControls = function (){
 };
 
 /***
-* Method: set the Earth Control as navigation tool
+* set the Earth Control as navigation tool
+* Method: useEarthControls
 * Parameters: none
 ***/
 pv.utils.useEarthControls = function() {
@@ -206,7 +215,8 @@ pv.utils.useEarthControls = function() {
 };
 
 /***
-* Method: get the intersecting point between the mouse position and the point cloud
+* Get the intersecting point between the mouse position and the point cloud
+* Method: getMousePointCloudIntersection
 * Parameters: none
 ***/
 pv.utils.getMousePointCloudIntersection = function (){
@@ -232,7 +242,8 @@ pv.utils.getMousePointCloudIntersection = function (){
 };
 
 /***
-* Method: mouse move event
+* Mouse move event
+* Method: onMouseMove
 * Parameters: none
 ***/
 pv.utils.onMouseMove = function (event){
@@ -241,8 +252,9 @@ pv.utils.onMouseMove = function (event){
 };
 
 /***
- * Method: update the geographical coordinate display if the "coordinates" checkbox is checked
- * Parameters: none
+* Update the geographical coordinate display if the "coordinates" checkbox is checked
+* Method: updateCoordinatePicking
+* Parameters: none
  ***/
 pv.utils.updateCoordinatePicking = function (){
     if(pv.params.showCoordinates){
@@ -262,7 +274,8 @@ pv.utils.updateCoordinatePicking = function (){
 };
 
 /***
-* Method: update the tile loading progress bar
+* Update the tile loading progress bar
+* Method: updateProgressBar
 * Parameters: none
 ***/
 pv.utils.updateProgressBar = function (){
@@ -284,7 +297,8 @@ pv.utils.updateProgressBar = function (){
 };
 
 /***
-* Method: render the Three 3D scene
+* render the Three 3D scene
+* Method: render
 * Parameters: none
 ***/
 pv.scene3D.render = function(){
@@ -336,8 +350,11 @@ pv.scene3D.render = function(){
 };
 
 /***
-* Method: set rtDepth 
-* Parameters: width (integer), height (integer)
+* set rtDepth
+* Method: rtDepth
+* Parameters: 
+* - width [integer]
+* - height [integer]
 ***/
 pv.utils.rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.NearestFilter, 
@@ -347,8 +364,11 @@ pv.utils.rtDepth = new THREE.WebGLRenderTarget( 1024, 1024, {
 } );
 
 /***
+* rtNormalize
 * Method: rtNormalize
-* Parameters: width (integer), height (integer)
+* Parameters: 
+* - width [integer]
+* - height [integer]
 ***/
 pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, { 
     minFilter: THREE.LinearFilter, 
@@ -358,7 +378,8 @@ pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, {
 } );
 
 /***
-* Method: render high quality (splats)
+* render high quality (splats)
+* Method: renderHighQuality
 * Parameters: none
 ***/
 pv.utils.renderHighQuality = function (){
@@ -419,7 +440,6 @@ pv.utils.renderHighQuality = function (){
 
         var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
         
-        // TODO: clean this
         pv.scene3D.pointcloud.material.size = pv.params.pointSize;
         pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
         pv.scene3D.pointcloud.material.opacity = pv.params.opacity;
@@ -466,7 +486,8 @@ pv.utils.renderHighQuality = function (){
 };
 
 /***
-* Method: loop (recursive function)
+* loop (recursive function)
+* Method: loop
 * Parameters: none
 ***/
 pv.utils.loop = function () {
@@ -482,7 +503,8 @@ pv.utils.loop = function () {
 };
 
 /***
-* Method: disable all controls
+* disable all controls
+* Method: disableControls
 * Parameters: none
 */
 pv.utils.disableControls = function () {
@@ -511,6 +533,7 @@ pv.utils.disableControls = function () {
 };
 
 /***
+* useDemCollisionsHandler
 * Method: useDemCollisionsHandler
 * Parameter: event
 ***/
