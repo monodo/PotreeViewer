@@ -33,8 +33,8 @@ Take a look at the (http://sitn.ne.ch/lidar/index.html) for some live example.
 * Generate a point cloud out of georeferenced LiDAR data with [PotreeConverter](https://github.com/potree/PotreeConverter)
 * Download the whole [Potree Viewer](https://github.com/potree/PotreeViewer) master branch as no build is available for now
 * Edit the config/config.js file, in particular the <b>pointCloudPath</b> variable that is the most important
-* If you plan, as we hope, to use a georeferenced points cloud,dont't forget to edit the WMS/WMTS parameters in the config.js file
-* If your point cloud uses other projections that EPSG:4326, 3857 or 21781, please edit this [line](https://github.com/potree/PotreeViewer/blob/master/index.html#L52)
+* If you plan, as we hope, to use a georeferenced point cloud, don't forget to edit the WMS/WMTS parameters in the config.js file
+* If your point cloud uses other projections that EPSG:4326, 3857 or 21781, please edit this [line](https://github.com/potree/PotreeViewer/blob/master/index.html#L52) to load adequate projection definition
 
 ## Compatibility
 
