@@ -1,7 +1,8 @@
-/**
- * Method: initialize the JQuery UI objects and i18next translations
- * Parameters: none
- */
+/***
+* initialize the JQuery UI objects and i18next translations
+* Method: initGUI
+* Parameters: none
+*/
 pv.ui.initGUI = function (){
     
     // Display version info
@@ -35,7 +36,7 @@ pv.ui.initGUI = function (){
         scroll: false
     }).draggable({ scroll: false });  
 
-    // Map
+    // Map container
     $("#mapBox").resizable({
         minHeight: 15,
         stop: function(event, ui) {
@@ -188,7 +189,6 @@ pv.ui.initGUI = function (){
         $("#showMapButton").hide();
     }
 
-    // Sliders
     // Max point number
      $("#pointNumberSlider").slider({
         min: pv.params.pointCountTargetMin,
@@ -219,7 +219,7 @@ pv.ui.initGUI = function (){
             pv.params.pointSize = ui.value;
         }
     });
-    
+
     $("#pointSize").change(function() {
         $("#pointSizeSlider").slider("value", parseInt(this.value));
     });
@@ -235,12 +235,10 @@ pv.ui.initGUI = function (){
             pv.params.opacity = ui.value;
         }
     });
-    
+
     $("#pointOpacity").change(function() {
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
     });
-
-    // Select menus
 
     // Point size type
     $("#pointSizeTypeSelect").selectmenu({
@@ -261,6 +259,7 @@ pv.ui.initGUI = function (){
 
     $("#pointSizeTypeSelect").selectmenu( "refresh" );
 
+    // Point material type
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
@@ -281,12 +280,13 @@ pv.ui.initGUI = function (){
     }
     $("#pointMaterialSelect").selectmenu("refresh");
 
+    // Point quality select
     $("#pointQualitySelect").selectmenu({
         select: function(event, data) {
             pv.params.quality = data.item.value;
         }
     });
-        
+
     for (var key in pv.params.pointQualityTypes){
         var val = pv.params.pointQualityTypes[key];
         option = new Option(key, val);
@@ -296,8 +296,10 @@ pv.ui.initGUI = function (){
         }
         $("#pointQualitySelect").append(option);
     }
+
     $("#pointQualitySelect").selectmenu("refresh");
 
+    // Point clip type
     $("#pointClipSelect").selectmenu({
         select: function(event, data) {
             pv.params.clipMode = data.item.value;
@@ -315,7 +317,7 @@ pv.ui.initGUI = function (){
     }
     $("#pointClipSelect").selectmenu( "refresh" );
 
-// Checkboxes
+    // Show/Hide skybox
     $("#chkSkybox").button({
         label: null,
         icons: {
@@ -333,6 +335,7 @@ pv.ui.initGUI = function (){
         }
     });
 
+    // Show/Hide bounding box
     $("#chkBBox").button({
         text: false,
         icons: {
@@ -350,6 +353,7 @@ pv.ui.initGUI = function (){
         }
     });        
 
+    // Show/Hide coordinates
     $("#chkCoordinates").button({
         text: false,
         icons: {
@@ -367,6 +371,7 @@ pv.ui.initGUI = function (){
         }
     });
 
+    // Show/Hide point number
     $("#chkPointNumber").button({
         text: false,
         icons: {
@@ -385,7 +390,7 @@ pv.ui.initGUI = function (){
         }
     });
 
-    //Navigation buttons
+    // First Person navigation control
     $("#radioFPSControl").button();
     $('#radioFPSControl').bind('change', function(){
         if($(this).is(':checked')){
@@ -395,8 +400,26 @@ pv.ui.initGUI = function (){
             $('#renderArea').focus();
         }
     });
+
+    // Orbit navigation control
+    $("#radioOrbitControl").button();
+    $('#radioOrbitControl').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.useOrbitControls();
+        }
+    });
+
+    // Earth navigation control
+    $("#radioEarthControl").button();
+    $('#radioEarthControl').bind('change', function(){
+        if($(this).is(':checked')){
+            pv.utils.useEarthControls();
+        }
+    });
+
+    $("#radioFlyMode").buttonset();
     
-    // Keep navigation above ground
+    // Keep navigation above ground (Orbit control only)
     $("#chkDEM").button({
         label: null,
         icons: {
@@ -404,7 +427,21 @@ pv.ui.initGUI = function (){
         },
         text: false
     });
-    
+
+    // Reset zoom/pan
+    $("#btnFocus").button()
+        .bind('click', function(){
+            Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+            $("#btnFocus").blur();
+    });
+
+    // Flip YZ
+    $("#btnFlipYZ" )
+        .bind('click', function(){
+            pv.utils.flipYZ();
+            $("#btnFlipYZ").blur();
+    });
+
     $('#chkDEM').bind('change', function(){
         if($(this).is(':checked')){
             pv.scene3D.pointcloud.generateDEM = true;
@@ -417,14 +454,13 @@ pv.ui.initGUI = function (){
             if(pv.scene3D.fpControls) {
                 pv.scene3D.fpControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
             }
-
         } else {
             pv.scene3D.pointcloud.generateDEM = false;
             this.blur();
             pv.scene3D.orbitControls.removeEventListener("proposeTransform", pv.utils.demCollisionHandler);
         }
     });
-    
+
     // Moving speed slider
      $("#moveSpeedSlider").slider({
         min: pv.params.constrolMoveSpeedFactorMin,
@@ -441,7 +477,7 @@ pv.ui.initGUI = function (){
     $("#moveSpeed").change(function() {
         $("#moveSpeedSlider").slider("value", parseInt(this.value));
     });
-    
+
     // Profile width slider
     $("#profileWidthSlider").slider({
         min: pv.params.profileWidthMin,
@@ -458,6 +494,7 @@ pv.ui.initGUI = function (){
         }
     });
 
+    // Profile's points width
     $("#profilePointSizeSlider").slider({
         min: pv.params.profilePointSizeMin,
         max: pv.params.profilePointSizeMax,
@@ -471,6 +508,7 @@ pv.ui.initGUI = function (){
         }
     });
 
+    // Octree depth for profile
     $("#profilePointLODSlider").slider({
         min: 1,
         max: pv.params.profilePointMaxLOD,
@@ -482,54 +520,26 @@ pv.ui.initGUI = function (){
                 pv.profile.draw();
             }
         }
-    }); 
-
-    $("#radioOrbitControl").button();
-    $('#radioOrbitControl').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.useOrbitControls();
-        }
-    });
-    
-    $("#radioEarthControl").button();
-    $('#radioEarthControl').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.useEarthControls();
-        }
-    });
-
-    $("#radioFlyMode").buttonset();
-
-    $("#btnFocus").button();
-    $("#btnFocus").bind('click', function(){
-        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
-        $("#btnFocus").blur();
     });
 
     // Top/Front/Left view buttons
-    $("#btnTopView").button();
-    $("#btnTopView").bind('click', function(){
-        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
-        $("#btnTopView").blur();
+    $("#btnTopView").button()
+        .bind('click', function(){
+            Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+            $("#btnTopView").blur();
     });
 
-    $("#btnFrontView").button();
-    $("#btnFrontView").bind('click', function(){
-        Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
-        $("#btnFrontView").blur();
+    $("#btnFrontView").button()
+        .bind('click', function(){
+            Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+            $("#btnFrontView").blur();
     });
 
-    $("#btnLeftView").button();
-    $("#btnLeftView").bind('click', function(){
-        Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
-        $("#btnLeftView").blur();
+    $("#btnLeftView")
+        .bind('click', function(){
+            Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+            $("#btnLeftView").blur();
     });        
-
-    $("#btnFlipYZ" ).button();
-    $("#btnFlipYZ").bind('click', function(){
-        pv.utils.flipYZ();
-        $("#btnFlipYZ").blur();
-    });
 
     // ***Tools***
 
@@ -542,13 +552,12 @@ pv.ui.initGUI = function (){
 
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
-        
+
         pv.utils.disableControls();
 
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
             pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: true, closed: true});
-
         }
 
         // Measure volume
@@ -603,7 +612,7 @@ pv.ui.initGUI = function (){
         $('#renderArea').focus();
         return false;
     });
-    
+
     $('.ui-tabs-anchor').keydown(function (event) {
         $('#renderArea').focus();
         return false;
@@ -618,7 +627,9 @@ pv.ui.initGUI = function (){
 };
 
 /***
-* Method: reset UI to default settings as defined in config/config.js fileCreatedDate
+* Reset UI to default settings as defined in config/config.js
+* Method: resetUIToDefault
+* Parameters: none
 ***/
 pv.ui.resetUIToDefault = function (){
 
@@ -630,13 +641,13 @@ pv.ui.resetUIToDefault = function (){
     } else {
         $("#showMapButton").hide();
     }
-    
+
     if (pv.params.showFlipYZ) {
         $("#btnFlipYZ").show();
     } else {
         $("#btnFlipYZ").hide();
     }
-    
+
     // Navigation
     $("#moveSpeed").val(pv.params.constrolMoveSpeedFactor);
     $("#profileWidth").val(pv.params.profileWidth);
@@ -662,11 +673,11 @@ pv.ui.resetUIToDefault = function (){
     $("#profileWidth").val(pv.params.profileWidth).change();
     $("#profilePointSize").val(pv.params.profilePointSize).change();
     $("#profilePointLOD").val(pv.params.profilePointLOD).change();
-
 };
 
 /***
-* Method: translate the UI
+* translate the UI
+* Method: translate
 * Parameters: none
 ***/
 pv.ui.translate = function() {
@@ -676,21 +687,5 @@ pv.ui.translate = function() {
     $("#pointMaterialSelect").selectmenu( "refresh" );
     $("#pointQualitySelect").selectmenu( "refresh" );
     $("#pointClipSelect").selectmenu( "refresh" );
-};
 
-/***
-* Method: update the map container size
-* Parameters: isProfileOpen [Boolean]
-**/
-pv.map2D.updateMapSize = function(isProfileOpen) {
-        if (!isProfileOpen) {
-            $("#mapBox").css("height", $("#renderArea").height() - (5 + $("#mapBox").position().top));
-            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
-        } else {
-            $("#mapBox").css("height", "70%");
-            setTimeout( function() { 
-                pv.map2D.map.updateSize();
-                pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
-            }, 400); 
-        }
 };

@@ -246,3 +246,21 @@ pv.map2D.updateToolLayer = function (toolVertices) {
     this.toolLayer.getSource().addFeature(feature);
     this.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
 };
+
+/***
+* Update the map container size
+* Method: updateMapSize
+* Parameters: isProfileOpen [Boolean]
+**/
+pv.map2D.updateMapSize = function(isProfileOpen) {
+        if (!isProfileOpen) {
+            $("#mapBox").css("height", $("#renderArea").height() - (5 + $("#mapBox").position().top));
+            setTimeout( function() { pv.map2D.map.updateSize();}, 400); 
+        } else {
+            $("#mapBox").css("height", "70%");
+            setTimeout( function() { 
+                pv.map2D.map.updateSize();
+                pv.map2D.map.getView().fitExtent(pv.map2D.toolLayer.getSource().getExtent(), pv.map2D.map.getSize());
+            }, 400); 
+        }
+};
