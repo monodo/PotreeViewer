@@ -81,6 +81,9 @@
         "clip_tt": "Clip volume",
         "profile_width": "Profile width",
         "classification": "Classification",
-        "intensity": "Intensity"
+        "intensity": "Intensity",
+        "topview": "Top view",
+        "frontview": "Front view",
+        "leftview": "Left view"
     }
 }
