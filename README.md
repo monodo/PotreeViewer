@@ -3,12 +3,11 @@
 
 ## About
 
-Potree Viewer is a free open-source user interface to display, explore and measure large points clouds based on the Level Of Detail (LOD) concept, based on Markus Schütz [Potree](http://potree.org).
+Potree Viewer is a free open-source user interface to display, explore and measure large points clouds based on the Level Of Detail (LOD) concept, thanks to Markus Schütz [Potree](http://potree.org).
 
-The project is currently developped by [SITN](http://ne.ch/sitn) and emphasizes the use of georeferenced point cloouds.
+The project is currently developped by [SITN](http://ne.ch/sitn) and focuses on the use of georeferenced point cloouds.
 
-The one and only purpose of Potree Viewer is to provide Potree with a intuitive, complete and stable UI, making the maximum out of Potree.
-The final goal is to provide the largest public with a easy access to information rich LiDAR state-wise point clouds. For a live demo please test the [SITN Potree Viewer](http://sitn.ne.ch/lidar/index.html)
+The purpose of Potree Viewer is to provide the largest public with a easy access to information rich LiDAR state-wide point clouds. For a live demo please test the [SITN Potree Viewer](http://sitn.ne.ch/lidar/index.html) by enhancing Potree with a intuitive, complete and stable UI.
 
 ![](./docs/images/profile_full.png)
 
@@ -17,21 +16,20 @@ The final goal is to provide the largest public with a easy access to informatio
 Potree Viewer supports almost all of Potree features and in addition, provides:
 
 * Enhanced intuitive UI thanks to [jQuery UI](https://jqueryui.com/)
-* 3D - 2D interaction between the 3D scene and a 2D map
-* Nice looking profile display, with 2D map synchronization
+* 3D - 2D interaction between the 3D scene and a 2D map (ongoing development)
+* Efficient profile display, with 2D map synchronization (ongoing development)
 * Multi-language UI thanks to [I18next](http://i18next.com/)
 * Easy UI configuration from a single configuration file
-
 
 ## UI printscreens
 
 The toolbox
 
-![](./docs/images/navigation_tab.png)
-![](./docs/images/rendering_tab.png)
-![](./docs/images/info_tab.png)
-![](./docs/images/tools_tab.png)
-![](./docs/images/parameters_tab.png)
+![](./docs/images/navigation_tab.png {width=300px})
+![](./docs/images/rendering_tab.png {width=300px})
+![](./docs/images/info_tab.png {width=300px})
+![](./docs/images/tools_tab.png {width=300px})
+![](./docs/images/parameters_tab.png {width=300px})
 
 ## Showcase
 
