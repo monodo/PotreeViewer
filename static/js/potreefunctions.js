@@ -522,5 +522,8 @@ pv.utils.demCollisionHandler =  function(event){
     var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
     if(event.newPosition.y < demHeight){
         event.objections++;
+        var counterProposal = event.newPosition.clone();
+        counterProposal.y = demHeight;
+        event.counterProposals.push(counterProposal);
     }
 };
