@@ -67,6 +67,7 @@ pv.scene3D.initThree = function (){
     this.profileTool.addEventListener("marker_added", function(){
         pv.profile.setState(false);
     });
+
     this.volumeTool = new Potree.VolumeTool(this.scenePointCloud, this.camera, this.renderer);
     this.transformationTool = new Potree.TransformationTool(this.scenePointCloud, this.camera, this.renderer);
 
