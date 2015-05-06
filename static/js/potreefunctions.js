@@ -70,6 +70,7 @@ pv.utils.flipYZ = function (){
 * Parameters: event
 ***/
 pv.utils.onKeyDown = function (event){
+
     if(event.keyCode === 69){
         // e pressed
         pv.scene3D.transformationTool.translate();
@@ -509,15 +510,6 @@ pv.utils.loop = function () {
 */
 pv.utils.disableControls = function () {
 
-    pv.ui.elRenderArea.removeEventListener("click", pv.profile.draw);
-
-    if (pv.scene3D.profileTool.activeProfile) {
-        pv.scene3D.profileTool.finishInsertion();
-    }
-
-    pv.scene3D.profileTool.enabled = false;
-    pv.scene3D.volumeTool.enabled = false;
-    
     if (pv.scene3D.profileTool){
         pv.scene3D.profileTool.reset();
     }
@@ -525,9 +517,9 @@ pv.utils.disableControls = function () {
     if (pv.scene3D.volumeTool) {
         pv.scene3D.volumeTool.reset();
     }
-    
-    if(pv.scene3D.measureTool) {
-        pv.scene3D.measureTool.reset();
+
+    if(pv.scene3D.measuringTool) {
+        pv.scene3D.measuringTool.reset();
     }
 
 };
