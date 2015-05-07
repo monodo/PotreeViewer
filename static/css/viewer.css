@@ -86,6 +86,24 @@ body {
     left: 2px;
     top: 1px;
 }
+
+#transformationTools{
+    margin-top: 10px;    
+}
+
+.transformationButton{
+    width: 40px;
+    height: 40px;
+}
+
+.tranformationIcon{
+    position: absolute;
+    left: 0px;
+    top: 1px;
+    width: 35px;
+    height: 35px;
+}
+
 .toolbox  {
     min-width: 350px;
     background-color: #515151;

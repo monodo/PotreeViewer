@@ -85,6 +85,9 @@
         "intensity": "Intensité",
         "topview": "Vue de dessus",
         "frontview": "Vue de face",
-        "leftview": "Vue de côté"
+        "leftview": "Vue de côté",
+        "resize_volume": "Redimensionner le volume",
+        "translate_volume": "Déplacer le volume",
+        "rotate_volume": "Tourner le volume"
     }
 }

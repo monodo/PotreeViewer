@@ -253,6 +253,12 @@
 
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
+                    <!-- tranformation tool buttons -->
+                    <div id="transformationTools" class="guiTable">
+                        <button id="btnRotate" class="transformationButton" data-i18n="[title]tools.rotate_volume"><img class="tranformationIcon" src="static/images/cube_rotate.svg"></button>
+                        <button id="btnResize" class="transformationButton" data-i18n="[title]tools.resize_volume"><img class="tranformationIcon" src="static/images/cube_resize.svg"></button>
+                        <button id="btnTranslate" class="transformationButton" data-i18n="[title]tools.translate_volume"><img class="tranformationIcon" src="static/images/cube_translate.svg"></button>
+                    </div>
                     <!-- top/left/front view -->
                     <table id="viewTable" class="guiTable">
                         <tr>
@@ -262,7 +268,6 @@
                                 <button id="btnLeftView" class="viewButton" data-i18n="[title]tools.leftview"><img class="viewIcon" src="static/images/arrow-left-icon.png" data-i18n="[title]nav.left_view"></button>
                             </td>
                         </tr>
-                    
                     </table>
                    <!-- Let the user choose the profile width  -->
                     <table id="profileWidthCursor" class="guiTable">

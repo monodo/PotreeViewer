@@ -522,6 +522,25 @@ pv.ui.initGUI = function (){
             }
         }
     });
+    
+    // Rotate/Resize/Translate buttons
+    $("#btnRotate").button()
+        .bind('click', function(){
+            transformationTool.rotate();
+            $("#btnRotate").blur();
+    });
+
+    $("#btnResize").button()
+        .bind('click', function(){
+            transformationTool.scale();
+            $("#btnResize").blur();
+    });
+
+    $("#btnTranslate").button()
+        .bind('click', function(){
+            transformationTool.translate();
+            $("#btnTranslate").blur();
+    });  
 
     // Top/Front/Left view buttons
     $("#btnTopView").button()
@@ -554,7 +573,7 @@ pv.ui.initGUI = function (){
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
         pv.utils.disableControls();
-
+        $('#transformationTools').hide();
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
             pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: false, showArea: true, closed: true});
@@ -563,13 +582,16 @@ pv.ui.initGUI = function (){
         // Measure volume
         if($('#radioVolumeMeasure').is(':checked')){
             pv.scene3D.volumeTool.startInsertion(); 
-        }
+            console.log("ici");
+            $('#transformationTools').show();
+        } 
 
         // Clip toolLayer
         if($('#radioClip').is(':checked')){
             pv.scene3D.volumeTool.startInsertion({clip: true});
-        }
-
+             $('#transformationTools').show();
+        } 
+        
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
             pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3});
@@ -606,6 +628,7 @@ pv.ui.initGUI = function (){
     $("#mapBox").hide();
     $("#profileContainer").hide();
     $("#profileWidthCursor").hide();
+    $('#transformationTools').hide();
 
     // Prevent default keydown events
     $('#toolbox').keydown(function (event) {
