@@ -22,6 +22,7 @@
         "top_view": "Top view",
         "front_view": "Front view",
         "left_view": "Left view",
+        "reset": "Reset tools",
         "show": "Show",
         "hide": "Hide"
     },
@@ -84,6 +85,9 @@
         "intensity": "Intensity",
         "topview": "Top view",
         "frontview": "Front view",
-        "leftview": "Left view"
+        "leftview": "Left view",
+        "resize_volume": "Resize volume",
+        "translate_volume": "Move volume",
+        "rotate_volume": "Rotate volume"
     }
 }

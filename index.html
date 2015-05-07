@@ -253,17 +253,19 @@
 
                         <input type="radio" id="radioClip" name="toolsDiv"><label for="radioClip"><img src="static/libs/potree/resources/icons/clip_volume.png" width=32 height=32 data-i18n="[title]tools.clip_tt"/></label>
                     </div>
+                    <!-- tranformation tool buttons -->
+                    <div id="transformationTools" class="guiTable">
+                        <button id="btnRotate" class="transformationButton" data-i18n="[title]tools.rotate_volume"><img class="tranformationIcon" src="static/images/cube_rotate.svg"></button>
+                        <button id="btnResize" class="transformationButton" data-i18n="[title]tools.resize_volume"><img class="tranformationIcon" src="static/images/cube_resize.svg"></button>
+                        <button id="btnTranslate" class="transformationButton" data-i18n="[title]tools.translate_volume"><img class="tranformationIcon" src="static/images/cube_translate.svg"></button>
+                    </div>
                     <!-- top/left/front view -->
-                    <table id="viewTable" class="guiTable">
-                        <tr>
-                            <td>
-                                <button id="btnTopView" class="viewButton" data-i18n="[title]tools.topview"><img class="viewIcon" src="static/images/arrow-down-icon.png" data-i18n="[title]nav.top_view"></button>
-                                <button id="btnFrontView" class="viewButton" data-i18n="[title]tools.frontview"><img class="viewIcon" src="static/images/arrow-front-icon.png" data-i18n="[title]nav.front_view"></button>
-                                <button id="btnLeftView" class="viewButton" data-i18n="[title]tools.leftview"><img class="viewIcon" src="static/images/arrow-left-icon.png" data-i18n="[title]nav.left_view"></button>
-                            </td>
-                        </tr>
-                    
-                    </table>
+                    <div id="viewTable" class="guiTable">
+                        <button id="btnResetTools" class="viewButton" data-i18n="[title]tools.reset"><img class="viewIcon" src="static/images/reset_tools.svg" data-i18n="[title]nav.reset_tools"></button>
+                        <button id="btnTopView" class="viewButton" data-i18n="[title]tools.topview"><img class="viewIcon" src="static/images/topview.svg" data-i18n="[title]nav.top_view"></button>
+                        <button id="btnFrontView" class="viewButton" data-i18n="[title]tools.frontview"><img class="viewIcon" src="static/images/frontview.svg" data-i18n="[title]nav.front_view"></button>
+                        <button id="btnLeftView" class="viewButton" data-i18n="[title]tools.leftview"><img class="viewIcon" src="static/images/leftview.svg" data-i18n="[title]nav.left_view"></button>
+                    </div>
                    <!-- Let the user choose the profile width  -->
                     <table id="profileWidthCursor" class="guiTable">
                         <col class="leftCol">

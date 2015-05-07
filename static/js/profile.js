@@ -7,10 +7,9 @@ pv.profile.getProfilePoints = function(){
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" ));
-    if (segments.length <= 1){
+    if (segments.length < 1){
         return false;
     }
-
     var data = [];
     var distance = 0;
     var totalDistance = 0;
@@ -40,7 +39,7 @@ pv.profile.getProfilePoints = function(){
       .range(colorRange);
 
     // Iterate the profile's segments
-    for(var i = 0; i < segments.length - 1; i++){
+    for(var i = 0; i < segments.length; i++){
         var segment = segments[i];
         var segStartGeo = pv.utils.toGeo(segment.start);
         var segEndGeo = pv.utils.toGeo(segment.end);
@@ -110,6 +109,10 @@ pv.profile.getProfilePoints = function(){
 * Parameters: none
 ***/
 pv.profile.draw = function () {
+
+    if (!pv.profile.state){
+            return;
+    }
 
     var pointSize = $("#profilePointSizeSlider").slider( "value" );
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
@@ -314,3 +317,12 @@ pv.profile.strokeColor = function (d) {
         return d.color;
     }
 };
+
+/***
+* Keep track of the profile state
+* Method: setState
+* Parameter: Boolean
+***/
+pv.profile.setState = function(state){
+    this.state = state;
+}

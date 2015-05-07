@@ -134,7 +134,6 @@ pv.ui.initGUI = function (){
 
     // Close the profile container
     $("#closeProfileContainer").click(function(){
-        pv.utils.disableControls();
         $("#profileContainer").slideUp(300);
         $("#showProfileButton").show(300);
         pv.map2D.updateMapSize(false); 
@@ -523,7 +522,33 @@ pv.ui.initGUI = function (){
             }
         }
     });
+    
+    // Rotate/Resize/Translate buttons
+    $("#btnRotate").button()
+        .bind('click', function(){
+            transformationTool.rotate();
+            $("#btnRotate").blur();
+    });
 
+    $("#btnResize").button()
+        .bind('click', function(){
+            transformationTool.scale();
+            $("#btnResize").blur();
+    });
+
+    $("#btnTranslate").button()
+        .bind('click', function(){
+            transformationTool.translate();
+            $("#btnTranslate").blur();
+    });  
+
+    // reset tools
+    $("#btnResetTools").button()
+        .bind('click', function(){
+            pv.utils.disableControls();
+            $("#btnTopView").blur();
+    });
+    
     // Top/Front/Left view buttons
     $("#btnTopView").button()
         .bind('click', function(){
@@ -554,24 +579,26 @@ pv.ui.initGUI = function (){
 
     //Set up tools radio button change behaviour
     $("#toolsDiv").buttonset().change(function () {
-
         pv.utils.disableControls();
-
+        $('#transformationTools').hide();
         // Area Measure
         if($('#radioAreaMeasure').is(':checked')){
-            pv.scene3D.measuringTool.startInsertion({showDistances: true, showArea: true, closed: true});
+            pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: false, showArea: true, closed: true});
         }
 
         // Measure volume
         if($('#radioVolumeMeasure').is(':checked')){
             pv.scene3D.volumeTool.startInsertion(); 
-        }
+            console.log("ici");
+            $('#transformationTools').show();
+        } 
 
         // Clip toolLayer
         if($('#radioClip').is(':checked')){
             pv.scene3D.volumeTool.startInsertion({clip: true});
-        }
-
+             $('#transformationTools').show();
+        } 
+        
         // Angle measure
         if($('#radioAngleMeasure').is(':checked')){
             pv.scene3D.measuringTool.startInsertion({showDistances: false, showAngles: true, showArea: false, closed: true, maxMarkers: 3});
@@ -586,15 +613,15 @@ pv.ui.initGUI = function (){
         if($('#radioProfile').is(':checked')){ 
             $('#profileWidthCursor').show();
             pv.scene3D.profileTool.startInsertion({width: $("#profileWidthSlider").slider( "value" )});
+
         } else {
             $('#profileWidthCursor').hide();
             $('#profilePointSizeCursor').hide();
             $("#profileContainer").slideUp(300);
         }
     });
-    
-    // ***UI parameters***
 
+    // ***UI parameters***
     // Reset UI to default
     $("#btnResetUI").button({
         icons: {
@@ -608,6 +635,7 @@ pv.ui.initGUI = function (){
     $("#mapBox").hide();
     $("#profileContainer").hide();
     $("#profileWidthCursor").hide();
+    $('#transformationTools').hide();
 
     // Prevent default keydown events
     $('#toolbox').keydown(function (event) {
@@ -689,5 +717,17 @@ pv.ui.translate = function() {
     $("#pointMaterialSelect").selectmenu( "refresh" );
     $("#pointQualitySelect").selectmenu( "refresh" );
     $("#pointClipSelect").selectmenu( "refresh" );
+
+};
+
+/***
+* Uncheck tools button
+* Method: clearTools
+* Parameters: none
+***/
+pv.ui.clearTools = function(){
+
+    $("#toolsDiv").find("input:radio").prop("checked", false).end()
+        .buttonset("refresh");
 
 };
