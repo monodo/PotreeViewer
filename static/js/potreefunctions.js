@@ -73,13 +73,13 @@ pv.utils.onKeyDown = function (event){
 
     if(event.keyCode === 69){
         // e pressed
-        pv.scene3D.transformationTool.translate();
+        transformationTool.translate();
     }else if(event.keyCode === 82){
         // r pressed
-        pv.scene3D.transformationTool.scale();
+        transformationTool.scale();
     }else if(event.keyCode === 84){
         // r pressed
-        pv.scene3D.transformationTool.rotate();
+        transformationTool.rotate();
     }
 };
 
@@ -134,7 +134,7 @@ pv.utils.update = function (){
     }
 
     pv.scene3D.volumeTool.update();
-    pv.scene3D.transformationTool.update();
+    transformationTool.update();
     pv.scene3D.profileTool.update();
 
     var clipBoxes = [];
@@ -347,7 +347,7 @@ pv.scene3D.render = function(){
 
     pv.scene3D.renderer.clearDepth();
     pv.scene3D.measuringTool.render();
-    pv.scene3D.transformationTool.render();
+    transformationTool.render();
 };
 
 /***

@@ -69,7 +69,7 @@ pv.scene3D.initThree = function (){
     });
 
     this.volumeTool = new Potree.VolumeTool(this.scenePointCloud, this.camera, this.renderer);
-    this.transformationTool = new Potree.TransformationTool(this.scenePointCloud, this.camera, this.renderer);
+    transformationTool = new Potree.TransformationTool(this.scenePointCloud, this.camera, this.renderer);
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
     texture.minFilter = texture.magFilter = THREE.NearestFilter;
