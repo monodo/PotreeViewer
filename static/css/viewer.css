@@ -72,19 +72,20 @@ body {
 }
 
 #viewTable {
-    margin-top: 5px;
-    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .viewButton{
-    width: 29px;
-    height: 29px;
+    width: 40px;
+    height: 40px;
 }
 
 .viewIcon{
     position: absolute;
     left: 2px;
     top: 1px;
+    width: 35px;
+    height: 35px;
 }
 
 #transformationTools{

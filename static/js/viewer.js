@@ -542,6 +542,13 @@ pv.ui.initGUI = function (){
             $("#btnTranslate").blur();
     });  
 
+    // reset tools
+    $("#btnResetTools").button()
+        .bind('click', function(){
+            pv.utils.disableControls();
+            $("#btnTopView").blur();
+    });
+    
     // Top/Front/Left view buttons
     $("#btnTopView").button()
         .bind('click', function(){
@@ -723,4 +730,4 @@ pv.ui.clearTools = function(){
     $("#toolsDiv").find("input:radio").prop("checked", false).end()
         .buttonset("refresh");
 
-}
+};

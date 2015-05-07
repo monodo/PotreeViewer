@@ -57,6 +57,10 @@ pv.scene3D.initThree = function (){
 
     // Tools set up
     this.measuringTool = new Potree.MeasuringTool(this.scenePointCloud, this.camera, this.renderer);
+    this.measuringTool.addEventListener("insertion_finished", function(event){
+        pv.ui.clearTools();
+    });
+
     this.profileTool = new Potree.ProfileTool(this.scenePointCloud, this.camera, this.renderer);
     this.profileTool.addEventListener("insertion_finished", function(){
         pv.profile.setState(true);
@@ -70,6 +74,9 @@ pv.scene3D.initThree = function (){
 
     this.volumeTool = new Potree.VolumeTool(this.scenePointCloud, this.camera, this.renderer);
     transformationTool = new Potree.TransformationTool(this.scenePointCloud, this.camera, this.renderer);
+    this.volumeTool.addEventListener("insertion_finished", function(event){
+        pv.ui.clearTools();
+    });
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
     texture.minFilter = texture.magFilter = THREE.NearestFilter;

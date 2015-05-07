@@ -22,6 +22,7 @@
         "top_view": "Vue de dessus",
         "front_view": "Vue de face",
         "left_view": "Vue de côté",
+        "reset_tools": "Réinitialiser les outils",
         "show": "Montrer",
         "hide": "Hide"
     },
