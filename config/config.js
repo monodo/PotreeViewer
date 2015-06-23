@@ -9,9 +9,9 @@ pv.params = {
     'fov': 50,
     'skyboxPath': 'static/libs/potree/resources/textures/skybox/',
     'autoclear': false,
-    'constrolMoveSpeedFactor': 250,
-    'constrolMoveSpeedFactorMin': 40,
-    'constrolMoveSpeedFactorMax': 1000,
+    'constrolMoveSpeedFactor': 25,
+    'constrolMoveSpeedFactorMin': 1,
+    'constrolMoveSpeedFactorMax': 250,
     'constrolMoveSpeedFactorStep': 1,
     'cameraPosition': {
         'x': 0,

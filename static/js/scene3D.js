@@ -126,6 +126,7 @@ pv.scene3D.PCOLoaderfunction = function(geometry){
     pv.utils.flipYZ();
     pv.utils.useEarthControls();
     pv.scene3D.earthControls.pointclouds.push(pv.scene3D.pointcloud);
+    pv.utils.useOrbitControls();
 
 };
 
