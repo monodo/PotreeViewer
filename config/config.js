@@ -3,7 +3,7 @@
 */
 
 pv.params = {
-    'versionInfo': '<a href="http://sitn.ne.ch/" target="_blank">SITN</a> Potree Viewer <b><i>Beta</i></b>',
+    'versionInfo': '<a href="http://github.com/potreeViewer/" target="_blank"potreeViewer</a> Potree Viewer <b><i>Beta</i></b>',
     'near': 10,
     'far': 1000000,
     'fov': 50,
@@ -141,7 +141,7 @@ pv.params = {
         'pointCloudExtentMax': [560000, 220000, 1700], // point cloud UR corner in point cloud CRS
         'mapExtent': [523000, 190000, 580000, 224500], // initial map extent at loading in map CRS
         'initialZoom': 4, // Initial map zoom
-        'attributionsHtml': 'Tiles &copy; <http://ne.ch/sitn">SITN</a>', // map's attributions
+        'attributionsHtml': 'Tiles &copy; <http://your.tile.org">Your tile server</a>', // map's attributions
         'mapCRS': 'EPSG:21781', // Map's CRS
         'projectionExtent': [485869.5728, 76443.1884, 837076.5648, 299941.7864], // Map's project extent
         'mapServiceType': 'WMTS', // Possible values: [WMS, WMTS]
@@ -151,7 +151,7 @@ pv.params = {
         * Beware of cross-domain request errors...
         ***/
         'wmtsGetCapabilities': 'config/wmtsconfig.xml',
-        'mapDefaultLayer': 'plan_ensemble_couleur',
+        'mapDefaultLayer': 'my_default_layer',
         /*** 
         * WMS Configuration only (manual, dev purposes)
         ***/
@@ -163,7 +163,7 @@ pv.params = {
             'mns2010': 'MNS 2010',
             'densitelidar2010': 'Densité LiDAR 2010'
         },
-        'mapServiceUrl': 'http://sitn.ne.ch/mapproxy/service',
+        'mapServiceUrl': 'http://yourserver.org/service',
         'mapServiceImageFormat': 'image/png'
     }
 };
