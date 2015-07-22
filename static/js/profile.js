@@ -4,6 +4,8 @@
 * Parameters: none
 ***/
 pv.profile.getProfilePoints = function(){
+    
+    this.isPointExtractionRunning = true;
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" ));

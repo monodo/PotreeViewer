@@ -66,6 +66,9 @@ pv.scene3D.initThree = function (){
         pv.profile.setState(true);
         pv.profile.draw();
         $('#radioProfile').prop('checked', false).button("refresh");
+        pv.scene3D.profileTool.addEventListener("mousedrag", function(){
+            console.log("dragging");
+        });
         pv.scene3D.profileTool.addEventListener("marker_moved", pv.profile.draw);
     });
     this.profileTool.addEventListener("marker_added", function(){
