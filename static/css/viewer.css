@@ -180,6 +180,34 @@ body {
     cursor: pointer;
 }
 
+#profilePanRight {
+    position: absolute;
+    right: 59px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanLeft {
+    position: absolute;
+    right: 73px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanBottom{
+    position: absolute;
+    right: 87px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanTop{
+    position: absolute;
+    right: 101px;
+    top: 0px;
+    cursor: pointer;
+}
+
 .overlay {
   pointer-events: all;
 }

@@ -145,11 +145,27 @@ pv.ui.initGUI = function (){
     });
     
     $("#profileZoomIn").click(function(){
-        pv.profile.manualZoom(1);
+        pv.profile.manualZoom(0.5);
     });
     
     $("#profileZoomOut").click(function(){
-        pv.profile.manualZoom(-1);
+        pv.profile.manualZoom(-0.5);
+    });
+
+    $("#profilePanRight").click(function(){
+        pv.profile.manualPan([10,0]);
+    });
+
+    $("#profilePanLeft").click(function(){
+        pv.profile.manualPan([-10, 0]);
+    });
+
+    $("#profilePanTop").click(function(){
+        pv.profile.manualPan([0,10]);
+    });
+
+    $("#profilePanBottom").click(function(){
+        pv.profile.manualPan([0,-10]);
     });
     
     // Show the profile

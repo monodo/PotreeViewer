@@ -174,24 +174,25 @@ pv.profile.draw = function () {
         .y(y)
         .on("zoom",  function(){
 
-    var t = pv.profile.zoom.translate();
-    var tx = t[0];
-    var ty = t[1];
+            var t = pv.profile.zoom.translate();
+            console.log(t);
+            var tx = t[0];
+            var ty = t[1];
 
-    tx = Math.min(tx, 0);
-    tx = Math.max(tx, width - output.maxX);
-    pv.profile.zoom.translate([tx, ty]);
+            tx = Math.min(tx, 0);
+            tx = Math.max(tx, width - output.maxX);
+            pv.profile.zoom.translate([tx, ty]);
 
-    svg.select(".x.axis").call(xAxis);
-    svg.select(".y.axis").call(yAxis);
+            svg.select(".x.axis").call(xAxis);
+            svg.select(".y.axis").call(yAxis);
 
-    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
+            pv.profile.drawPoints(output.data, svg, x, y, pointSize);
 
-    svg.selectAll("text")
-        .style("fill", "white")
-        .style("font-size", "8px");
+            svg.selectAll("text")
+                .style("fill", "white")
+                .style("font-size", "8px");
 
-    });
+        });
 
     var svg = d3.select("div#profileContainer").append("svg")
         .call(pv.profile.zoom)
@@ -238,7 +239,7 @@ pv.profile.resetPanZoom = function reset() {
 /***
 * Manual zoom
 * Method: manualZoom
-* Parameters: none
+* Parameters: increment
 ***/
 pv.profile.manualZoom = function (increment) {
 
@@ -251,6 +252,21 @@ pv.profile.manualZoom = function (increment) {
         pv.profile.zoom.scale([1]);
         pv.profile.zoom.event(d3.select("div#profileContainer"));
     }
+};
+
+/***
+* Manual pan
+* Method: manualPan
+* Parameters: increment
+***/
+pv.profile.manualPan = function (increment) {
+
+    var currentTranslate = pv.profile.zoom.translate();
+    currentTranslate[0] = currentTranslate[0] + increment[0];
+    currentTranslate[1] = currentTranslate[1] + increment[1];
+    console.log(currentTranslate);
+    pv.profile.zoom.translate(currentTranslate);
+    pv.profile.zoom.event(d3.select("div#profileContainer"));
 };
 
 /***
