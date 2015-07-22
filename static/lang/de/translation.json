@@ -12,13 +12,11 @@
         "parameters_tt": "Choose language, scenes, ..."
     },
     "nav": {
-        "fps_control_tt": "First Person Control",
         "orbit_control_tt": "Fly",
         "zoom_to_center": "Zoom to cloud center",
         "flip_xz": "Flip X and Y axis",
         "show_2d_map": "Show 2D map",
         "hide_2d_map": "Hide 2D map",
-        "earth_control_tt": "Earth controls",
         "top_view": "Top view",
         "front_view": "Front view",
         "left_view": "Left view",

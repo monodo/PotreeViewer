@@ -164,23 +164,6 @@ pv.utils.update = function (){
 };
 
 /***
-* Set the First Person Control as navigation tool
-* Method: useFPSControls
-* Parameters: none
-***/
-pv.utils.useFPSControls = function (){
-    if(pv.scene3D.controls){
-        pv.scene3D.controls.enabled = false;
-    }
-    if(!pv.scene3D.fpControls){
-        pv.scene3D.fpControls = new THREE.FirstPersonControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
-    }
-
-    pv.scene3D.controls = pv.scene3D.fpControls;
-    pv.scene3D.controls.enabled = true;
-};
-
-/***
 * set the Orbit Control as navigation tool
 * Method: useOrbitControls
 * Parameters: none
@@ -195,24 +178,6 @@ pv.utils.useOrbitControls = function (){
 
     pv.scene3D.controls = pv.scene3D.orbitControls;
     pv.scene3D.controls.enabled = true;
-};
-
-/***
-* set the Earth Control as navigation tool
-* Method: useEarthControls
-* Parameters: none
-***/
-pv.utils.useEarthControls = function() {
-    if(pv.scene3D.controls){
-        pv.scene3D.controls.enabled = false;
-    }
-    if (!pv.scene3D.earthControls){
-        pv.scene3D.earthControls = new THREE.EarthControls(pv.scene3D.camera, pv.scene3D.renderer, pv.scene3D.scenePointCloud);
-    }
-    pv.scene3D.controls = pv.scene3D.earthControls;
-    pv.scene3D.controls.enabled = true;
-    
-    pv.scene3D.controls.moveSpeed = pv.scene3D.pointcloud.boundingSphere.radius / 2;
 };
 
 /***
