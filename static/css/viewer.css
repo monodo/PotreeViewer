@@ -68,7 +68,7 @@ body {
     position: absolute;
     bottom: 0px;
     background-color: #585858;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 #viewTable {
@@ -181,7 +181,6 @@ body {
 }
 
 .overlay {
-  /* fill: white; */
   pointer-events: all;
 }
 

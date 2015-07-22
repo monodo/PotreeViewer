@@ -197,7 +197,9 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#pointNumber").val(ui.value);
             pv.params.pointCountTarget = ui.value;
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+        },
+        stop: function( event, ui ) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -262,7 +264,7 @@ pv.ui.initGUI = function (){
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -458,11 +460,11 @@ pv.ui.initGUI = function (){
         max: pv.params.profileWidthMax,
         step: pv.params.profileWidthStep,
         value: pv.params.profileWidth,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profileWidth").val(ui.value);
             pv.scene3D.profileTool.profiles[0].setWidth(ui.value);
             pv.scene3D.profileTool.profiles[0].update();
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -474,9 +476,9 @@ pv.ui.initGUI = function (){
         max: pv.params.profilePointSizeMax,
         step: pv.params.profilePointSizeStep,
         value: pv.params.profilePointSize,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profilePointSize").val(ui.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -488,9 +490,9 @@ pv.ui.initGUI = function (){
         max: pv.params.profilePointMaxLOD,
         step: 1,
         value: pv.params.profilePointLOD,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profilePointLOD").val(ui.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }

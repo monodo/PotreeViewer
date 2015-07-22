@@ -265,8 +265,8 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
             .attr("class", "rect")
             .attr("x", function(d) { return x(d.distance); })
             .attr("y", function(d) { return y(d.altitude); })
-            .attr("width", psize * 5)
-            .attr("height", psize * 5)
+            .attr("width", psize * 3)
+            .attr("height", psize * 3)
             .on("mouseover", pv.profile.pointHighlightEvent)
             .on("mouseout", function(d){
                 $('#profileInfo').html('');
