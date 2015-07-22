@@ -16,20 +16,6 @@
                 return false;
             } 
         };
-        if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-            if (navigator.appVersion.indexOf("MSIE 7.")!=-1) {
-                window.location = "templates/browserinfo.html";
-            }
-            if(navigator.appVersion.indexOf("MSIE 8.")!=-1) {
-                window.location = "templates/browserinfo.html";
-            }
-            if(navigator.appVersion.indexOf("MSIE 9.")!=-1) {
-                window.location = "templates/browserinfo.html";
-            }
-            if(navigator.appVersion.indexOf("MSIE 10.")!=-1) {
-                window.location = "templates/browserinfo.html";
-            }
-        }
 
         if(!isWebGLSupported() ){
             window.location = "templates/browserinfo.html";
