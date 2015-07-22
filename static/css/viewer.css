@@ -68,7 +68,7 @@ body {
     position: absolute;
     bottom: 0px;
     background-color: #585858;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 #viewTable {
@@ -181,9 +181,8 @@ body {
 }
 
 .overlay {
-  fill: black;
+  /* fill: white; */
   pointer-events: all;
-  opacity: 0.8;
 }
 
 #showProfileButton {
