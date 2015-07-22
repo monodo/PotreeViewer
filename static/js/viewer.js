@@ -391,17 +391,6 @@ pv.ui.initGUI = function (){
         }
     });
 
-    // First Person navigation control
-    $("#radioFPSControl").button();
-    $('#radioFPSControl').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.useFPSControls();
-            pv.scene3D.controls.moveSpeed = $("#moveSpeedSlider").slider( "value" ) * 100;
-            $("#moveSpeedCursor").show();
-            $('#renderArea').focus();
-        }
-    });
-
     // Orbit navigation control
     $("#radioOrbitControl").button();
     $('#radioOrbitControl').bind('change', function(){
@@ -409,16 +398,6 @@ pv.ui.initGUI = function (){
             pv.utils.useOrbitControls();
         }
     });
-
-    // Earth navigation control
-    $("#radioEarthControl").button();
-    $('#radioEarthControl').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.useEarthControls();
-        }
-    });
-
-    $("#radioFlyMode").buttonset();
     
     // Keep navigation above ground (Orbit control only)
     $("#chkDEM").button({
@@ -448,12 +427,6 @@ pv.ui.initGUI = function (){
             pv.scene3D.pointcloud.generateDEM = true;
             if (pv.scene3D.orbitControls){ 
                 pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
-            }
-            if(pv.scene3D.earthControls){
-                pv.scene3D.earthControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
-            }
-            if(pv.scene3D.fpControls) {
-                pv.scene3D.fpControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
             }
         } else {
             pv.scene3D.pointcloud.generateDEM = false;

@@ -59,7 +59,6 @@
     <script src="static/libs/potree/build/js/laslaz.js"></script>
     <script src="static/libs/potree/libs/plasio/vendor/bluebird.js"></script>
     <script src="static/libs/potree/libs/other/OrbitControls.js"></script>
-    <script src="static/libs/potree/src/EarthControls.js"></script>
 
     <!-- Viewer -->
     <link rel="stylesheet" href="static/css/viewer.css" type="text/css">
@@ -126,12 +125,9 @@
                 <!-- Navigation tab -->
                 <div id="Navigate">
                     <span id="radioFlyMode">
-                        <input type="radio" id="radioFPSControl" name="radioFlyMode">
-                        <label for="radioFPSControl"><img src="static/libs/potree/resources/icons/fps_controls.png" data-i18n="[title]nav.fps_control_tt"/></label>
-                        <input type="radio" id="radioOrbitControl" name="radioFlyMode" checked="checked">
-                        <label for="radioOrbitControl"><img src="static/libs/potree/resources/icons/orbit_controls.png" data-i18n="[title]nav.orbit_control_tt"/></label>
-                        <input type="radio" id="radioEarthControl" name="radioFlyMode">
-                        <label for="radioEarthControl"><img src="static/libs/potree/resources/icons/earth_controls_1.png" data-i18n="[title]nav.earth_control_tt"/></label>
+                        <button id="radioOrbitControl" name="radioFlyMode">
+                            <img src="static/libs/potree/resources/icons/orbit_controls.png" data-i18n="[title]nav.orbit_control_tt"/>
+                        </button>
                     </span>
                     <span>
                     <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>

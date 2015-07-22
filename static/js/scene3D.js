@@ -124,9 +124,6 @@ pv.scene3D.PCOLoaderfunction = function(geometry){
     pv.scene3D.referenceFrame.updateMatrixWorld(pv.params.updateMatrixWorld);
     pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
     pv.utils.flipYZ();
-    pv.utils.useEarthControls();
-    pv.scene3D.earthControls.pointclouds.push(pv.scene3D.pointcloud);
     pv.utils.useOrbitControls();
-
 };
 
