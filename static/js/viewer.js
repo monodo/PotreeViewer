@@ -144,6 +144,8 @@ pv.ui.initGUI = function (){
         pv.profile.resetPanZoom();
     });
     
+    var intervalId;
+    
     $("#profileZoomIn").click(function(){
         pv.profile.manualZoom(0.5);
     });
@@ -152,20 +154,29 @@ pv.ui.initGUI = function (){
         pv.profile.manualZoom(-0.5);
     });
 
-    $("#profilePanRight").click(function(){
-        pv.profile.manualPan([10,0]);
+    $("#profilePanLeft").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [-10,0]);
+    }).mouseup(function(){
+        console.log('cleared');
+        clearInterval(intervalId);
     });
 
-    $("#profilePanLeft").click(function(){
-        pv.profile.manualPan([-10, 0]);
+    $("#profilePanRight").click(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [10,0]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
     });
 
     $("#profilePanTop").click(function(){
-        pv.profile.manualPan([0,10]);
+        intervalId = setInterval(pv.profile.manualPan, 150, [0,10]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
     });
 
     $("#profilePanBottom").click(function(){
-        pv.profile.manualPan([0,-10]);
+        intervalId = setInterval(pv.profile.manualPan, 150, [0,-10]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
     });
     
     // Show the profile
