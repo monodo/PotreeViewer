@@ -304,7 +304,7 @@ pv.profile.pointHighlightEvent = function (d) {
         .style("stroke", "yellow")
         .style("stroke-width", 2);
 
-    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.y) / 10 + '  -  ';
+    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.altitude) / 10 + '  -  ';
     html += i18n.t('tools.classification') + ': ' + d.classificationCode + '  -  ';
     html += i18n.t('tools.intensity') + ': ' + d.intensityCode;
 
