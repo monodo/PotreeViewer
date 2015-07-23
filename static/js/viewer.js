@@ -671,7 +671,6 @@ pv.ui.initGUI = function (){
         if (pv.profile.markerMoved){
             if(pv.profile.timeoutId){
                 clearTimeout(pv.profile.timeoutId);
-                console.log("cleared");
             }
             pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
         }
