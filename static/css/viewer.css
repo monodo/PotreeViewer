@@ -208,6 +208,21 @@ body {
     cursor: pointer;
 }
 
+.profileButton{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+.profileButton:hover{
+    background-color: #0000CC;
+}
+
+.profileButton:active{
+    background-color: #3366FF;
+}
+
 .overlay {
   pointer-events: all;
 }

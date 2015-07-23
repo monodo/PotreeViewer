@@ -260,7 +260,6 @@ pv.profile.manualZoom = function (increment) {
 * Parameters: increment
 ***/
 pv.profile.manualPan = function (increment) {
-
     var currentTranslate = pv.profile.zoom.translate();
     currentTranslate[0] = currentTranslate[0] + increment[0];
     currentTranslate[1] = currentTranslate[1] + increment[1];

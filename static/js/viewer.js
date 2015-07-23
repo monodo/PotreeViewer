@@ -153,30 +153,40 @@ pv.ui.initGUI = function (){
     $("#profileZoomOut").click(function(){
         pv.profile.manualZoom(-0.5);
     });
-
+    
     $("#profilePanLeft").mousedown(function(){
         intervalId = setInterval(pv.profile.manualPan, 150, [-10,0]);
     }).mouseup(function(){
-        console.log('cleared');
         clearInterval(intervalId);
-    });
+    }).click(function(){
+        pv.profile.manualPan([-10,0]);
+    })
+    
+    // $("#profilePanLeft");
 
-    $("#profilePanRight").click(function(){
+    $("#profilePanRight").mousedown(function(){
         intervalId = setInterval(pv.profile.manualPan, 150, [10,0]);
     }).mouseup(function(){
         clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([10,0]);
     });
+    
 
-    $("#profilePanTop").click(function(){
-        intervalId = setInterval(pv.profile.manualPan, 150, [0,10]);
-    }).mouseup(function(){
-        clearInterval(intervalId);
-    });
-
-    $("#profilePanBottom").click(function(){
+    $("#profilePanTop").mousedown(function(){
         intervalId = setInterval(pv.profile.manualPan, 150, [0,-10]);
     }).mouseup(function(){
         clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([0,-10]);
+    });
+
+    $("#profilePanBottom").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [0,10]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([0,10]);
     });
     
     // Show the profile
