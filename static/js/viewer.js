@@ -196,6 +196,7 @@ pv.ui.initGUI = function (){
             primary: 'ui-icon-triangle-1-nw'
         }
     }).click(function() {
+            pv.profile.draw();
             $("#profileContainer").slideDown(300);
             $("#showProfileButton").hide(300);
             pv.map2D.updateMapSize(true);
@@ -601,7 +602,6 @@ pv.ui.initGUI = function (){
         // Measure volume
         if($('#radioVolumeMeasure').is(':checked')){
             pv.scene3D.volumeTool.startInsertion(); 
-            console.log("ici");
             $('#transformationTools').show();
         } 
 

@@ -4,8 +4,6 @@
 * Parameters: none
 ***/
 pv.profile.getProfilePoints = function(){
-    
-    this.isPointExtractionRunning = true;
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
     var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" ));
@@ -116,7 +114,7 @@ pv.profile.draw = function () {
             return;
     }
 
-    var pointSize = $("#profilePointSizeSlider").slider( "value" );
+    var pointSize = $("#profilePointSizeSlider").slider("value");
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
 
     pv.map2D.updateToolLayer(thePoints);
@@ -175,7 +173,6 @@ pv.profile.draw = function () {
         .on("zoom",  function(){
 
             var t = pv.profile.zoom.translate();
-            console.log(t);
             var tx = t[0];
             var ty = t[1];
 
@@ -263,7 +260,6 @@ pv.profile.manualPan = function (increment) {
     var currentTranslate = pv.profile.zoom.translate();
     currentTranslate[0] = currentTranslate[0] + increment[0];
     currentTranslate[1] = currentTranslate[1] + increment[1];
-    console.log(currentTranslate);
     pv.profile.zoom.translate(currentTranslate);
     pv.profile.zoom.event(d3.select("div#profileContainer"));
 };
@@ -291,6 +287,7 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
                     .style("stroke", pv.profile.strokeColor);
             })
             .style("fill", pv.profile.strokeColor)
+
 };
 
 /***
