@@ -37,6 +37,8 @@ pv.profile.getProfilePoints = function(){
     var colorRamp = d3.scale.linear()
       .domain(colorDomain)
       .range(colorRange);
+      
+    pv.profile.nPointsInProfile = 0; 
 
     // Iterate the profile's segments
     for(var i = 0; i < segments.length; i++){
@@ -50,7 +52,7 @@ pv.profile.getProfilePoints = function(){
 
         // Iterate the segments' points
         for(var j = 0; j < points.numPoints; j++){
-
+            pv.profile.nPointsInProfile += 1;
             var p = pv.utils.toGeo(points.position[j]);
             // get min/max values            
             if (p.x < minX) { minX = p.x;}
@@ -111,8 +113,10 @@ pv.profile.getProfilePoints = function(){
 pv.profile.draw = function () {
 
     if (!pv.profile.state){
-            return;
+        return;
     }
+    
+    $("#profileProgressbar").html("Loading");
 
     var pointSize = $("#profilePointSizeSlider").slider("value");
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
@@ -221,7 +225,10 @@ pv.profile.draw = function () {
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
-
+    
+    $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
+    
+    pv.profile.markerMoved = false;
 };
 
 /***
@@ -271,22 +278,22 @@ pv.profile.manualPan = function (increment) {
 ***/
 pv.profile.drawPoints = function(data, svg, x, y, psize) {
 
-        d3.selectAll(".rect").remove();
-        svg.selectAll(".rect")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "rect")
-            .attr("x", function(d) { return x(d.distance); })
-            .attr("y", function(d) { return y(d.altitude); })
-            .attr("width", psize * 3)
-            .attr("height", psize * 3)
-            .on("mouseover", pv.profile.pointHighlightEvent)
-            .on("mouseout", function(d){
-                $('#profileInfo').html('');
-                d3.select(this)
-                    .style("stroke", pv.profile.strokeColor);
-            })
-            .style("fill", pv.profile.strokeColor)
+    d3.selectAll(".rect").remove();
+    svg.selectAll(".rect")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "rect")
+        .attr("x", function(d) { return x(d.distance); })
+        .attr("y", function(d) { return y(d.altitude); })
+        .attr("width", psize * 3)
+        .attr("height", psize * 3)
+        .on("mouseover", pv.profile.pointHighlightEvent)
+        .on("mouseout", function(d){
+            $('#profileInfo').html('');
+            d3.select(this)
+                .style("stroke", pv.profile.strokeColor);
+        })
+        .style("fill", pv.profile.strokeColor);
 
 };
 
@@ -340,4 +347,4 @@ pv.profile.strokeColor = function (d) {
 ***/
 pv.profile.setState = function(state){
     this.state = state;
-}
+};

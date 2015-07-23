@@ -146,6 +146,10 @@ pv.ui.initGUI = function (){
     
     var intervalId;
     
+    $("#profileRefresh").click(function(){
+        pv.profile.draw();
+    });
+
     $("#profileZoomIn").click(function(){
         pv.profile.manualZoom(0.5);
     });
@@ -160,9 +164,7 @@ pv.ui.initGUI = function (){
         clearInterval(intervalId);
     }).click(function(){
         pv.profile.manualPan([-10,0]);
-    })
-    
-    // $("#profilePanLeft");
+    });
 
     $("#profilePanRight").mousedown(function(){
         intervalId = setInterval(pv.profile.manualPan, 150, [10,0]);
@@ -663,6 +665,18 @@ pv.ui.initGUI = function (){
     $(".ui-selectmenu-button").unbind('keydown');
     $(".ui-button").unbind('keydown');
     $(".ui-widget").unbind('keydown');
+
+    // Ugly hack to prevent profile's crash until marker_move_stopped is added to potree
+    $("canvas")[1].addEventListener('mouseup', function(){
+        if (pv.profile.markerMoved){
+            if(pv.profile.timeoutId){
+                clearTimeout(pv.profile.timeoutId);
+                console.log("cleared");
+            }
+            pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
+        }
+        pv.profile.isMouseUp = true;
+    });
 
     pv.ui.resetUIToDefault ();
 

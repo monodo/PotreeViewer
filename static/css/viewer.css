@@ -218,6 +218,13 @@ body {
     cursor: pointer;
 }
 
+#profileRefresh {
+    position: absolute;
+    right: 115px;
+    top: 0px;
+    cursor: pointer;
+}
+
 .profileButton{
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
