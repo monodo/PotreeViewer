@@ -278,6 +278,18 @@ pv.profile.manualPan = function (increment) {
 ***/
 pv.profile.drawPoints = function(data, svg, x, y, psize) {
 
+    var adaptedPointSize;
+
+    if (pv.profile.nPointsInProfile > 1000 && pv.profile.nPointsInProfile <= 5000){
+        adaptedPointSize = psize * 2;
+    } else if (pv.profile.nPointsInProfile > 5000 && pv.profile.nPointsInProfile <= 10000) {
+        adaptedPointSize = psize;
+    } else if (pv.profile.nPointsInProfile > 10000) {
+        adaptedPointSize = psize / 2;
+    } else {
+        adaptedPointSize = psize * 4;
+    }
+
     d3.selectAll(".rect").remove();
     svg.selectAll(".rect")
         .data(data)
@@ -285,8 +297,8 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
         .attr("class", "rect")
         .attr("x", function(d) { return x(d.distance); })
         .attr("y", function(d) { return y(d.altitude); })
-        .attr("width", psize * 3)
-        .attr("height", psize * 3)
+        .attr("width", adaptedPointSize)
+        .attr("height", adaptedPointSize)
         .on("mouseover", pv.profile.pointHighlightEvent)
         .on("mouseout", function(d){
             $('#profileInfo').html('');
