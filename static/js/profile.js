@@ -37,6 +37,8 @@ pv.profile.getProfilePoints = function(){
     var colorRamp = d3.scale.linear()
       .domain(colorDomain)
       .range(colorRange);
+      
+    pv.profile.nPointsInProfile = 0; 
 
     // Iterate the profile's segments
     for(var i = 0; i < segments.length; i++){
@@ -50,7 +52,7 @@ pv.profile.getProfilePoints = function(){
 
         // Iterate the segments' points
         for(var j = 0; j < points.numPoints; j++){
-
+            pv.profile.nPointsInProfile += 1;
             var p = pv.utils.toGeo(points.position[j]);
             // get min/max values            
             if (p.x < minX) { minX = p.x;}
@@ -111,10 +113,12 @@ pv.profile.getProfilePoints = function(){
 pv.profile.draw = function () {
 
     if (!pv.profile.state){
-            return;
+        return;
     }
+    
+    $("#profileProgressbar").html("Loading");
 
-    var pointSize = $("#profilePointSizeSlider").slider( "value" );
+    var pointSize = $("#profilePointSizeSlider").slider("value");
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
 
     pv.map2D.updateToolLayer(thePoints);
@@ -172,24 +176,24 @@ pv.profile.draw = function () {
         .y(y)
         .on("zoom",  function(){
 
-    var t = pv.profile.zoom.translate();
-    var tx = t[0];
-    var ty = t[1];
+            var t = pv.profile.zoom.translate();
+            var tx = t[0];
+            var ty = t[1];
 
-    tx = Math.min(tx, 0);
-    tx = Math.max(tx, width - output.maxX);
-    pv.profile.zoom.translate([tx, ty]);
+            tx = Math.min(tx, 0);
+            tx = Math.max(tx, width - output.maxX);
+            pv.profile.zoom.translate([tx, ty]);
 
-    svg.select(".x.axis").call(xAxis);
-    svg.select(".y.axis").call(yAxis);
+            svg.select(".x.axis").call(xAxis);
+            svg.select(".y.axis").call(yAxis);
 
-    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
+            pv.profile.drawPoints(output.data, svg, x, y, pointSize);
 
-    svg.selectAll("text")
-        .style("fill", "white")
-        .style("font-size", "8px");
+            svg.selectAll("text")
+                .style("fill", "white")
+                .style("font-size", "8px");
 
-    });
+        });
 
     var svg = d3.select("div#profileContainer").append("svg")
         .call(pv.profile.zoom)
@@ -221,7 +225,10 @@ pv.profile.draw = function () {
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
-
+    
+    $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
+    
+    pv.profile.markerMoved = false;
 };
 
 /***
@@ -236,7 +243,7 @@ pv.profile.resetPanZoom = function reset() {
 /***
 * Manual zoom
 * Method: manualZoom
-* Parameters: none
+* Parameters: increment
 ***/
 pv.profile.manualZoom = function (increment) {
 
@@ -252,29 +259,54 @@ pv.profile.manualZoom = function (increment) {
 };
 
 /***
+* Manual pan
+* Method: manualPan
+* Parameters: increment
+***/
+pv.profile.manualPan = function (increment) {
+    var currentTranslate = pv.profile.zoom.translate();
+    currentTranslate[0] = currentTranslate[0] + increment[0];
+    currentTranslate[1] = currentTranslate[1] + increment[1];
+    pv.profile.zoom.translate(currentTranslate);
+    pv.profile.zoom.event(d3.select("div#profileContainer"));
+};
+
+/***
 * Draw the profile points with specific colors and style settings
 * Method: drawPoints
 * Parameters: none
 ***/
 pv.profile.drawPoints = function(data, svg, x, y, psize) {
 
-        d3.selectAll(".circle").remove();
-        svg.selectAll(".circle")
-            .data(data)
-            .enter().append("circle")
-            .attr("class", "circle")
-            .attr("cx", function(d) { return x(d.distance); })
-            .attr("cy", function(d) { return y(d.altitude); })
-            .attr("r", psize)
-            .on("mouseover", pv.profile.pointHighlightEvent)
-            .on("mouseout", function(d){
-                $('#profileInfo').html('');
-                d3.select(this)
-                    .style("stroke", pv.profile.strokeColor);
-            })
-            .style("fill", pv.profile.strokeColor)
-            .style("stroke-width", 3)
-            .style("stroke", pv.profile.strokeColor);
+    var adaptedPointSize;
+
+    if (pv.profile.nPointsInProfile > 1000 && pv.profile.nPointsInProfile <= 5000){
+        adaptedPointSize = psize * 2;
+    } else if (pv.profile.nPointsInProfile > 5000 && pv.profile.nPointsInProfile <= 10000) {
+        adaptedPointSize = psize;
+    } else if (pv.profile.nPointsInProfile > 10000) {
+        adaptedPointSize = psize / 2;
+    } else {
+        adaptedPointSize = psize * 4;
+    }
+
+    d3.selectAll(".rect").remove();
+    svg.selectAll(".rect")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "rect")
+        .attr("x", function(d) { return x(d.distance); })
+        .attr("y", function(d) { return y(d.altitude); })
+        .attr("width", adaptedPointSize)
+        .attr("height", adaptedPointSize)
+        .on("mouseover", pv.profile.pointHighlightEvent)
+        .on("mouseout", function(d){
+            $('#profileInfo').html('');
+            d3.select(this)
+                .style("stroke", pv.profile.strokeColor);
+        })
+        .style("fill", pv.profile.strokeColor);
+
 };
 
 /***
@@ -285,12 +317,14 @@ pv.profile.drawPoints = function(data, svg, x, y, psize) {
 pv.profile.pointHighlightEvent = function (d) {
 
     d3.select(this)
-        .style("stroke", "yellow");
+        .style("stroke", "yellow")
+        .style("stroke-width", 2);
 
-    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.y) / 10 + '  -  ';
+    var html = 'x: ' + Math.round(10 * d.x) / 10 + ' y: ' + Math.round(10 * d.y) / 10 + ' z: ' + Math.round( 10 * d.altitude) / 10 + '  -  ';
     html += i18n.t('tools.classification') + ': ' + d.classificationCode + '  -  ';
     html += i18n.t('tools.intensity') + ': ' + d.intensityCode;
 
+    $('#profileInfo').css('color', 'yellow');
     $('#profileInfo').html(html);
 
 };
@@ -325,4 +359,4 @@ pv.profile.strokeColor = function (d) {
 ***/
 pv.profile.setState = function(state){
     this.state = state;
-}
+};

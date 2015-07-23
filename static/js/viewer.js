@@ -144,12 +144,51 @@ pv.ui.initGUI = function (){
         pv.profile.resetPanZoom();
     });
     
+    var intervalId;
+    
+    $("#profileRefresh").click(function(){
+        pv.profile.draw();
+    });
+
     $("#profileZoomIn").click(function(){
-        pv.profile.manualZoom(1);
+        pv.profile.manualZoom(0.5);
     });
     
     $("#profileZoomOut").click(function(){
-        pv.profile.manualZoom(-1);
+        pv.profile.manualZoom(-0.5);
+    });
+    
+    $("#profilePanLeft").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [-10,0]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([-10,0]);
+    });
+
+    $("#profilePanRight").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [10,0]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([10,0]);
+    });
+    
+
+    $("#profilePanTop").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [0,-10]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([0,-10]);
+    });
+
+    $("#profilePanBottom").mousedown(function(){
+        intervalId = setInterval(pv.profile.manualPan, 150, [0,10]);
+    }).mouseup(function(){
+        clearInterval(intervalId);
+    }).click(function(){
+        pv.profile.manualPan([0,10]);
     });
     
     // Show the profile
@@ -159,6 +198,7 @@ pv.ui.initGUI = function (){
             primary: 'ui-icon-triangle-1-nw'
         }
     }).click(function() {
+            pv.profile.draw();
             $("#profileContainer").slideDown(300);
             $("#showProfileButton").hide(300);
             pv.map2D.updateMapSize(true);
@@ -197,7 +237,9 @@ pv.ui.initGUI = function (){
         slide: function( event, ui ) {
             $("#pointNumber").val(ui.value);
             pv.params.pointCountTarget = ui.value;
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+        },
+        stop: function( event, ui ) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -262,7 +304,7 @@ pv.ui.initGUI = function (){
     $("#pointMaterialSelect").selectmenu({
         select: function(event, data) {
             pv.params.pointColorType = parseInt(data.item.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -458,11 +500,11 @@ pv.ui.initGUI = function (){
         max: pv.params.profileWidthMax,
         step: pv.params.profileWidthStep,
         value: pv.params.profileWidth,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profileWidth").val(ui.value);
             pv.scene3D.profileTool.profiles[0].setWidth(ui.value);
             pv.scene3D.profileTool.profiles[0].update();
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -474,9 +516,9 @@ pv.ui.initGUI = function (){
         max: pv.params.profilePointSizeMax,
         step: pv.params.profilePointSizeStep,
         value: pv.params.profilePointSize,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profilePointSize").val(ui.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -488,9 +530,9 @@ pv.ui.initGUI = function (){
         max: pv.params.profilePointMaxLOD,
         step: 1,
         value: pv.params.profilePointLOD,
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $("#profilePointLOD").val(ui.value);
-            if (pv.scene3D.profileTool.profiles.length > 0) {
+            if (pv.scene3D.profileTool.profiles.length > 0 && $("#profileContainer").is(":visible")) {
                 pv.profile.draw();
             }
         }
@@ -562,7 +604,6 @@ pv.ui.initGUI = function (){
         // Measure volume
         if($('#radioVolumeMeasure').is(':checked')){
             pv.scene3D.volumeTool.startInsertion(); 
-            console.log("ici");
             $('#transformationTools').show();
         } 
 
@@ -624,6 +665,17 @@ pv.ui.initGUI = function (){
     $(".ui-selectmenu-button").unbind('keydown');
     $(".ui-button").unbind('keydown');
     $(".ui-widget").unbind('keydown');
+
+    // Ugly hack to prevent profile's crash until marker_move_stopped is added to potree
+    $("canvas")[1].addEventListener('mouseup', function(){
+        if (pv.profile.markerMoved){
+            if(pv.profile.timeoutId){
+                clearTimeout(pv.profile.timeoutId);
+            }
+            pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
+        }
+        pv.profile.isMouseUp = true;
+    });
 
     pv.ui.resetUIToDefault ();
 

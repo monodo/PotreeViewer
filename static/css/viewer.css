@@ -68,7 +68,7 @@ body {
     position: absolute;
     bottom: 0px;
     background-color: #585858;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 
 #viewTable {
@@ -138,6 +138,16 @@ body {
     padding-left: 5px;
 }
 
+#profileProgressbar{
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    cursor: pointer;
+    color: #D0D0D0;
+    font-size: 1.5em;
+    margin-top: 3px;
+}
+
 #minimizeButton {
     position: absolute;
     right: 5px;
@@ -180,10 +190,58 @@ body {
     cursor: pointer;
 }
 
+#profilePanRight {
+    position: absolute;
+    right: 59px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanLeft {
+    position: absolute;
+    right: 73px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanBottom{
+    position: absolute;
+    right: 87px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profilePanTop{
+    position: absolute;
+    right: 101px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#profileRefresh {
+    position: absolute;
+    right: 115px;
+    top: 0px;
+    cursor: pointer;
+}
+
+.profileButton{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+.profileButton:hover{
+    background-color: #0000CC;
+}
+
+.profileButton:active{
+    background-color: #3366FF;
+}
+
 .overlay {
-  fill: black;
   pointer-events: all;
-  opacity: 0.8;
 }
 
 #showProfileButton {
