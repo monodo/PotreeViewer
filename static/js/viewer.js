@@ -667,17 +667,14 @@ pv.ui.initGUI = function (){
     $(".ui-widget").unbind('keydown');
 
     // Ugly hack to prevent profile's crash until marker_move_stopped is added to potree
-    // console.log($('#renderArea')
-    // $("canvas")[1].addEventListener('mouseup', function(){
-        // console.log("ici");
-        // if (pv.profile.markerMoved){
-            // if(pv.profile.timeoutId){
-                // clearTimeout(pv.profile.timeoutId);
-            // }
-            // pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
-        // }
-        // pv.profile.isMouseUp = true;
-    // });
+    $("#renderArea")[0].addEventListener('mouseup', function(){
+        if (pv.profile.markerMoved){
+            if(pv.profile.timeoutId){
+                clearTimeout(pv.profile.timeoutId);
+            }
+            pv.profile.timeoutId = setTimeout(pv.profile.redraw,0);
+        }
+    });
 
     pv.ui.resetUIToDefault ();
 

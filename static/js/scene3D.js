@@ -68,12 +68,7 @@ pv.scene3D.initThree = function (){
         $('#radioProfile').prop('checked', false).button("refresh");
 
         pv.scene3D.profileTool.addEventListener("marker_moved", function(){
-            if (!pv.profile.profileDrawing){
-                if(pv.profile.timeoutId){
-                    clearTimeout(pv.profile.timeoutId);
-                }
-                pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
-            }
+            pv.profile.markerMoved = true;
         });
     });
     this.profileTool.addEventListener("marker_added", function(){
