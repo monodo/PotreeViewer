@@ -111,9 +111,7 @@ pv.profile.getProfilePoints = function(){
 * Parameters: none
 ***/
 pv.profile.draw = function () {
-    
-    pv.profile.profileDrawing = true;
-    
+
     if (!pv.profile.state){
         return;
     }
@@ -132,29 +130,47 @@ pv.profile.draw = function () {
     }
 
     var data = output.data;
-    var containerWidth = $('#profileContainer').width();
-    var containerHeight = $('#profileContainer').height();
-    var margin = {top: 25, right: 10, bottom: 20, left: 40};
-    var width = containerWidth - margin.left - margin.right;
-    var height = containerHeight - margin.top - margin.bottom;
-
-    // Create the x/y scale functions
-    // TODO: same x/y scale
 
     if (data.length === 0){
         return;
     }
 
+    // Clear D3'elements = clear the chart
+    d3.selectAll("svg").remove();
+
+    var containerWidth = $('#profileContainer').width();
+    var containerHeight = $('#profileContainer').height();
+
+    var margin = {top: 25, right: 10, bottom: 20, left: 40},
+        width = containerWidth - margin.left - margin.right,
+        height = containerHeight - margin.top - margin.bottom;
+
+    // Create the x/y scale functions
+    // TODO: same x/y scale
+
     // X scale
     var x = d3.scale.linear()
         .range([5, width -5]);
-        x.domain([d3.min(data, function(d) { return d.distance; }), d3.max(data, function(d) { return d.distance; })]);
+    x.domain([d3.min(data, function(d) { return d.distance; }), d3.max(data, function(d) { return d.distance; })]);
 
     // Y scale
     var y = d3.scale.linear()
         .range([height -5, 5]);
-        y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
-    
+    y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
+
+    // Create x axis
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .ticks(10, "m");
+
+    // Create y axis
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(10, "m");
+
+    // Zoom behaviour
     pv.profile.zoom = d3.behavior.zoom()
         .x(x)
         .y(y)
@@ -171,31 +187,25 @@ pv.profile.draw = function () {
             svg.select(".x.axis").call(xAxis);
             svg.select(".y.axis").call(yAxis);
 
-            canvas.clearRect(0, 0, width, height);
-            pv.profile.drawPoints(data, canvas, x, y, pointSize);
+            pv.profile.drawPoints(output.data, svg, x, y, pointSize);
+
+            svg.selectAll("text")
+                .style("fill", "white")
+                .style("font-size", "8px");
 
         });
-
-    // Axis and other large elements are created as svg elements
-    d3.selectAll("svg").remove();
 
     var svg = d3.select("div#profileContainer").append("svg")
         .call(pv.profile.zoom)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    // Create x axis
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .ticks(10, "m");
 
-    // Create y axis
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(10, "m");
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height);
 
     // Append axis to the chart
     svg.append("g")
@@ -206,22 +216,19 @@ pv.profile.draw = function () {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
-    // Points are plotted using canvas for better performance
-    var canvas = d3.select("#profileCanvas")
-        .attr("width", width)
-        .attr("height", height)
-        .call(pv.profile.zoom)
-        .node().getContext("2d"); 
+
+    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
+
+    svg.selectAll("text")
+        .style("fill", "white");
 
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
-
-    $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
-
-    pv.profile.drawPoints(data, canvas, x, y, pointSize);
     
-    pv.profile.profileDrawing = false;
+    $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
+    
+    pv.profile.markerMoved = false;
 };
 
 /***
@@ -269,29 +276,37 @@ pv.profile.manualPan = function (increment) {
 * Method: drawPoints
 * Parameters: none
 ***/
-pv.profile.drawPoints = function(data, canvas, x, y, psize) {
+pv.profile.drawPoints = function(data, svg, x, y, psize) {
 
     var adaptedPointSize;
 
     if (pv.profile.nPointsInProfile > 1000 && pv.profile.nPointsInProfile <= 5000){
-        adaptedPointSize = psize * 3;
-    } else if (pv.profile.nPointsInProfile > 5000 && pv.profile.nPointsInProfile <= 10000) {
         adaptedPointSize = psize * 2;
-    } else if (pv.profile.nPointsInProfile > 10000) {
+    } else if (pv.profile.nPointsInProfile > 5000 && pv.profile.nPointsInProfile <= 10000) {
         adaptedPointSize = psize;
+    } else if (pv.profile.nPointsInProfile > 10000) {
+        adaptedPointSize = psize / 2;
     } else {
         adaptedPointSize = psize * 4;
     }
-    
-    var i = -1, n = data.length, d, cx, cy;
-    while (++i < n) {
-        d = data[i];
-        cx = x(d.distance);
-        cy = y(d.altitude);
-        canvas.moveTo(cx, cy);
-        canvas.fillRect(cx, cy, adaptedPointSize, adaptedPointSize);
-        canvas.fillStyle = pv.profile.strokeColor(d);
-    }
+
+    d3.selectAll(".rect").remove();
+    svg.selectAll(".rect")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "rect")
+        .attr("x", function(d) { return x(d.distance); })
+        .attr("y", function(d) { return y(d.altitude); })
+        .attr("width", adaptedPointSize)
+        .attr("height", adaptedPointSize)
+        .on("mouseover", pv.profile.pointHighlightEvent)
+        .on("mouseout", function(d){
+            $('#profileInfo').html('');
+            d3.select(this)
+                .style("stroke", pv.profile.strokeColor);
+        })
+        .style("fill", pv.profile.strokeColor);
+
 };
 
 /***
