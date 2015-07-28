@@ -83,8 +83,7 @@ pv.profile.getProfilePoints = function(){
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
                     'intensityCode': points.intensity[j],
                     'heightColor': colorRamp(p.z),
-                    'classificationCode': points.classification[i],
-                    'id': j
+                    'classificationCode': points.classification[j]
                 });
             }
         }
@@ -235,7 +234,7 @@ pv.profile.draw = function () {
 ***/
 pv.profile.redraw = function(){
     pv.profile.draw();
-}
+};
 
 /***
 * Highlight point on mouseover
@@ -405,10 +404,14 @@ pv.profile.strokeColor = function (d) {
         return d.intensity;
     } else if (pv.params.pointColorType === Potree.PointColorType.CLASSIFICATION) {
         var classif = pv.scene3D.pointcloud.material.classification;
-        var color = 'rgb(' + classif[d.classificationCode].r * 100 + '%,';
-        color += classif[d.classificationCode].g * 100 + '%,';
-        color += classif[d.classificationCode].b * 100 + '%)';
-        return color;
+        if (typeof classif[d.classificationCode] != 'undefined'){
+            var color = 'rgb(' + classif[d.classificationCode].r * 100 + '%,';
+            color += classif[d.classificationCode].g * 100 + '%,';
+            color += classif[d.classificationCode].b * 100 + '%)';
+            return color;
+        } else {
+            return 'rgb(255,255,255)';
+        }
     } else if (pv.params.pointColorType === Potree.PointColorType.HEIGHT) {
         return d.heightColor;
     } else {
