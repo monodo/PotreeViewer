@@ -83,7 +83,8 @@ pv.profile.getProfilePoints = function(){
                     'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
                     'intensityCode': points.intensity[j],
                     'heightColor': colorRamp(p.z),
-                    'classificationCode': points.classification[i]
+                    'classificationCode': points.classification[i],
+                    'id': j
                 });
             }
         }
@@ -91,7 +92,7 @@ pv.profile.getProfilePoints = function(){
         // Increment distance from the profile start point
         totalDistance += segmentLength;
     }
-    
+
     var output = {
         'data': data,
         'minX': minX,
@@ -112,13 +113,15 @@ pv.profile.getProfilePoints = function(){
 ***/
 pv.profile.draw = function () {
 
+    pv.profile.profileDrawing = true;
+    
     if (!pv.profile.state){
         return;
     }
-    
+
     $("#profileProgressbar").html("Loading");
 
-    var pointSize = $("#profilePointSizeSlider").slider("value");
+    this.pointSize = $("#profilePointSizeSlider").slider("value");
     var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
 
     pv.map2D.updateToolLayer(thePoints);
@@ -129,51 +132,33 @@ pv.profile.draw = function () {
         return;
     }
 
-    var data = output.data;
-
-    if (data.length === 0){
-        return;
-    }
-
-    // Clear D3'elements = clear the chart
-    d3.selectAll("svg").remove();
-
+    this.data = output.data;
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
-
-    var margin = {top: 25, right: 10, bottom: 20, left: 40},
-        width = containerWidth - margin.left - margin.right,
-        height = containerHeight - margin.top - margin.bottom;
+    var margin = {top: 25, right: 10, bottom: 20, left: 40};
+    var width = containerWidth - margin.left - margin.right;
+    var height = containerHeight - margin.top - margin.bottom;
 
     // Create the x/y scale functions
     // TODO: same x/y scale
 
+    if (this.data.length === 0){
+        return;
+    }
+
     // X scale
-    var x = d3.scale.linear()
+    this.scaleX = d3.scale.linear()
         .range([5, width -5]);
-    x.domain([d3.min(data, function(d) { return d.distance; }), d3.max(data, function(d) { return d.distance; })]);
+    this.scaleX.domain([d3.min(this.data, function(d) { return d.distance; }), d3.max(this.data, function(d) { return d.distance; })]);
 
     // Y scale
-    var y = d3.scale.linear()
+    this.scaleY = d3.scale.linear()
         .range([height -5, 5]);
-    y.domain([d3.min(data, function(d) { return d.altitude; }), d3.max(data, function(d) { return d.altitude; })]);
+    this.scaleY.domain([d3.min(this.data, function(d) { return d.altitude; }), d3.max(this.data, function(d) { return d.altitude; })]);
 
-    // Create x axis
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .ticks(10, "m");
-
-    // Create y axis
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(10, "m");
-
-    // Zoom behaviour
     pv.profile.zoom = d3.behavior.zoom()
-        .x(x)
-        .y(y)
+        .x(this.scaleX)
+        .y(this.scaleY)
         .on("zoom",  function(){
 
             var t = pv.profile.zoom.translate();
@@ -187,25 +172,32 @@ pv.profile.draw = function () {
             svg.select(".x.axis").call(xAxis);
             svg.select(".y.axis").call(yAxis);
 
-            pv.profile.drawPoints(output.data, svg, x, y, pointSize);
-
-            svg.selectAll("text")
-                .style("fill", "white")
-                .style("font-size", "8px");
+            pv.profile.canvas.clearRect(0, 0, width, height);
+            pv.profile.drawPoints();
 
         });
 
-    var svg = d3.select("div#profileContainer").append("svg")
+    // Axis and other large elements are created as svg elements
+    d3.selectAll("svg").remove();
+
+    svg = d3.select("div#profileContainer").append("svg")
         .call(pv.profile.zoom)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .on("mousemove", pv.profile.pointHighlight);
+    
+    // Create x axis
+    var xAxis = d3.svg.axis()
+        .scale(this.scaleX)
+        .orient("bottom")
+        .ticks(10, "m");
 
-    svg.append("rect")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height);
+    // Create y axis
+    var yAxis = d3.svg.axis()
+        .scale(this.scaleY)
+        .orient("left")
+        .ticks(10, "m");
 
     // Append axis to the chart
     svg.append("g")
@@ -217,18 +209,85 @@ pv.profile.draw = function () {
         .attr("class", "y axis")
         .call(yAxis);
 
-    pv.profile.drawPoints(output.data, svg, x, y, pointSize);
-
-    svg.selectAll("text")
-        .style("fill", "white");
+    // Points are plotted using canvas for better performance
+    this.canvas = d3.select("#profileCanvas")
+        .attr("width", width)
+        .attr("height", height)
+        .call(pv.profile.zoom)
+        .node().getContext("2d");
 
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
     $("#profileContainer").slideDown(300);
-    
+
     $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
     
-    pv.profile.markerMoved = false;
+    pv.profile.drawPoints();
+    pv.profile.profileDrawing = false;
+};
+
+
+
+/***
+* Dummy redraw function
+* Method: pv.profile.redraw
+* Parameters: none
+***/
+pv.profile.redraw = function(){
+    pv.profile.draw();
+}
+
+/***
+* Highlight point on mouseover
+* Method: pointHighlight
+* Parameters: event
+***/
+pv.profile.pointHighlight = function(){
+    
+    var adaptedPointSize = pv.profile.adaptPointSize();
+    var canvas = pv.profile.canvas;
+    
+    // Find the hovered point if applicable
+    var d = pv.profile.data;
+    var sx = pv.profile.scaleX;
+    var sy = pv.profile.scaleY;
+    var coordinates = [0, 0];
+    coordinates = d3.mouse(this);
+    var xs = coordinates[0];
+    var ys = coordinates[1];
+    var hP = [];
+    var tol = adaptedPointSize;
+    for (var i=0; i<d.length;i++){
+        if(sx(d[i].distance) < xs + tol && sx(d[i].distance) > xs - tol && sy(d[i].altitude) < ys + tol && sy(d[i].altitude) > ys -tol){
+            hP.push(d[i]); 
+        }
+    }
+
+    if(hP.length > 0){
+        var p = hP[0];
+        this.hoveredPoint = hP[0];
+        cx = pv.profile.scaleX(p.distance);
+        cy = pv.profile.scaleY(p.altitude);
+        var svg = d3.select("svg");
+        d3.selectAll("rect").remove();
+        var rectangle = svg.append("rect")
+            .attr("x", cx)
+            .attr("y", cy)
+            .attr("id", p.id)
+            .attr("width", adaptedPointSize)
+            .attr("height", adaptedPointSize)
+            .style("fill", 'yellow');
+
+        var html = 'x: ' + Math.round(10 * p.x) / 10 + ' y: ' + Math.round(10 * p.y) / 10 + ' z: ' + Math.round( 10 * p.altitude) / 10 + '  -  ';
+        html += i18n.t('tools.classification') + ': ' + p.classificationCode + '  -  ';
+        html += i18n.t('tools.intensity') + ': ' + p.intensityCode;
+        $('#profileInfo').css('color', 'yellow');
+        $('#profileInfo').html(html);
+
+    } else {
+        d3.selectAll("rect").remove();
+        $('#profileInfo').html("");
+    }
 };
 
 /***
@@ -276,37 +335,42 @@ pv.profile.manualPan = function (increment) {
 * Method: drawPoints
 * Parameters: none
 ***/
-pv.profile.drawPoints = function(data, svg, x, y, psize) {
+pv.profile.drawPoints = function() {
 
-    var adaptedPointSize;
+    var adaptedPointSize = pv.profile.adaptPointSize();
+    var data = pv.profile.data;
+    var canvas = pv.profile.canvas;
+    var i = -1, n = data.length, d, cx, cy;
+    while (++i < n) {
+        d = data[i];
+        cx = pv.profile.scaleX(d.distance);
+        cy = pv.profile.scaleY(d.altitude);
+        canvas.moveTo(cx, cy);
+        canvas.fillRect(cx, cy, adaptedPointSize, adaptedPointSize);
+        canvas.fillStyle = pv.profile.strokeColor(d);
+    }
+};
+
+/***
+* Adapt profile points size depending on point number
+* Method: adaptPointSize
+* Parameters: none
+***/
+pv.profile.adaptPointSize = function(){
+    
+    var psize = pv.profile.pointSize;
 
     if (pv.profile.nPointsInProfile > 1000 && pv.profile.nPointsInProfile <= 5000){
-        adaptedPointSize = psize * 2;
+        adaptedPointSize = psize * 3;
     } else if (pv.profile.nPointsInProfile > 5000 && pv.profile.nPointsInProfile <= 10000) {
-        adaptedPointSize = psize;
+        adaptedPointSize = psize * 2;
     } else if (pv.profile.nPointsInProfile > 10000) {
-        adaptedPointSize = psize / 2;
+        adaptedPointSize = psize;
     } else {
         adaptedPointSize = psize * 4;
     }
-
-    d3.selectAll(".rect").remove();
-    svg.selectAll(".rect")
-        .data(data)
-        .enter().append("rect")
-        .attr("class", "rect")
-        .attr("x", function(d) { return x(d.distance); })
-        .attr("y", function(d) { return y(d.altitude); })
-        .attr("width", adaptedPointSize)
-        .attr("height", adaptedPointSize)
-        .on("mouseover", pv.profile.pointHighlightEvent)
-        .on("mouseout", function(d){
-            $('#profileInfo').html('');
-            d3.select(this)
-                .style("stroke", pv.profile.strokeColor);
-        })
-        .style("fill", pv.profile.strokeColor);
-
+    
+    return adaptedPointSize;
 };
 
 /***

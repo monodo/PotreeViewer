@@ -667,14 +667,13 @@ pv.ui.initGUI = function (){
     $(".ui-widget").unbind('keydown');
 
     // Ugly hack to prevent profile's crash until marker_move_stopped is added to potree
-    $("canvas")[1].addEventListener('mouseup', function(){
+    $("#renderArea")[0].addEventListener('mouseup', function(){
         if (pv.profile.markerMoved){
             if(pv.profile.timeoutId){
                 clearTimeout(pv.profile.timeoutId);
             }
-            pv.profile.timeoutId = setTimeout(pv.profile.draw,0);
+            pv.profile.timeoutId = setTimeout(pv.profile.redraw,0);
         }
-        pv.profile.isMouseUp = true;
     });
 
     pv.ui.resetUIToDefault ();
