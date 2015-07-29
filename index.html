@@ -117,14 +117,9 @@
                 </ul>
                 <!-- Navigation tab -->
                 <div id="Navigate">
-                    <span id="radioFlyMode">
-                        <button id="radioOrbitControl" name="radioFlyMode">
-                            <img src="static/libs/potree/resources/icons/orbit_controls.png" data-i18n="[title]nav.orbit_control_tt"/>
-                        </button>
-                    </span>
                     <span>
-                    <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
-                    <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
+                        <button id="btnFocus"><img src="static/libs/potree/resources/icons/focus.png" data-i18n="[title]nav.zoom_to_center"></button>
+                        <button id="btnFlipYZ"><img src="static/libs/potree/resources/icons/flip_y_z.png" data-i18n="[title]nav.flip_xz"></button>
                     </span>
                    <!-- Let the user choose the flying speed  -->
                     <table id="moveSpeedCursor" class="guiTable">
@@ -316,10 +311,7 @@
                             modelViewMatrix * 
                             vec4(position,1.0);
         }
-        </script>
-
-        <script id="fs" type="x-shader/x-vertex">
-        // Specific webGL config
+        
         #extension GL_EXT_frag_depth : enable
         uniform sampler2D depthMap;
         uniform sampler2D texture;
@@ -334,8 +326,6 @@
         }
         </script>
         <script type="text/javascript">
-            // This variable will be set to true once Jquery UI set up is completed
-            pv.ui.loaded = false;
             // Init the 3D Ol3 map object
             pv.map2D.initMapView();
             // Init the Three 3D Scene with Potree Octree point cloud
@@ -344,7 +334,6 @@
             pv.ui.initGUI();
             // Start the potree rendering
             pv.utils.loop();
-
         </script>
     </body>
 </html>

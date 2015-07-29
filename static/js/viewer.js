@@ -433,14 +433,6 @@ pv.ui.initGUI = function (){
         }
     });
 
-    // Orbit navigation control
-    $("#radioOrbitControl").button();
-    $('#radioOrbitControl').bind('change', function(){
-        if($(this).is(':checked')){
-            pv.utils.useOrbitControls();
-        }
-    });
-    
     // Keep navigation above ground (Orbit control only)
     $("#chkDEM").button({
         label: null,
@@ -467,9 +459,7 @@ pv.ui.initGUI = function (){
     $('#chkDEM').bind('change', function(){
         if($(this).is(':checked')){
             pv.scene3D.pointcloud.generateDEM = true;
-            if (pv.scene3D.orbitControls){ 
-                pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
-            }
+            pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
         } else {
             pv.scene3D.pointcloud.generateDEM = false;
             this.blur();
@@ -720,6 +710,8 @@ pv.ui.resetUIToDefault = function (){
     
     $("#chkBBox").prop("checked", pv.params.BoundingBox);
     $("#chkBBox").change();
+
+    $("#chkDEM").prop("checked", pv.params.useDEMCollisions);
 
     $("#chkCoordinates").prop("checked", pv.params.showCoordinates);
     $("#chkCoordinates").change();

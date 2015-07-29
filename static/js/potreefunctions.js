@@ -509,7 +509,7 @@ pv.utils.disableControls = function () {
 * Parameter: event
 ***/
 pv.utils.demCollisionHandler =  function(event){
-    if(!pv.scene3D.pointcloud || !pv.params.useDEMCollisions){
+    if(!pv.scene3D.pointcloud){
         return;
     }
     var demHeight = pv.scene3D.pointcloud.getDEMHeight(event.newPosition);
