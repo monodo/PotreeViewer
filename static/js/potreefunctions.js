@@ -92,6 +92,8 @@ pv.utils.onKeyDown = function (event){
         $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY_GRADIENT).selectmenu('refresh')
     } else if (event.keyCode === 80) {
         $("#pointMaterialSelect").val(Potree.PointColorType.THREE_DEPTH).selectmenu('refresh')
+    } else if (event.keyCode === 36) {
+        Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
     }
 };
 
