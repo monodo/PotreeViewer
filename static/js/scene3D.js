@@ -98,6 +98,7 @@ pv.scene3D.initThree = function (){
 
     window.addEventListener( 'keydown', pv.utils.onKeyDown, false );
     this.renderer.domElement.addEventListener( 'mousemove', pv.utils.onMouseMove, false );
+
 };
 
 /***
@@ -128,5 +129,10 @@ pv.scene3D.PCOLoaderfunction = function(geometry){
     pv.scene3D.camera.zoomTo(pv.scene3D.pointcloud, pv.params.defaultZoomLevel);
     pv.utils.flipYZ();
     pv.utils.useOrbitControls();
+    
+    if (pv.params.useDEMCollisions){
+        pv.scene3D.pointcloud.generateDEM = true;
+        pv.scene3D.orbitControls.addEventListener("proposeTransform", pv.utils.demCollisionHandler);
+    }
 };
 

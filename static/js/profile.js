@@ -158,6 +158,8 @@ pv.profile.draw = function () {
     pv.profile.zoom = d3.behavior.zoom()
         .x(this.scaleX)
         .y(this.scaleY)
+        .scaleExtent([0,8])
+        .size([width, height])
         .on("zoom",  function(){
 
             var t = pv.profile.zoom.translate();
@@ -223,8 +225,8 @@ pv.profile.draw = function () {
     
     pv.profile.drawPoints();
     pv.profile.profileDrawing = false;
-};
 
+};
 
 
 /***
