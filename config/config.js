@@ -123,7 +123,7 @@ pv.params = {
         'intensity_gradient': Potree.PointColorType.INTENSITY_GRADIENT,
         'classification': Potree.PointColorType.CLASSIFICATION,
         //'return_number': Potree.PointColorType.RETURN_NUMBER,
-        'octree_depth': Potree.PointColorType.OCTREE_DEPTH
+        'octree_depth': Potree.PointColorType.THREE_DEPTH
         //'point_index': Potree.PointColorType.POINT_INDEX
     },
     'defaultPointClip': Potree.ClipMode.HIGHLIGHT_INSIDE,

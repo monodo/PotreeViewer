@@ -71,15 +71,27 @@ pv.utils.flipYZ = function (){
 ***/
 pv.utils.onKeyDown = function (event){
 
-    if(event.keyCode === 69){
+    if(event.keyCode === 81){
         // e pressed
         transformationTool.translate();
-    }else if(event.keyCode === 82){
+    }else if(event.keyCode === 87){
         // r pressed
         transformationTool.scale();
-    }else if(event.keyCode === 84){
+    }else if(event.keyCode === 69){
         // r pressed
         transformationTool.rotate();
+    } else if (event.keyCode === 67) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.CLASSIFICATION).selectmenu('refresh')
+    } else if (event.keyCode === 73) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY).selectmenu('refresh')
+    } else if (event.keyCode === 65) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.HEIGHT).selectmenu('refresh')
+    } else if (event.keyCode === 82) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.RGB).selectmenu('refresh')
+    } else if (event.keyCode === 79) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY_GRADIENT).selectmenu('refresh')
+    } else if (event.keyCode === 80) {
+        $("#pointMaterialSelect").val(Potree.PointColorType.THREE_DEPTH).selectmenu('refresh')
     }
 };
 
