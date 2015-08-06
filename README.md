@@ -9,7 +9,7 @@ The project is currently developped by [SITN](http://ne.ch/sitn) and focuses on 
 
 The purpose of Potree Viewer is to provide the largest public with a easy access to information rich LiDAR state-wide point clouds. For a live demo please test the [SITN Potree Viewer](http://sitn.ne.ch/lidar/index.html) by enhancing Potree with a intuitive, complete and stable UI.
 
-![](./docs/images/basic_ui.png)
+![](./docs/images/noiraigue_classif.png)
 
 ## Features
 
@@ -26,7 +26,7 @@ Potree Viewer supports almost all of Potree features and in addition, provides:
 
 ## Showcase
 
-Take a look at the (http://sitn.ne.ch/lidar/index.html) for some live example.
+Take a look at the (http://sitn.ne.ch/lidar/index.html) for live demo.
 
 ## Install
 
@@ -52,3 +52,9 @@ Take a look at the (http://sitn.ne.ch/lidar/index.html) for some live example.
 * [plas.io](http://plas.io/) point cloud viewer. LAS and LAZ support have been taken from the laslaz.js implementation of plas.io. Thanks to [Uday Verma](https://twitter.com/udaykverma) and [Howard Butler](https://twitter.com/howardbutler) for this!
 * [Harvest4D](https://harvest4d.org/) Potree currently runs as Master Thesis under the Harvest4D Project
 * [Martin Isenburg](http://rapidlasso.com/), [Georepublic](http://georepublic.de/en/), [Sigeom Sa](http://www.sigeom.ch/), [Pix4D](http://pix4d.com/) as well as all the contributers to potree and PotreeConverter and many more for their support.
+
+## More snapshots
+
+![](./docs/images/viaduc_classif.png)
+![](./docs/images/ligne_ht.png)
+![](./docs/images/noiraigue_alti.png)
