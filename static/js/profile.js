@@ -111,10 +111,16 @@ pv.profile.getProfilePoints = function(){
 * Parameters: none
 ***/
 pv.profile.draw = function () {
+    
+    // $("#profileContainer").slideDown(300);
 
     pv.profile.profileDrawing = true;
     
     if (!pv.profile.state){
+        return;
+    }
+    
+    if (pv.scene3D.profileTool.profiles.length === 0){
         return;
     }
 
@@ -134,9 +140,10 @@ pv.profile.draw = function () {
     this.data = output.data;
     var containerWidth = $('#profileContainer').width();
     var containerHeight = $('#profileContainer').height();
-    var margin = {top: 25, right: 10, bottom: 20, left: 40};
-    var width = containerWidth - margin.left - margin.right;
-    var height = containerHeight - margin.top - margin.bottom;
+    pv.profile.margin = {top: 25, right: 10, bottom: 20, left: 40};
+    var margin = pv.profile.margin;
+    var width = containerWidth - (margin.left + margin.right);
+    var height = containerHeight - (margin.top + margin.bottom);
 
     // Create the x/y scale functions
     // TODO: same x/y scale
@@ -183,11 +190,11 @@ pv.profile.draw = function () {
 
     svg = d3.select("div#profileContainer").append("svg")
         .call(pv.profile.zoom)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", (width + margin.left + margin.right).toString())
+        .attr("height", (height + margin.top + margin.bottom).toString())
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .on("mousemove", pv.profile.pointHighlight);
-    
+   
     // Create x axis
     var xAxis = d3.svg.axis()
         .scale(this.scaleX)
@@ -203,12 +210,18 @@ pv.profile.draw = function () {
     // Append axis to the chart
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
+        
+    if(navigator.userAgent.indexOf("Firefox") == -1 ) {
+        svg.select(".y.axis").attr("transform", "translate("+ (margin.left).toString() + "," + margin.top.toString() + ")");
+        svg.select(".x.axis").attr("transform", "translate(" + margin.left.toString() + "," + (height + margin.top).toString() + ")");
+    } else {
+        svg.select(".x.axis").attr("transform", "translate( 0 ," + height.toString() + ")");
+    }
 
     // Points are plotted using canvas for better performance
     this.canvas = d3.select("#profileCanvas")
@@ -225,6 +238,8 @@ pv.profile.draw = function () {
     
     pv.profile.drawPoints();
     pv.profile.profileDrawing = false;
+    
+    $("#profileContainer").slideDown(300);
 
 };
 
@@ -256,8 +271,15 @@ pv.profile.pointHighlight = function(){
     coordinates = d3.mouse(this);
     var xs = coordinates[0];
     var ys = coordinates[1];
+    
+    // Fix FF vs Chrome discrepancy
+    if(navigator.userAgent.indexOf("Firefox") == -1 ) {
+        xs = xs - pv.profile.margin.left;
+        ys = ys - pv.profile.margin.top;
+    }
     var hP = [];
     var tol = adaptedPointSize;
+
     for (var i=0; i<d.length;i++){
         if(sx(d[i].distance) < xs + tol && sx(d[i].distance) > xs - tol && sy(d[i].altitude) < ys + tol && sy(d[i].altitude) > ys -tol){
             hP.push(d[i]); 
@@ -267,8 +289,13 @@ pv.profile.pointHighlight = function(){
     if(hP.length > 0){
         var p = hP[0];
         this.hoveredPoint = hP[0];
-        cx = pv.profile.scaleX(p.distance);
-        cy = pv.profile.scaleY(p.altitude);
+        if(navigator.userAgent.indexOf("Firefox") == -1 ) {
+            cx = pv.profile.scaleX(p.distance) + pv.profile.margin.left;
+            cy = pv.profile.scaleY(p.altitude) + pv.profile.margin.top;
+        } else {
+            cx = pv.profile.scaleX(p.distance);
+            cy = pv.profile.scaleY(p.altitude);
+        }
         var svg = d3.select("svg");
         d3.selectAll("rect").remove();
         var rectangle = svg.append("rect")

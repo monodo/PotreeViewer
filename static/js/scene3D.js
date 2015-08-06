@@ -49,7 +49,7 @@ pv.scene3D.initThree = function (){
     this.renderer.context.getExtension("EXT_frag_depth");
 
     // Load octree geometry
-    POCLoader.load(pv.params.pointCloudPath, pv.scene3D.PCOLoaderfunction);
+    Potree.POCLoader.load(pv.params.pointCloudPath, pv.scene3D.PCOLoaderfunction);
 
     // Octree grid
     var grid = Potree.utils.createGrid(5, 5, 2);
