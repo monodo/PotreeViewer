@@ -392,7 +392,7 @@ pv.utils.EDLRenderer = function (){
         });
 
     };
-    console.log("ici");
+
     var resize = function(){
         var width = pv.ui.elRenderArea.clientWidth;
         var height = pv.ui.elRenderArea.clientHeight;
@@ -410,7 +410,6 @@ pv.utils.EDLRenderer = function (){
         pv.scene3D.renderer.setSize(width, height);
         rtColor.setSize(width, height);
     };
-    console.log("la");
 
     this.render = function(){
 
@@ -428,7 +427,6 @@ pv.utils.EDLRenderer = function (){
         pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
         
         if(pv.scene3D.pointcloud){
-                         console.log("labas");
 
             var width = pv.ui.elRenderArea.clientWidth;
             var height = pv.ui.elRenderArea.clientHeight;
