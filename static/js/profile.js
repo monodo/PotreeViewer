@@ -117,6 +117,10 @@ pv.profile.draw = function () {
     if (!pv.profile.state){
         return;
     }
+    
+    if (pv.scene3D.profileTool.profiles.length == 0){
+        return;
+    }
 
     $("#profileProgressbar").html("Loading");
 
@@ -209,6 +213,7 @@ pv.profile.draw = function () {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
+
 
     // Points are plotted using canvas for better performance
     this.canvas = d3.select("#profileCanvas")

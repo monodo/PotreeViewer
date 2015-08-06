@@ -81,17 +81,17 @@ pv.utils.onKeyDown = function (event){
         // r pressed
         transformationTool.rotate();
     } else if (event.keyCode === 67) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.CLASSIFICATION).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.CLASSIFICATION).selectmenu('refresh');
     } else if (event.keyCode === 73) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY).selectmenu('refresh');
     } else if (event.keyCode === 65) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.HEIGHT).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.HEIGHT).selectmenu('refresh');
     } else if (event.keyCode === 82) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.RGB).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.RGB).selectmenu('refresh');
     } else if (event.keyCode === 79) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY_GRADIENT).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.INTENSITY_GRADIENT).selectmenu('refresh');
     } else if (event.keyCode === 80) {
-        $("#pointMaterialSelect").val(Potree.PointColorType.THREE_DEPTH).selectmenu('refresh')
+        $("#pointMaterialSelect").val(Potree.PointColorType.THREE_DEPTH).selectmenu('refresh');
     } else if (event.keyCode === 36) {
         Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
     }
@@ -105,10 +105,10 @@ pv.utils.onKeyDown = function (event){
 pv.utils.update = function (){
     if(pv.scene3D.pointcloud){
 
-        var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
+        pv.scene3D.bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
         pv.scene3D.pointcloud.material.clipMode = pv.params.clipMode;
-        pv.scene3D.pointcloud.material.heightMin = bbWorld.min.y;
-        pv.scene3D.pointcloud.material.heightMax = bbWorld.max.y;
+        pv.scene3D.pointcloud.material.heightMin = pv.scene3D.bbWorld.min.y;
+        pv.scene3D.pointcloud.material.heightMax = pv.scene3D.bbWorld.max.y;
         pv.scene3D.pointcloud.material.intensityMin = pv.params.pointsIntensityMin;
         pv.scene3D.pointcloud.material.intensityMax = pv.params.pointsIntensityMax;
         pv.scene3D.pointcloud.showBoundingBox = pv.params.showBoundingBox;
@@ -356,6 +356,142 @@ pv.utils.rtNormalize = new THREE.WebGLRenderTarget( 1024, 1024, {
     format: THREE.RGBAFormat, 
     type: THREE.FloatType
 } );
+/***
+* render Eye dome lightning
+* Method: renderEdl
+* Parameters: none
+***/
+pv.utils.EDLRenderer = function (){
+
+    var edlMaterial = null;
+    var attributeMaterial = null;
+
+    var rtColor = null;
+    var gl = pv.scene3D.renderer.context;
+
+    var initEDL = function(){
+        if(edlMaterial != null){
+            return;
+        }
+
+        edlMaterial = new Potree.EyeDomeLightingMaterial();
+        attributeMaterial = new Potree.PointCloudMaterial();
+
+        attributeMaterial.pointShape = Potree.PointShape.CIRCLE;
+        attributeMaterial.interpolate = false;
+        attributeMaterial.weighted = false;
+        attributeMaterial.minSize = 2;
+        attributeMaterial.useLogarithmicDepthBuffer = false;
+        attributeMaterial.useEDL = true;
+
+        rtColor = new THREE.WebGLRenderTarget( 1024, 1024, {
+            minFilter: THREE.LinearFilter, 
+            magFilter: THREE.NearestFilter, 
+            format: THREE.RGBAFormat, 
+            type: THREE.FloatType
+        });
+
+    };
+    console.log("ici");
+    var resize = function(){
+        var width = pv.ui.elRenderArea.clientWidth;
+        var height = pv.ui.elRenderArea.clientHeight;
+        var aspect = width / height;
+
+        var needsResize = (rtColor.width != width || rtColor.height != height);
+
+        if(needsResize){
+            rtColor.dispose();
+        }
+
+        pv.scene3D.camera.aspect = aspect;
+        pv.scene3D.camera.updateProjectionMatrix();
+
+        pv.scene3D.renderer.setSize(width, height);
+        rtColor.setSize(width, height);
+    };
+    console.log("la");
+
+    this.render = function(){
+
+        initEDL();
+        
+        resize();
+        
+        pv.scene3D.renderer.clear();
+        if(pv.params.showSkybox){
+            pv.scene3D.skybox.camera.rotation.copy(camera.rotation);
+            pv.scene3D.renderer.render(pv.scene3D.skybox.scene, pv.scene3D.skybox.camera);
+        }else{
+            pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
+        }
+        pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
+        
+        if(pv.scene3D.pointcloud){
+                         console.log("labas");
+
+            var width = pv.ui.elRenderArea.clientWidth;
+            var height = pv.ui.elRenderArea.clientHeight;
+        
+            var octreeSize = pv.scene3D.pointcloud.pcoGeometry.boundingBox.size().x;
+        
+            pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
+            var originalMaterial = pv.scene3D.pointcloud.material;
+            
+            var vn = [];
+            for(var i = 0; i < pv.scene3D.pointcloud.visibleNodes.length; i++){
+                vn.push(pv.scene3D.pointcloud.visibleNodes[i].node);
+            }
+            
+            {// COLOR & DEPTH PASS
+                attributeMaterial.size = pointSize;
+                attributeMaterial.pointSizeType = pv.params.pointSizeType;
+                attributeMaterial.screenWidth = width;
+                attributeMaterial.screenHeight = height;
+                attributeMaterial.pointColorType = pv.params.pointColorType;
+                attributeMaterial.uniforms.octreeSize.value = octreeSize;
+                attributeMaterial.fov = pv.scene3D.camera.fov * (Math.PI / 180);
+                attributeMaterial.spacing = pv.scene3D.pointcloud.pcoGeometry.spacing;
+                attributeMaterial.near = pv.scene3D.camera.near;
+                attributeMaterial.far = pv.scene3D.camera.far;
+                attributeMaterial.heightMin = pv.scene3D.bbWorld.min.y;
+                attributeMaterial.heightMax = pv.scene3D.bbWorld.max.y;
+                attributeMaterial.intensityMin = pv.scene3D.pointcloud.material.intensityMin;
+                attributeMaterial.intensityMax = pv.scene3D.pointcloud.material.intensityMax;
+                attributeMaterial.setClipBoxes(pv.scene3D.pointcloud.material.clipBoxes);
+                attributeMaterial.clipMode = pv.scene3D.pointcloud.material.clipMode;
+                pv.scene3D.pointcloud.updateVisibilityTexture(attributeMaterial, vn);
+                
+                pv.scene3D.scenePointCloud.overrideMaterial = attributeMaterial;
+                pv.scene3D.renderer.clearTarget( rtColor, true, true, true );
+                pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtColor);
+                pv.scene3D.scenePointCloud.overrideMaterial = null;
+            }
+            
+            { // EDL OCCLUSION PASS
+                edlMaterial.uniforms.screenWidth.value = width;
+                edlMaterial.uniforms.screenHeight.value = height;
+                edlMaterial.uniforms.near.value = pv.scene3D.camera.near;
+                edlMaterial.uniforms.far.value = pv.scene3D.camera.far;
+                edlMaterial.uniforms.colorMap.value = rtColor;
+                edlMaterial.uniforms.expScale.value = pv.scene3D.camera.far;
+                
+                //edlMaterial.uniforms.depthMap.value = depthTexture;
+            
+                Potree.utils.screenPass.render(pv.scene3D.renderer, edlMaterial);
+            }    
+            
+            pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
+            pv.scene3D.profileTool.render();
+            pv.scene3D.volumeTool.render();
+            pv.scene3D.renderer.clearDepth();
+            pv.scene3D.measuringTool.render();
+            transformationTool.render();
+        }
+           
+
+    };    
+};
 
 /***
 * render high quality (splats)
@@ -475,9 +611,14 @@ pv.utils.loop = function () {
 
     pv.utils.update();
 
-    if(pv.params.quality  === "Splats"){
+    if (pv.params.quality  === "Splats"){
         pv.utils.renderHighQuality();
-    }else{
+    } else if (pv.params.quality === 'EDL') {
+        if (!pv.scene3D.edlRenderer){
+            pv.scene3D.edlRenderer =  new pv.utils.EDLRenderer();
+        }
+        pv.scene3D.edlRenderer.render();
+    } else {
         pv.scene3D.render();
     }
 };
