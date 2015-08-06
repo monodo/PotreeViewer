@@ -494,114 +494,6 @@ pv.utils.EDLRenderer = function (){
 };
 
 /***
-* render high quality (splats)
-* Method: renderHighQuality
-* Parameters: none
-***/
-pv.utils.renderHighQuality = function (){
-
-    var sceneNormalize;
-    var depthMaterial, weightedMaterial;
-
-    if(!sceneNormalize){
-        sceneNormalize = new THREE.Scene();
-        var vsNormalize = document.getElementById('vs').innerHTML;
-        var fsNormalize = document.getElementById('fs').innerHTML;
-
-        var uniformsNormalize = {
-            depthMap: { type: "t", value: pv.utils.rtDepth },
-            texture: { type: "t", value: pv.utils.rtNormalize }
-        };
-
-        var materialNormalize = new THREE.ShaderMaterial({
-            uniforms: uniformsNormalize,
-            vertexShader: vsNormalize,
-            fragmentShader: fsNormalize
-        });
-
-        var quad = new THREE.Mesh( new THREE.PlaneBufferGeometry(2, 2, 0), materialNormalize);
-        quad.material.depthTest = true;
-        quad.material.depthWrite = true;
-        quad.material.transparent = true;
-        sceneNormalize.add(quad);
-    }
-    // resize
-    var width = pv.ui.elRenderArea.clientWidth;
-    var height = pv.ui.elRenderArea.clientHeight;
-    var aspect = width / height;
-
-    pv.scene3D.camera.aspect = aspect;
-    pv.scene3D.camera.updateProjectionMatrix();
-    pv.scene3D.renderer.setSize(width, height);
-    pv.utils.rtDepth.setSize(width, height);
-    pv.utils.rtNormalize.setSize(width, height);
-
-    pv.scene3D.renderer.clear();
-    if(pv.params.showSkybox){
-        pv.scene3D.skybox.pv.scene3D.camera.rotation.copy(pv.scene3D.camera.rotation);
-        pv.scene3D.renderer.render(pv.scene3D.skybox.pv.scene3D.scene, pv.scene3D.skybox.pv.scene3D.camera);
-    }else{
-        pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
-    }
-    pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
-
-    if(pv.scene3D.pointcloud){
-        if(!weightedMaterial){
-            pv.scene3D.pointcloud.originalMaterial = pv.scene3D.pointcloud.material;
-            depthMaterial = new Potree.PointCloudMaterial();
-            weightedMaterial = new Potree.PointCloudMaterial();
-        }
-
-        pv.scene3D.pointcloud.material = depthMaterial;
-
-        var bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
-        
-        pv.scene3D.pointcloud.material.size = pv.params.pointSize;
-        pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
-        pv.scene3D.pointcloud.material.opacity = pv.params.opacity;
-        pv.scene3D.pointcloud.material.pointSizeType = pv.params.pointSizeType;
-        pv.scene3D.pointcloud.material.pointColorType = Potree.PointColorType.DEPTH;
-        pv.scene3D.pointcloud.material.pointShape = Potree.PointShape.CIRCLE;
-        pv.scene3D.pointcloud.material.interpolate = (pv.params.quality  === "Interpolate");
-        pv.scene3D.pointcloud.material.weighted = false;
-        pv.scene3D.pointcloud.material.minSize = 2;
-        pv.scene3D.pointcloud.material.screenWidth = width;
-        pv.scene3D.pointcloud.material.screenHeight = height;
-        pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
-        pv.scene3D.renderer.clearTarget(pv.utils.rtDepth, true, true, true);
-        pv.scene3D.renderer.clearTarget(pv.utils.rtNormalize, true, true, true);
-
-        var origType = pv.scene3D.pointcloud.material.pointColorType;
-        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.utils.rtDepth);
-        pv.scene3D.pointcloud.material = weightedMaterial;
-
-        // get rid of this
-        pv.scene3D.pointcloud.material.size = pv.params.pointSize;
-        pv.scene3D.pointcloud.visiblePointsTarget = pv.params.pointCountTarget * 1000 * 1000;
-        pv.scene3D.pointcloud.material.opacity = pv.params.opacity;
-        pv.scene3D.pointcloud.material.pointSizeType = pv.params.pointSizeType;
-        pv.scene3D.pointcloud.material.pointColorType = pv.params.pointColorType;
-        pv.scene3D.pointcloud.material.pointShape = Potree.PointShape.CIRCLE;
-        pv.scene3D.pointcloud.material.interpolate = (pv.params.quality  === "Interpolation");
-        pv.scene3D.pointcloud.material.weighted = true;
-
-        pv.scene3D.pointcloud.material.depthMap = pv.utils.rtDepth;
-        pv.scene3D.pointcloud.material.blendDepth = Math.min(pv.scene3D.pointcloud.material.spacing, 20);
-        pv.scene3D.pointcloud.update(pv.scene3D.camera, pv.scene3D.renderer);
-        pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, pv.utils.rtNormalize);
-
-        pv.scene3D.volumeTool.render();
-        pv.scene3D.profileTool.render();
-        pv.scene3D.renderer.render(sceneNormalize, pv.scene3D.cameraBG);
-
-        pv.scene3D.renderer.clearDepth();
-        pv.scene3D.measuringTool.render();
-        pv.scene3D.transformationTool.render();
-
-    }
-};
-
-/***
 * loop (recursive function)
 * Method: loop
 * Parameters: none
@@ -611,9 +503,7 @@ pv.utils.loop = function () {
 
     pv.utils.update();
 
-    if (pv.params.quality  === "Splats"){
-        pv.utils.renderHighQuality();
-    } else if (pv.params.quality === 'EDL') {
+    if (pv.params.quality === 'EDL') {
         if (!pv.scene3D.edlRenderer){
             pv.scene3D.edlRenderer =  new pv.utils.EDLRenderer();
         }
