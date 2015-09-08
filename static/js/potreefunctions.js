@@ -383,6 +383,14 @@ pv.utils.EDLRenderer = function (){
         attributeMaterial.minSize = 2;
         attributeMaterial.useLogarithmicDepthBuffer = false;
         attributeMaterial.useEDL = true;
+        
+        if (pv.params.customClassification) {
+            attributeMaterial.classification = pv.params.customClassification;
+        }
+        
+        if (pv.params.customGradient) {
+            attributeMaterial.gradient = pv.params.customGradient;
+        }   
 
         rtColor = new THREE.WebGLRenderTarget( 1024, 1024, {
             minFilter: THREE.LinearFilter, 
