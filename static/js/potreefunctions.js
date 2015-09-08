@@ -419,7 +419,7 @@ pv.utils.EDLRenderer = function (){
         
         pv.scene3D.renderer.clear();
         if(pv.params.showSkybox){
-            pv.scene3D.skybox.camera.rotation.copy(camera.rotation);
+            pv.scene3D.skybox.camera.rotation.copy(pv.scene3D.camera.rotation);
             pv.scene3D.renderer.render(pv.scene3D.skybox.scene, pv.scene3D.skybox.camera);
         }else{
             pv.scene3D.renderer.render(pv.scene3D.sceneBG, pv.scene3D.cameraBG);
@@ -440,13 +440,14 @@ pv.utils.EDLRenderer = function (){
             for(var i = 0; i < pv.scene3D.pointcloud.visibleNodes.length; i++){
                 vn.push(pv.scene3D.pointcloud.visibleNodes[i].node);
             }
-            
+
             {// COLOR & DEPTH PASS
                 attributeMaterial.size = pv.params.pointSize;
                 attributeMaterial.pointSizeType = pv.params.pointSizeType;
                 attributeMaterial.screenWidth = width;
                 attributeMaterial.screenHeight = height;
                 attributeMaterial.pointColorType = pv.params.pointColorType;
+                attributeMaterial.uniforms.visibleNodes.value = pv.scene3D.pointcloud.material.visibleNodesTexture;
                 attributeMaterial.uniforms.octreeSize.value = octreeSize;
                 attributeMaterial.fov = pv.scene3D.camera.fov * (Math.PI / 180);
                 attributeMaterial.spacing = pv.scene3D.pointcloud.pcoGeometry.spacing;
@@ -458,7 +459,10 @@ pv.utils.EDLRenderer = function (){
                 attributeMaterial.intensityMax = pv.scene3D.pointcloud.material.intensityMax;
                 attributeMaterial.setClipBoxes(pv.scene3D.pointcloud.material.clipBoxes);
                 attributeMaterial.clipMode = pv.scene3D.pointcloud.material.clipMode;
-                pv.scene3D.pointcloud.updateVisibilityTexture(attributeMaterial, vn);
+                
+                
+                
+                // pv.scene3D.pointcloud.updateVisibilityTexture(attributeMaterial, vn);
                 
                 pv.scene3D.scenePointCloud.overrideMaterial = attributeMaterial;
                 pv.scene3D.renderer.clearTarget( rtColor, true, true, true );
@@ -474,12 +478,10 @@ pv.utils.EDLRenderer = function (){
                 edlMaterial.uniforms.colorMap.value = rtColor;
                 edlMaterial.uniforms.expScale.value = pv.scene3D.camera.far;
                 
-                //edlMaterial.uniforms.depthMap.value = depthTexture;
-            
                 Potree.utils.screenPass.render(pv.scene3D.renderer, edlMaterial);
             }    
-            
             pv.scene3D.renderer.render(pv.scene3D.scene, pv.scene3D.camera);
+
             pv.scene3D.profileTool.render();
             pv.scene3D.volumeTool.render();
             pv.scene3D.renderer.clearDepth();
