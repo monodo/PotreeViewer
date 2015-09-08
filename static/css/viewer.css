@@ -323,7 +323,7 @@ select {
     top: 10px;
     width: 300px;
     height: 25px;
-    color: #CFCFCF;
+    color: yellow;
     font-size: 12px;
 }
 
@@ -359,7 +359,7 @@ select {
 }
 
 .info{
-    color: #CFCFCF;
+    color: yellow;
     position: absolute;
     right: 500px;
     top: 10px;
