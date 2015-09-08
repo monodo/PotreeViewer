@@ -442,7 +442,7 @@ pv.utils.EDLRenderer = function (){
             }
             
             {// COLOR & DEPTH PASS
-                attributeMaterial.size = pointSize;
+                attributeMaterial.size = pv.params.pointSize;
                 attributeMaterial.pointSizeType = pv.params.pointSizeType;
                 attributeMaterial.screenWidth = width;
                 attributeMaterial.screenHeight = height;
