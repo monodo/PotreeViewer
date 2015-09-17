@@ -31,7 +31,6 @@
         "point_size_type": "Type de taille",
         "point_material": "Matériaux",
         "point_quality": "Qualité",
-        "point_clip": "Clip",
         "qual_fixed": "Fixe",
         "qual_attenuated": "Atténuée",
         "qual_adaptive": "Adaptative",

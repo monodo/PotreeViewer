@@ -6,7 +6,7 @@
 pv.profile.getProfilePoints = function(){
 
     var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
-    var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" ));
+    var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" )).segments;
     if (segments.length < 1){
         return false;
     }
@@ -111,8 +111,6 @@ pv.profile.getProfilePoints = function(){
 * Parameters: none
 ***/
 pv.profile.draw = function () {
-    
-    // $("#profileContainer").slideDown(300);
 
     pv.profile.profileDrawing = true;
     
@@ -232,7 +230,6 @@ pv.profile.draw = function () {
 
     // Everything ready, show the containers;
     pv.map2D.updateMapSize(true);
-    $("#profileContainer").slideDown(300);
 
     $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
     

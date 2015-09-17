@@ -340,24 +340,6 @@ pv.ui.initGUI = function (){
 
     $("#pointQualitySelect").selectmenu("refresh");
 
-    // Point clip type
-    $("#pointClipSelect").selectmenu({
-        select: function(event, data) {
-            pv.params.clipMode = data.item.value;
-        }
-    });
-
-    for (var key in pv.params.pointClipTypes){
-        var val = pv.params.pointClipTypes[key];
-        option = new Option(key, val);
-        option.setAttribute("data-i18n", "render.clip_" + key.toLowerCase());
-        if (val == parseInt(pv.params.defaultPointClip)){
-            option.setAttribute("selected", "selected");
-        }
-        $("#pointClipSelect").append(option);
-    }
-    $("#pointClipSelect").selectmenu( "refresh" );
-
     // Show/Hide skybox
     $("#chkSkybox").button({
         label: null,
@@ -703,7 +685,6 @@ pv.ui.resetUIToDefault = function (){
     $("#pointSizeTypeSelect").val(pv.params.pointSizeType);
     $("#pointMaterialSelect").val(pv.params.defaultPointMaterial);
     $("#pointQualitySelect").val(pv.params.pointQuality);
-    $("#pointClipSelect").val(pv.params.clipMode);
 
     $("#chkSkybox").prop("checked", pv.params.showSkyBox);
     $("#chkSkybox").change();
@@ -732,7 +713,6 @@ pv.ui.translate = function() {
     $("#pointSizeTypeSelect").selectmenu( "refresh" );
     $("#pointMaterialSelect").selectmenu( "refresh" );
     $("#pointQualitySelect").selectmenu( "refresh" );
-    $("#pointClipSelect").selectmenu( "refresh" );
 
 };
 
