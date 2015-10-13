@@ -75,8 +75,8 @@ pv.scene3D.initThree = function (){
         pv.profile.setState(false);
     });
 
-    this.volumeTool = new Potree.VolumeTool(this.scenePointCloud, this.camera, this.renderer);
     transformationTool = new Potree.TransformationTool(this.scenePointCloud, this.camera, this.renderer);
+    this.volumeTool = new Potree.VolumeTool(this.scenePointCloud, this.camera, this.renderer, transformationTool);
     this.volumeTool.addEventListener("insertion_finished", function(event){
         pv.ui.clearTools();
     });

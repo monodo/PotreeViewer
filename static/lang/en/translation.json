@@ -51,7 +51,9 @@
         "clip_no_clipping": "No clip",
         "clip_outside": "Clip outside",
         "clip_inside": "Clip inside",
-        "move_speed": "Moving speed"
+        "move_speed": "Moving speed",
+		"edl_strength": "EDL strength",
+		"edl_radius": "EDL radius"
     },
     "disp": {
         "skybox": "Skybox",

@@ -102,7 +102,7 @@ pv.utils.onKeyDown = function (event){
 * Method: update
 * Parameters: none
 ***/
-pv.utils.update = function (){
+pv.utils.update = function (delta, timestamp){
     if(pv.scene3D.pointcloud){
 
         pv.scene3D.bbWorld = Potree.utils.computeTransformedBoundingBox(pv.scene3D.pointcloud.boundingBox, pv.scene3D.pointcloud.matrixWorld);
@@ -128,7 +128,7 @@ pv.utils.update = function (){
         $('#lblNumVisibleNodes').html('');
     }
 
-    pv.scene3D.controls.update(pv.scene3D.clock.getDelta());
+    pv.scene3D.controls.update(delta);
 
     // update progress bar
     if(pv.scene3D.pointcloud){
@@ -175,6 +175,8 @@ pv.utils.update = function (){
     if(pv.scene3D.pointcloud){
         pv.scene3D.pointcloud.material.setClipBoxes(clipBoxes);
     }
+	
+	TWEEN.update(timestamp);
 };
 
 /***
@@ -188,6 +190,7 @@ pv.utils.useOrbitControls = function (){
     }
     if(!pv.scene3D.orbitControls){
         pv.scene3D.orbitControls = new Potree.OrbitControls(pv.scene3D.camera, pv.scene3D.renderer.domElement);
+		pv.scene3D.orbitControls.domElement.addEventListener("dblclick", pv.utils.zoomToDblClickHandler);
     }
 
     pv.scene3D.controls = pv.scene3D.orbitControls;
@@ -477,6 +480,10 @@ pv.utils.EDLRenderer = function (){
                 pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtColor);
                 pv.scene3D.scenePointCloud.overrideMaterial = null;
             }
+			
+			// bit of a hack here. The EDL pass will mess up the text of the volume tool
+			// so volume tool is rendered again afterwards
+			pv.scene3D.volumeTool.render(rtColor);
             
             { // EDL OCCLUSION PASS
                 edlMaterial.uniforms.screenWidth.value = width;
@@ -485,6 +492,8 @@ pv.utils.EDLRenderer = function (){
                 edlMaterial.uniforms.far.value = pv.scene3D.camera.far;
                 edlMaterial.uniforms.colorMap.value = rtColor;
                 edlMaterial.uniforms.expScale.value = pv.scene3D.camera.far;
+				edlMaterial.uniforms.edlScale.value = pv.params.edlStrength;
+				edlMaterial.uniforms.radius.value = pv.params.edlRadius;
                 
                 Potree.utils.screenPass.render(pv.scene3D.renderer, edlMaterial);
             }    
@@ -506,10 +515,10 @@ pv.utils.EDLRenderer = function (){
 * Method: loop
 * Parameters: none
 ***/
-pv.utils.loop = function () {
+pv.utils.loop = function (timestamp) {
     requestAnimationFrame(pv.utils.loop);
 
-    pv.utils.update();
+    pv.utils.update(pv.scene3D.clock.getDelta(), timestamp);
 
     if (pv.params.quality === 'EDL') {
         if (!pv.scene3D.edlRenderer){
@@ -539,6 +548,10 @@ pv.utils.disableControls = function () {
     if(pv.scene3D.measuringTool) {
         pv.scene3D.measuringTool.reset();
     }
+	
+	if(transformationTool){
+		transformationTool.reset();
+	}
 
 };
 
@@ -559,3 +572,70 @@ pv.utils.demCollisionHandler =  function(event){
         event.counterProposals.push(counterProposal);
     }
 };
+
+pv.utils.focus = function(node){
+	pv.scene3D.camera.zoomTo(node);
+	bs = node.boundingBox.getBoundingSphere().clone();
+	bs = bs.applyMatrix4(node.matrixWorld);
+	pv.scene3D.orbitControls.target.copy(bs.center);
+};
+
+
+pv.utils.zoomToDblClickHandler =  function(event){
+    if(!pv.scene3D.pointcloud){
+        return;
+    }
+	
+	event.preventDefault();
+	
+	var rect = pv.scene3D.orbitControls.domElement.getBoundingClientRect();
+	
+	var mouse =  {
+		x: ( (event.clientX - rect.left) / pv.scene3D.orbitControls.domElement.clientWidth ) * 2 - 1,
+		y: - ( (event.clientY - rect.top) / pv.scene3D.orbitControls.domElement.clientHeight ) * 2 + 1
+	};
+	
+	
+	var I = getMousePointCloudIntersection(mouse, pv.scene3D.camera, pv.scene3D.renderer, [pv.scene3D.pointcloud]);
+	if(I != null){
+	
+		var camTargetDistance = pv.scene3D.camera.position.distanceTo(pv.scene3D.orbitControls.target);
+	
+		var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
+		vector.unproject(pv.scene3D.camera);
+
+		var direction = vector.sub(pv.scene3D.camera.position).normalize();
+		var ray = new THREE.Ray(pv.scene3D.camera.position, direction);
+		
+		var nodes = pv.scene3D.pointcloud.nodesOnRay(pv.scene3D.pointcloud.visibleNodes, ray);
+		var lastNode = nodes[nodes.length - 1];
+		var radius = lastNode.boundingSphere.radius;
+		var targetRadius = Math.min(camTargetDistance, radius);
+		
+		var d = pv.scene3D.camera.getWorldDirection().multiplyScalar(-1);
+		var cameraTargetPosition = new THREE.Vector3().addVectors(I, d.multiplyScalar(targetRadius));
+		var controlsTargetPosition = I;
+		
+		var animationDuration = 600;
+		
+		var easing = TWEEN.Easing.Quartic.Out;
+		
+		// animate position
+		var tween = new TWEEN.Tween(pv.scene3D.camera.position).to(cameraTargetPosition, animationDuration);
+		tween.easing(easing);
+		tween.start();
+		
+		// animate target
+		var tween = new TWEEN.Tween(pv.scene3D.controls.target).to(I, animationDuration);
+		tween.easing(easing);
+		tween.start();
+	}
+}
+	
+	
+	
+	
+	
+	
+	
+	
