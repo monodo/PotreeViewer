@@ -470,15 +470,36 @@ pv.utils.EDLRenderer = function (){
                 attributeMaterial.intensityMax = pv.scene3D.pointcloud.material.intensityMax;
                 attributeMaterial.setClipBoxes(pv.scene3D.pointcloud.material.clipBoxes);
                 attributeMaterial.clipMode = pv.scene3D.pointcloud.material.clipMode;
+                attributeMaterial.clipMode = pv.scene3D.pointcloud.material.clipMode;
+				attributeMaterial.bbSize = pv.scene3D.pointcloud.material.bbSize;
+				attributeMaterial.treeType = pv.scene3D.pointcloud.material.treeType;
+				attributeMaterial.uniforms.classificationLUT.value = pv.scene3D.pointcloud.material.uniforms.classificationLUT.value;
                 
-                
+				pv.scene3D.pointcloud.material = attributeMaterial;
+				for(var i = 0; i < pv.scene3D.pointcloud.visibleNodes.length; i++){
+					var node = pv.scene3D.pointcloud.visibleNodes[i];
+					node.sceneNode.material = attributeMaterial;
+				}
+				
+				pv.scene3D.renderer.clearTarget( rtColor, true, true, true );
+				pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtColor);
+				
+				
+				pv.scene3D.pointcloud.material = originalMaterial;
+				for(var i = 0; i < pv.scene3D.pointcloud.visibleNodes.length; i++){
+					var node = pv.scene3D.pointcloud.visibleNodes[i];
+					node.sceneNode.material = originalMaterial;
+				}
+				
+				
+				
                 
                 // pv.scene3D.pointcloud.updateVisibilityTexture(attributeMaterial, vn);
                 
-                pv.scene3D.scenePointCloud.overrideMaterial = attributeMaterial;
-                pv.scene3D.renderer.clearTarget( rtColor, true, true, true );
-                pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtColor);
-                pv.scene3D.scenePointCloud.overrideMaterial = null;
+                //pv.scene3D.scenePointCloud.overrideMaterial = attributeMaterial;
+                //pv.scene3D.renderer.clearTarget( rtColor, true, true, true );
+                //pv.scene3D.renderer.render(pv.scene3D.scenePointCloud, pv.scene3D.camera, rtColor);
+                //pv.scene3D.scenePointCloud.overrideMaterial = null;
             }
 			
 			// bit of a hack here. The EDL pass will mess up the text of the volume tool
@@ -620,6 +641,8 @@ pv.utils.zoomToDblClickHandler =  function(event){
 		
 		var easing = TWEEN.Easing.Quartic.Out;
 		
+		pv.scene3D.controls.enabled = false;
+		
 		// animate position
 		var tween = new TWEEN.Tween(pv.scene3D.camera.position).to(cameraTargetPosition, animationDuration);
 		tween.easing(easing);
@@ -628,6 +651,9 @@ pv.utils.zoomToDblClickHandler =  function(event){
 		// animate target
 		var tween = new TWEEN.Tween(pv.scene3D.controls.target).to(I, animationDuration);
 		tween.easing(easing);
+		tween.onComplete(function(){
+			pv.scene3D.controls.enabled = true;
+		});
 		tween.start();
 	}
 }
