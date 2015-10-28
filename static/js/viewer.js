@@ -281,6 +281,38 @@ pv.ui.initGUI = function (){
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
     });
 
+	// EDL strength
+    $("#edlStrengthSlider").slider({
+        min: 0,
+        max: 3,
+        step: 0.01,
+        value: pv.params.edlStrength,
+        slide: function( event, ui ) {
+            $("#edlStrength").val(ui.value);
+            pv.params.edlStrength = ui.value;
+        }
+    });
+
+    $("#edlStrength").change(function() {
+        $("#edlStrengthSlider").slider("value", this.value);
+    });
+	
+	// EDL strength
+    $("#edlRadiusSlider").slider({
+        min: 1,
+        max: 5,
+        step: 0.01,
+        value: pv.params.edlRadius,
+        slide: function( event, ui ) {
+            $("#edlRadius").val(ui.value);
+            pv.params.edlRadius = ui.value;
+        }
+    });
+
+    $("#edlRadius").change(function() {
+        $("#edlRadiusSlider").slider("value", this.value);
+    });
+	
     // Point size type
     $("#pointSizeTypeSelect").selectmenu({
         select: function( event, data ) {
@@ -427,7 +459,15 @@ pv.ui.initGUI = function (){
     // Reset zoom/pan
     $("#btnFocus").button()
         .bind('click', function(){
-            Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+			var node = null;
+			if(transformationTool.targets.length > 0){
+				node = transformationTool.targets[0];
+			}else{
+				node = pv.scene3D.pointcloud;
+			}
+			
+			pv.utils.focus(node);
+		
             $("#btnFocus").blur();
     });
 
@@ -539,19 +579,45 @@ pv.ui.initGUI = function (){
     // Top/Front/Left view buttons
     $("#btnTopView").button()
         .bind('click', function(){
-            Potree.utils.topView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+			var node = null;
+			if(transformationTool.targets.length > 0){
+				node = transformationTool.targets[0];
+			}else{
+				node = pv.scene3D.pointcloud;
+			}
+			
+			pv.utils.focus(node);
+            Potree.utils.topView(pv.scene3D.camera, node);
+			
             $("#btnTopView").blur();
     });
 
     $("#btnFrontView").button()
         .bind('click', function(){
-            Potree.utils.frontView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+			var node = null;
+			if(transformationTool.targets.length > 0){
+				node = transformationTool.targets[0];
+			}else{
+				node = pv.scene3D.pointcloud;
+			}
+			
+			pv.utils.focus(node);
+            Potree.utils.frontView(pv.scene3D.camera, node);
+			
             $("#btnFrontView").blur();
     });
 
     $("#btnLeftView").button()
         .bind('click', function(){
-            Potree.utils.leftView(pv.scene3D.camera, pv.scene3D.controls, pv.scene3D.pointcloud);
+			var node = null;
+			if(transformationTool.targets.length > 0){
+				node = transformationTool.targets[0];
+			}else{
+				node = pv.scene3D.pointcloud;
+			}
+			
+            Potree.utils.leftView(pv.scene3D.camera, node);
+			
             $("#btnLeftView").blur();
     });        
 
