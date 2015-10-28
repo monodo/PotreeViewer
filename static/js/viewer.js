@@ -367,8 +367,6 @@ pv.ui.initGUI = function (){
         console.log(val);
         if (val == pv.params.defaultPointQuality){
             option.setAttribute("selected", "selected");
-            console.log("ici");
-            console.log(pv.params.defaultPointQuality);
         }
         $("#pointQualitySelect").append(option);
     }
