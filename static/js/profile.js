@@ -1,117 +1,10 @@
 /***
-* Parse the profile's points and project them along the profile's segments
-* Method: getProfilePoints
-* Parameters: none
-***/
-pv.profile.getProfilePoints = function(){
-
-    var profile = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1];
-    var segments = pv.scene3D.pointcloud.getPointsInProfile(profile, $("#profilePointLODSlider").slider( "value" )).segments;
-    if (segments.length < 1){
-        return false;
-    }
-    var data = [];
-    var distance = 0;
-    var totalDistance = 0;
-    var minX = Math.max();
-    var minY = Math.max();
-    var minZ = Math.max();
-    var maxX = 0;
-    var maxY = 0;
-    var maxZ = 0;
-
-    // Get the same color map as Three
-    var minRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMin, 0));
-    var maxRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMax, 0));
-    var heightRange = maxRange.z - minRange.z;
-    var colorRange = [];
-    var colorDomain = [];
-
-    // Read the altitude gradient used in 3D scene
-    for (var c=0; c<pv.scene3D.pointcloud.material.gradient.length; c++){
-        colorDomain.push(minRange.z + heightRange * pv.scene3D.pointcloud.material.gradient[c][0]);
-        colorRange.push('#' + pv.scene3D.pointcloud.material.gradient[c][1].getHexString());
-    }
-
-    // Altitude color map scale
-    var colorRamp = d3.scale.linear()
-      .domain(colorDomain)
-      .range(colorRange);
-      
-    pv.profile.nPointsInProfile = 0; 
-
-    // Iterate the profile's segments
-    for(var i = 0; i < segments.length; i++){
-        var segment = segments[i];
-        var segStartGeo = pv.utils.toGeo(segment.start);
-        var segEndGeo = pv.utils.toGeo(segment.end);
-        var xOA = segEndGeo.x - segStartGeo.x;
-        var yOA = segEndGeo.y - segStartGeo.y;
-        var segmentLength = Math.sqrt(xOA * xOA + yOA * yOA);
-        var points = segment.points;
-
-        // Iterate the segments' points
-        for(var j = 0; j < points.numPoints; j++){
-            pv.profile.nPointsInProfile += 1;
-            var p = pv.utils.toGeo(points.position[j]);
-            // get min/max values            
-            if (p.x < minX) { minX = p.x;}
-
-            if (p.y < minY) { minY = p.y;}
-
-            if (p.z < minZ) { minZ = p.z;}
-
-            if (p.x > maxX) { maxX = p.x;}
-
-            if (p.y < maxY) { maxY = p.y;}
-
-            if (p.z < maxZ) { maxZ = p.z;}
-
-            var xOB = p.x - segStartGeo.x;
-            var yOB = p.y - segStartGeo.y;
-            var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
-            var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
-            var alpha = Math.acos(cosAlpha);
-            var dist = hypo * cosAlpha + totalDistance;
-            if (!isNaN(dist)) {
-                data.push({
-                    'distance': dist,
-                    'x': p.x,
-                    'y': p.y,
-                    'altitude': p.z,
-                    'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
-                    'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
-                    'intensityCode': points.intensity[j],
-                    'heightColor': colorRamp(p.z),
-                    'classificationCode': points.classification[j]
-                });
-            }
-        }
-
-        // Increment distance from the profile start point
-        totalDistance += segmentLength;
-    }
-
-    var output = {
-        'data': data,
-        'minX': minX,
-        'minY': minY,
-        'minZ': minZ,
-        'maxX': maxX,
-        'maxY': maxY,
-        'maxZ': maxZ
-    };
-
-    return output;
-};
-
-/***
 * Creates a D3 altitude profile
 * Method: draw
 * Parameters: none
 ***/
-pv.profile.draw = function () {
-
+pv.profile.draw = function(){
+    
     pv.profile.profileDrawing = true;
     
     if (!pv.profile.state){
@@ -123,123 +16,246 @@ pv.profile.draw = function () {
     }
 
     $("#profileProgressbar").html("Loading");
-
-    this.pointSize = $("#profilePointSizeSlider").slider("value");
-    var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
-
-    pv.map2D.updateToolLayer(thePoints);
-
-    var output = pv.profile.getProfilePoints();
-
-    if (!output){
-        return;
+    
+    this.pointSize = $("#profilePointSizeSlider").slider("value");    
+    
+    var latestRequest = null;
+    
+    if(latestRequest){
+        latestRequest.cancel();
     }
-
-    this.data = output.data;
-    var containerWidth = $('#profileContainer').width();
-    var containerHeight = $('#profileContainer').height();
-    pv.profile.margin = {top: 25, right: 10, bottom: 20, left: 40};
-    var margin = pv.profile.margin;
-    var width = containerWidth - (margin.left + margin.right);
-    var height = containerHeight - (margin.top + margin.bottom);
-
-    // Create the x/y scale functions
-    // TODO: same x/y scale
-
-    if (this.data.length === 0){
-        return;
-    }
-
-    // X scale
-    this.scaleX = d3.scale.linear()
-        .range([5, width -5]);
-    this.scaleX.domain([d3.min(this.data, function(d) { return d.distance; }), d3.max(this.data, function(d) { return d.distance; })]);
-
-    // Y scale
-    this.scaleY = d3.scale.linear()
-        .range([height -5, 5]);
-    this.scaleY.domain([d3.min(this.data, function(d) { return d.altitude; }), d3.max(this.data, function(d) { return d.altitude; })]);
-
-    pv.profile.zoom = d3.behavior.zoom()
-        .x(this.scaleX)
-        .y(this.scaleY)
-        .scaleExtent([0,8])
-        .size([width, height])
-        .on("zoom",  function(){
-
-            var t = pv.profile.zoom.translate();
-            var tx = t[0];
-            var ty = t[1];
-
-            tx = Math.min(tx, 0);
-            tx = Math.max(tx, width - output.maxX);
-            pv.profile.zoom.translate([tx, ty]);
-
-            svg.select(".x.axis").call(xAxis);
-            svg.select(".y.axis").call(yAxis);
-
-            pv.profile.canvas.clearRect(0, 0, width, height);
-            pv.profile.drawPoints();
-
-        });
-
-    // Axis and other large elements are created as svg elements
-    d3.selectAll("svg").remove();
-
-    svg = d3.select("div#profileContainer").append("svg")
-        .call(pv.profile.zoom)
-        .attr("width", (width + margin.left + margin.right).toString())
-        .attr("height", (height + margin.top + margin.bottom).toString())
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .on("mousemove", pv.profile.pointHighlight);
    
-    // Create x axis
-    var xAxis = d3.svg.axis()
-        .scale(this.scaleX)
-        .orient("bottom")
-        .ticks(10, "m");
+    latestRequest = pv.scene3D.pointcloud.getPointsInProfile(pv.scene3D.profileTool.profiles[0], $("#profilePointLODSlider").slider( "value" ), {
+        "onProgress": function(event){
 
-    // Create y axis
-    var yAxis = d3.svg.axis()
-        .scale(this.scaleY)
-        .orient("left")
-        .ticks(10, "m");
+        var request = event.request;
+            var ppoints = event.points;
+            var segments = ppoints.segments;
 
-    // Append axis to the chart
-    svg.append("g")
-        .attr("class", "x axis")
-        .call(xAxis);
+            if (segments.length < 1){
+                return false;
+            }
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
+            var data = [];
+            var distance = 0;
+            var totalDistance = 0;
+            var minX = Math.max();
+            var minY = Math.max();
+            var minZ = Math.max();
+            var maxX = 0;
+            var maxY = 0;
+            var maxZ = 0;
+
+            // Get the same color map as Three
+            var minRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMin, 0));
+            var maxRange = pv.utils.toGeo(new THREE.Vector3(0, pv.scene3D.pointcloud.material.heightMax, 0));
+            var heightRange = maxRange.z - minRange.z;
+            var colorRange = [];
+            var colorDomain = [];
+
+            // Read the altitude gradient used in 3D scene
+            for (var c=0; c<pv.scene3D.pointcloud.material.gradient.length; c++){
+                colorDomain.push(minRange.z + heightRange * pv.scene3D.pointcloud.material.gradient[c][0]);
+                colorRange.push('#' + pv.scene3D.pointcloud.material.gradient[c][1].getHexString());
+            }
+
+            // Altitude color map scale
+            var colorRamp = d3.scale.linear()
+              .domain(colorDomain)
+              .range(colorRange);
+              
+            pv.profile.nPointsInProfile = 0; 
+
+            // Iterate the profile's segments
+            for(var i = 0; i < segments.length; i++){
+                var segment = segments[i];
+                var segStartGeo = pv.utils.toGeo(segment.start);
+                var segEndGeo = pv.utils.toGeo(segment.end);
+                var xOA = segEndGeo.x - segStartGeo.x;
+                var yOA = segEndGeo.y - segStartGeo.y;
+                var segmentLength = Math.sqrt(xOA * xOA + yOA * yOA);
+                var points = segment.points;
+
+                // Iterate the segments' points
+                for(var j = 0; j < points.numPoints; j++){
+                    pv.profile.nPointsInProfile += 1;
+                    var p = pv.utils.toGeo(points.position[j]);
+                    // get min/max values            
+                    if (p.x < minX) { minX = p.x;}
+
+                    if (p.y < minY) { minY = p.y;}
+
+                    if (p.z < minZ) { minZ = p.z;}
+
+                    if (p.x > maxX) { maxX = p.x;}
+
+                    if (p.y < maxY) { maxY = p.y;}
+
+                    if (p.z < maxZ) { maxZ = p.z;}
+
+                    var xOB = p.x - segStartGeo.x;
+                    var yOB = p.y - segStartGeo.y;
+                    var hypo = Math.sqrt(xOB * xOB + yOB * yOB);
+                    var cosAlpha = (xOA * xOB + yOA * yOB)/(Math.sqrt(xOA * xOA + yOA * yOA) * hypo);
+                    var alpha = Math.acos(cosAlpha);
+                    var dist = hypo * cosAlpha + totalDistance;
+                    if (!isNaN(dist)) {
+                        data.push({
+                            'distance': dist,
+                            'x': p.x,
+                            'y': p.y,
+                            'altitude': p.z,
+                            'color': 'rgb(' + points.color[j][0] * 100 + '%,' + points.color[j][1] * 100 + '%,' + points.color[j][2] * 100 + '%)',
+                            'intensity': 'rgb(' + points.intensity[j] + '%,' + points.intensity[j] + '%,' + points.intensity[j] + '%)',
+                            'intensityCode': points.intensity[j],
+                            'heightColor': colorRamp(p.z),
+                            'classificationCode': points.classification[j]
+                        });
+                    }
+                }
+
+                // Increment distance from the profile start point
+                totalDistance += segmentLength;
+            }
+
+            var output = {
+                'data': data,
+                'minX': minX,
+                'minY': minY,
+                'minZ': minZ,
+                'maxX': maxX,
+                'maxY': maxY,
+                'maxZ': maxZ
+            };            
+            // stop profile request after fetching a certain number of points
+            if(request.pointsServed > pv.params.profileMaxServedPOints){
+                request.cancel();
+            }
+
+            pv.profile.data = output.data;
+            
+        },
+        "onCancel": function(){
+            console.log("canceled");
+        },
+        "onFinish": function(event){
+            
+            var containerWidth = $('#profileContainer').width();
+            var containerHeight = $('#profileContainer').height();
+            pv.profile.margin = {top: 25, right: 10, bottom: 20, left: 40};
+            var margin = pv.profile.margin;
+            var width = containerWidth - (margin.left + margin.right);
+            var height = containerHeight - (margin.top + margin.bottom);
+
+            // Create the x/y scale functions
+            // TODO: same x/y scale
+
+            if (pv.profile.data.length === 0){
+                return;
+            }
+
+            // X scale
+            pv.profile.scaleX = d3.scale.linear()
+                .range([5, width -5]);
+            pv.profile.scaleX.domain([d3.min(pv.profile.data, function(d) { return d.distance; }), d3.max(pv.profile.data, function(d) { return d.distance; })]);
+
+            // Y scale
+            pv.profile.scaleY = d3.scale.linear()
+                .range([height -5, 5]);
+            pv.profile.scaleY.domain([d3.min(pv.profile.data, function(d) { return d.altitude; }), d3.max(pv.profile.data, function(d) { return d.altitude; })]);
+
+            pv.profile.zoom = d3.behavior.zoom()
+                .x(pv.profile.scaleX)
+                .y(pv.profile.scaleY)
+                .scaleExtent([0,8])
+                .size([width, height])
+                .on("zoom",  function(){
+
+                    var t = pv.profile.zoom.translate();
+                    var tx = t[0];
+                    var ty = t[1];
+
+                    tx = Math.min(tx, 0);
+                    tx = Math.max(tx, width - output.maxX);
+                    pv.profile.zoom.translate([tx, ty]);
+
+                    svg.select(".x.axis").call(xAxis);
+                    svg.select(".y.axis").call(yAxis);
+
+                    pv.profile.canvas.clearRect(0, 0, width, height);
+                    pv.profile.drawPoints(pv.profile.data);
+
+                });
+
+            // Axis and other large elements are created as svg elements
+            d3.selectAll("svg").remove();
+
+            svg = d3.select("div#profileContainer").append("svg")
+                .call(pv.profile.zoom)
+                .attr("width", (width + margin.left + margin.right).toString())
+                .attr("height", (height + margin.top + margin.bottom).toString())
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .on("mousemove", pv.profile.pointHighlight);
+           
+            // Create x axis
+            var xAxis = d3.svg.axis()
+                .scale(pv.profile.scaleX)
+                .orient("bottom")
+                .ticks(10, "m");
+
+            // Create y axis
+            var yAxis = d3.svg.axis()
+                .scale(pv.profile.scaleY)
+                .orient("left")
+                .ticks(10, "m");
+
+            // Append axis to the chart
+            svg.append("g")
+                .attr("class", "x axis")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+                
+            if(navigator.userAgent.indexOf("Firefox") == -1 ) {
+                svg.select(".y.axis").attr("transform", "translate("+ (margin.left).toString() + "," + margin.top.toString() + ")");
+                svg.select(".x.axis").attr("transform", "translate(" + margin.left.toString() + "," + (height + margin.top).toString() + ")");
+            } else {
+                svg.select(".x.axis").attr("transform", "translate( 0 ," + height.toString() + ")");
+            }
+
+            // Points are plotted using canvas for better performance
+            pv.profile.canvas = d3.select("#profileCanvas")
+                .attr("width", width)
+                .attr("height", height)
+                .call(pv.profile.zoom)
+                .node().getContext("2d");
+
+            // Everything ready, show the containers;
+            pv.map2D.updateMapSize(true);
+
+            $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
+            
+            pv.profile.drawPoints(pv.profile.data);
+            pv.profile.profileDrawing = false;
+            
+            $("#profileContainer").slideDown(300);
+            
+            var thePoints = pv.scene3D.profileTool.profiles[pv.scene3D.profileTool.profiles.length - 1].points;
+
+            pv.map2D.updateToolLayer(thePoints);
+    
+            
+            console.log(event);
+            
+            var request = event.request;
         
-    if(navigator.userAgent.indexOf("Firefox") == -1 ) {
-        svg.select(".y.axis").attr("transform", "translate("+ (margin.left).toString() + "," + margin.top.toString() + ")");
-        svg.select(".x.axis").attr("transform", "translate(" + margin.left.toString() + "," + (height + margin.top).toString() + ")");
-    } else {
-        svg.select(".x.axis").attr("transform", "translate( 0 ," + height.toString() + ")");
-    }
-
-    // Points are plotted using canvas for better performance
-    this.canvas = d3.select("#profileCanvas")
-        .attr("width", width)
-        .attr("height", height)
-        .call(pv.profile.zoom)
-        .node().getContext("2d");
-
-    // Everything ready, show the containers;
-    pv.map2D.updateMapSize(true);
-
-    $("#profileProgressbar").html(pv.profile.nPointsInProfile.toString() + " points in profile");
-    
-    pv.profile.drawPoints();
-    pv.profile.profileDrawing = false;
-    
-    $("#profileContainer").slideDown(300);
-
+            console.log("finished loading profile data!");
+            console.log("pointsServed: " + request.pointsServed);
+        }
+    });
 };
-
 
 /***
 * Dummy redraw function
@@ -360,10 +376,9 @@ pv.profile.manualPan = function (increment) {
 * Method: drawPoints
 * Parameters: none
 ***/
-pv.profile.drawPoints = function() {
+pv.profile.drawPoints = function(data) {
 
     var adaptedPointSize = pv.profile.adaptPointSize();
-    var data = pv.profile.data;
     var canvas = pv.profile.canvas;
     var i = -1, n = data.length, d, cx, cy;
     while (++i < n) {

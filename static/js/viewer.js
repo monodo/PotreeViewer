@@ -364,7 +364,6 @@ pv.ui.initGUI = function (){
         var val = pv.params.pointQualityTypes[key];
         option = new Option(key, val);
         option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase());
-        console.log(val);
         if (val == pv.params.defaultPointQuality){
             option.setAttribute("selected", "selected");
         }
