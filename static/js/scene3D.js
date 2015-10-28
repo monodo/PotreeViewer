@@ -43,7 +43,6 @@ pv.scene3D.initThree = function (){
     this.camera.position.set(pv.params.cameraPosition.x, pv.params.cameraPosition.y, pv.params.cameraPosition.z);
     this.camera.rotation.y = -Math.PI / 4;
     this.camera.rotation.x = -Math.PI / 6;
-    pv.utils.useOrbitControls();
 
     // Enable frag_depth extension for the interpolation shader, if available
     this.renderer.context.getExtension("EXT_frag_depth");
@@ -80,6 +79,8 @@ pv.scene3D.initThree = function (){
     this.volumeTool.addEventListener("insertion_finished", function(event){
         pv.ui.clearTools();
     });
+	
+	pv.utils.useOrbitControls();
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
     texture.minFilter = texture.magFilter = THREE.NearestFilter;
