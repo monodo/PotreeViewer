@@ -28,7 +28,7 @@ pv.profile.draw = function(){
     latestRequest = pv.scene3D.pointcloud.getPointsInProfile(pv.scene3D.profileTool.profiles[0], $("#profilePointLODSlider").slider( "value" ), {
         "onProgress": function(event){
 
-        var request = event.request;
+            var request = event.request;
             var ppoints = event.points;
             var segments = ppoints.segments;
 

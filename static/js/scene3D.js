@@ -79,8 +79,8 @@ pv.scene3D.initThree = function (){
     this.volumeTool.addEventListener("insertion_finished", function(event){
         pv.ui.clearTools();
     });
-	
-	pv.utils.useOrbitControls();
+
+    pv.utils.useOrbitControls();
 
     var texture = Potree.utils.createBackgroundTexture(512, 512);
     texture.minFilter = texture.magFilter = THREE.NearestFilter;
