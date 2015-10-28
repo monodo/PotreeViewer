@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Capabilities version="1.0.0" xmlns="http://www.opengis.net/wmts/1.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+              xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:gml="http://www.opengis.net/gml"
+              xsi:schemaLocation="http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd">
+  <ows:ServiceIdentification> </ows:ServiceIdentification>
+  <ows:ServiceProvider> </ows:ServiceProvider>
+  <ows:OperationsMetadata>
+    <ows:Operation name="GetCapabilities">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/1.0.0/WMTSCapabilities.xml">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+        </ows:HTTP>
+      </ows:DCP>
+    </ows:Operation>
+    <ows:Operation name="GetTile">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+          <ows:Get xlink:href="http://neweb10.ne.ch/tiles/">
+            <ows:Constraint name="GetEncoding">
+              <ows:AllowedValues>
+                <ows:Value>REST</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Get>
+        </ows:HTTP>
+      </ows:DCP>
+    </ows:Operation>
+  </ows:OperationsMetadata>
+  <!-- <ServiceMetadataURL xlink:href="" /> -->
+  <Contents>
+    
+    <Layer>
+      <ows:Title>TP_lignes_bus_principales</ows:Title>
+      <ows:Identifier>TP_lignes_bus_principales</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/TP_lignes_bus_principales/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/TP_lignes_bus_principales/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/TP_lignes_bus_principales/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/TP_lignes_bus_principales/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/TP_lignes_bus_principales/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+    <Layer>
+      <ows:Title>Trains2016</ows:Title>
+      <ows:Identifier>Trains2016</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Trains2016/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Trains2016/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Trains2016/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Trains2016/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Trains2016/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+    <Layer>
+      <ows:Title>Projet_RER</ows:Title>
+      <ows:Identifier>Projet_RER</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Projet_RER/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Projet_RER/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Projet_RER/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Projet_RER/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Projet_RER/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+    <Layer>
+      <ows:Title>Fonds_carto</ows:Title>
+      <ows:Identifier>Fonds_carto</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Fonds_carto/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Fonds_carto/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Fonds_carto/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Fonds_carto/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/Fonds_carto/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+    <Layer>
+      <ows:Title>nouvelles_gares</ows:Title>
+      <ows:Identifier>nouvelles_gares</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/nouvelles_gares/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/nouvelles_gares/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/nouvelles_gares/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/nouvelles_gares/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/nouvelles_gares/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+    <Layer>
+      <ows:Title>mobilite_douce</ows:Title>
+      <ows:Identifier>mobilite_douce</ows:Identifier>
+      <Style isDefault="true">
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format> 
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/mobilite_douce/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/mobilite_douce/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/mobilite_douce/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/mobilite_douce/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <ResourceURL format="image/png" resourceType="tile"
+                   template="http://neweb10.ne.ch/tiles/1.0.0/mobilite_douce/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
+      <TileMatrixSetLink>
+        <TileMatrixSet>swiss_grid_new</TileMatrixSet>
+      </TileMatrixSetLink>
+    </Layer>
+    
+
+    
+    <TileMatrixSet>
+      <ows:Identifier>swiss_grid_new</ows:Identifier>
+      <ows:SupportedCRS>urn:ogc:def:crs:epsg::21781</ows:SupportedCRS>
+      <TileMatrix>
+        <ows:Identifier>0</ows:Identifier>
+        <ScaleDenominator>357142.857143</ScaleDenominator>
+        <TopLeftCorner>515000.0 230000.0</TopLeftCorner>
+        <TileWidth>256</TileWidth>
+        <TileHeight>256</TileHeight>
+        <MatrixWidth>3</MatrixWidth>
+        <MatrixHeight>2</MatrixHeight>
+      </TileMatrix>
+      
+      <TileMatrix>
+        <ows:Identifier>1</ows:Identifier>
+        <ScaleDenominator>178571.428571</ScaleDenominator>
+        <TopLeftCorner>515000.0 230000.0</TopLeftCorner>
+        <TileWidth>256</TileWidth>
+        <TileHeight>256</TileHeight>
+        <MatrixWidth>6</MatrixWidth>
+        <MatrixHeight>4</MatrixHeight>
+      </TileMatrix>
+      
+      <TileMatrix>
+        <ows:Identifier>2</ows:Identifier>
+        <ScaleDenominator>71428.5714286</ScaleDenominator>
+        <TopLeftCorner>515000.0 230000.0</TopLeftCorner>
+        <TileWidth>256</TileWidth>
+        <TileHeight>256</TileHeight>
+        <MatrixWidth>13</MatrixWidth>
+        <MatrixHeight>10</MatrixHeight>
+      </TileMatrix>
+      
+      <TileMatrix>
+        <ows:Identifier>3</ows:Identifier>
+        <ScaleDenominator>35714.2857143</ScaleDenominator>
+        <TopLeftCorner>515000.0 230000.0</TopLeftCorner>
+        <TileWidth>256</TileWidth>
+        <TileHeight>256</TileHeight>
+        <MatrixWidth>26</MatrixWidth>
+        <MatrixHeight>20</MatrixHeight>
+      </TileMatrix>
+      
+      <TileMatrix>
+        <ows:Identifier>4</ows:Identifier>
+        <ScaleDenominator>17857.1428571</ScaleDenominator>
+        <TopLeftCorner>515000.0 230000.0</TopLeftCorner>
+        <TileWidth>256</TileWidth>
+        <TileHeight>256</TileHeight>
+        <MatrixWidth>51</MatrixWidth>
+        <MatrixHeight>40</MatrixHeight>
+      </TileMatrix>
+      
+    </TileMatrixSet>
+    
+  </Contents>
+</Capabilities>
