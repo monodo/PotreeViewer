@@ -281,11 +281,11 @@ pv.ui.initGUI = function (){
         $("#pointOpacitySlider").slider("value", parseInt(this.value));
     });
 
-	// EDL strength
+    // EDL strength
     $("#edlStrengthSlider").slider({
-        min: 0,
-        max: 3,
-        step: 0.01,
+        min: pv.params.edlStrengthSliderMin,
+        max: pv.params.edlStrengthSliderMax,
+        step: pv.params.edlStrengthSliderStep,
         value: pv.params.edlStrength,
         slide: function( event, ui ) {
             $("#edlStrength").val(ui.value);
@@ -296,12 +296,12 @@ pv.ui.initGUI = function (){
     $("#edlStrength").change(function() {
         $("#edlStrengthSlider").slider("value", this.value);
     });
-	
-	// EDL strength
+
+    // EDL strength
     $("#edlRadiusSlider").slider({
-        min: 1,
-        max: 5,
-        step: 0.01,
+        min: pv.params.edlRadiusSliderMin,
+        max: pv.params.edlRadiusSliderMax,
+        step: pv.params.edlRadiusSliderStep,
         value: pv.params.edlRadius,
         slide: function( event, ui ) {
             $("#edlRadius").val(ui.value);
@@ -312,7 +312,7 @@ pv.ui.initGUI = function (){
     $("#edlRadius").change(function() {
         $("#edlRadiusSlider").slider("value", this.value);
     });
-	
+
     // Point size type
     $("#pointSizeTypeSelect").selectmenu({
         select: function( event, data ) {
@@ -364,8 +364,11 @@ pv.ui.initGUI = function (){
         var val = pv.params.pointQualityTypes[key];
         option = new Option(key, val);
         option.setAttribute("data-i18n", "render.qual_" + key.toLowerCase());
+        console.log(val);
         if (val == pv.params.defaultPointQuality){
             option.setAttribute("selected", "selected");
+            console.log("ici");
+            console.log(pv.params.defaultPointQuality);
         }
         $("#pointQualitySelect").append(option);
     }
@@ -747,6 +750,8 @@ pv.ui.resetUIToDefault = function (){
     $("#pointNumber").val(pv.params.pointCountTarget).change();
     $("#pointSize").val(pv.params.pointSize).change();
     $("#pointOpacity").val(pv.params.opacity).change();
+    $("#edlRadius").val(pv.params.edlRadius).change();
+    $("#edlStrength").val(pv.params.edlStrength).change();
 
     $("#pointSizeTypeSelect").val(pv.params.pointSizeType);
     $("#pointMaterialSelect").val(pv.params.defaultPointMaterial);
